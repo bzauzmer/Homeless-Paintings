@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lost Paintings from the Renaissance</title>
+</head>
+
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<style type="text/css">
+    svg{
+        /*background: #eeeeee;*/
+    }
+
+    #country{
+        fill: steelblue;
+    }
+
+    #countries .active {
+        fill: orange;
+    }
+
+    .has{
+        fill: darkblue;
+    }
+
+    .none{
+        fill: lightblue;
+    }
+
+    .background {
+      fill: none;
+      pointer-events: all;
+    }
+
+    #country-borders {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    text{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        /*font-weight: lighter;*/
+    }
+
+    .axis text {
+        font: 10px sans-serif;
+    }
+
+    .axis line,
+    .axis path {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .station{
+        fill:lightgrey;
+        opacity: .7;
+    }
+    .station.hasData{
+        fill:blue;
+        opacity: 1;
+    }
+    .hourLine{
+        fill:none;
+        stroke:steelblue;
+
+    }
+    .brush .extent{
+        fill:gray;
+        opacity: .3;
+    }
+
+    table{
+        border:none;
+    }
+
+
+</style>
+
+<p style="text-align:center;font-weight:bold">Lost Paintings from the Renaissance</p>
+<p style="text-align:center;font-style:italic">Paintings can be organized by artist, location, time period, topic, symbols, and motifs.</p>
+
+<table>
+    <tr>
+        <td><div id="vis"></div></td>
+        <td><div id="painting"></div></td>
+        <td><div id="filters"></div></td>
+    </tr>
+</table>
+
+
+<script src="Map.js"></script>
+
+</body>
+</html>
