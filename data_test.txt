@@ -1,0 +1,4313 @@
+[
+    {
+        "annotations": [], 
+        "id": 1, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Benvenuto di Giovanni", 
+                        {
+                            "content": "1436-ca.1518", 
+                            "type": "date"
+                        }, 
+                        "Italy", 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "God", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: source: Christie's auction catalog, 6 June 1984; listed by Bernard Berenson as Benvenuto di Giovanni (Italian Pictures of the Renaissance. Central Italian and North Italian Schools, 1968).", 
+                "Provenance: Robert Lehman; William Rockhill Nelson Gallery of Art Atkins Museum of Fine Arts, Kansas City; Christie's, New York, 6 June 1984, lot 27 (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1456", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1518", 
+                            "point": "end"
+                        }, 
+                        "1456-1518"
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1456", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "22.6 x 25.3 cm"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork629062", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "extension": [
+                        "companion to"
+                    ], 
+                    "titleInfo": [
+                        {
+                            "title": [
+                                "\"St. Dominic\"; \"St. Peter Martyr\" by Benvenuto di Giovanni, location unknown (see Record ID olvwork629446 and olvwork629447) and \" St. Bernardino\" by Benvenuto di Giovanni, Metropolitan Museum of Art, New York, accession # 1975.1.53."
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "content": {
+                        "classification": [
+                            "S 103"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9434874", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9434874", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 126502_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }, 
+                            {
+                                "namePart": [
+                                    "William Rockhill Nelson Gallery of Art and Mary Atkins Museum of Fine Arts", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }, 
+                                    "United States", 
+                                    "Kansas City, Missouri, United States"
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "associated name", 
+                                            "sponsor"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Inscription: sponsor's label (see verso); sponsor's stamp (see verso)"
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1920", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1970", 
+                                        "point": "end"
+                                    }, 
+                                    "1920-1970"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1456", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "205 x 252 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate964583"
+                                ]
+                            }
+                        ], 
+                        "subject": [
+                            {
+                                "topic": [
+                                    "stamps (marks)"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9434875", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9434875", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 126502_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1456", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate964585"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 126502_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "blessings"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Blessing Redeemer"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                1
+            ], 
+            "date": [
+                "1456"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:9434874", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:9434875"
+            ], 
+            "names": [
+                "Benvenuto di Giovanni", 
+                "God"
+            ], 
+            "title": [
+                "Blessing Redeemer"
+            ], 
+            "topics": [
+                "blessings", 
+                "books"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 2, 
+        "original": {
+            "extension": [
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Luini, Bernardino", 
+                        {
+                            "content": "ca. 1480-ca. 1532", 
+                            "type": "date"
+                        }, 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Mary, Blessed Virgin, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Jesus Christ", 
+                        {
+                            "content": "ca. 5 BC - 30 AD", 
+                            "type": "date"
+                        }, 
+                        "Judaea", 
+                        "Judaea"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: filed as Bernardino Luini at Biblioteca Berenson, Fototeca.", 
+                "Provenance: Czernin, Vienna (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1480", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1532", 
+                            "point": "end"
+                        }, 
+                        "ca. 1480-ca. 1532"
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1480", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork669947", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "N 33A"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10522197", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10522197", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122261_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Provenance: Gift of Luisa Vertova.", 
+                            "General note:  Date based on photograph's inclusion in the Fototeca Berenson's Topographical Index Project (1963-1975)."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1890", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1975", 
+                                        "point": "end"
+                                    }, 
+                                    "1890-1975"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "243 x 179 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate995919"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10522198", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10522198", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122261_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate995920"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 122261_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "infants"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "flowers"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "tables"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "cloth"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "mantles (outerwear)"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Madonna and Child"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                2
+            ], 
+            "date": [
+                "1480"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10522197", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10522198"
+            ], 
+            "names": [
+                "Luini, Bernardino", 
+                "Mary, Blessed Virgin, Saint", 
+                "Jesus Christ"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10522197"
+            ], 
+            "title": [
+                "Madonna and Child"
+            ], 
+            "topics": [
+                "infants", 
+                "books", 
+                "flowers", 
+                "tables", 
+                "cloth", 
+                "mantles (outerwear)"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 3, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "drawings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Salviati, Francesco", 
+                        {
+                            "content": "1510-1563", 
+                            "type": "date"
+                        }, 
+                        "Italy", 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Ganymede (Greek mythology)", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Jupiter (Roman deity)", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: source: Sotheby's auction catalog, 27 February 1964.", 
+                "Provenance: Sir Peter Lely; J. Isaacs; Sotheby's, London, 27 February 1964, lot 13 (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1541", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1560", 
+                            "point": "end"
+                        }, 
+                        "mid-16th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1541", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "19.5 x 14.5 cm"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork563823", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "F 375"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4903219", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4903219", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 104036_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }, 
+                            {
+                                "namePart": [
+                                    "Sotheby's (Firm)", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "associated name", 
+                                            "sponsor"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Production: Sotheby's (negative # R 1164)", 
+                            "Provenance: gift of Luisa Vertova"
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1960", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1964", 
+                                        "point": "end"
+                                    }, 
+                                    "ca. 1964"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1541", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "205 x 158 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate929458"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4903220", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4903220", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 104036_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1541", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate929459"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 104036_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "studies (visual works)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "mythology"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "youth"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "nudes"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "disguise"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "eagles"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "rape in art"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Rape of Ganymede"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                3
+            ], 
+            "date": [
+                "1541"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4903219", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4903220"
+            ], 
+            "names": [
+                "Salviati, Francesco", 
+                "Ganymede (Greek mythology)", 
+                "Jupiter (Roman deity)"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4903219"
+            ], 
+            "title": [
+                "Rape of Ganymede"
+            ], 
+            "topics": [
+                "studies (visual works)", 
+                "mythology", 
+                "youth", 
+                "nudes", 
+                "disguise", 
+                "eagles", 
+                "rape in art"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 4, 
+        "original": {
+            "extension": [
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Near Romano, Giulio", 
+                        {
+                            "content": "1499-1546", 
+                            "type": "date"
+                        }, 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Adrian VI, Pope", 
+                        {
+                            "content": "1459-1523", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "sitter"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: filed with Giulio Romano at Biblioteca Berenson, Fototeca.", 
+                "Provenance: Christie's, London, 13 December 1957, lot 148 (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1501", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1600", 
+                            "point": "end"
+                        }, 
+                        "16th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1501", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork612875", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "C 126"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:8088842", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:8088842", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 121255_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "? Cooper, A. C.", 
+                                    {
+                                        "content": "active 20th century", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }, 
+                            {
+                                "namePart": [
+                                    "Christie's International Group", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "associated name", 
+                                            "sponsor"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "General note:  negative # 231072"
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1956", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1957", 
+                                        "point": "end"
+                                    }, 
+                                    "ca. 1957"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1501", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "180 x 147 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate951726"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:8088843", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:8088843", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 121255_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1501", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate951727"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 121255_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "mantles (outerwear)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "caps (headgear)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "fur garments"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "chairs"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "inscriptions"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "portraits"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Pope Adrian VI"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                4
+            ], 
+            "date": [
+                "1501"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:8088842", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:8088843"
+            ], 
+            "names": [
+                "Near Romano, Giulio", 
+                "Adrian VI, Pope"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:8088842"
+            ], 
+            "title": [
+                "Pope Adrian VI"
+            ], 
+            "topics": [
+                "mantles (outerwear)", 
+                "caps (headgear)", 
+                "fur garments", 
+                "chairs", 
+                "inscriptions", 
+                "portraits"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 5, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings", 
+                "triptychs"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Bergognone, Ambrogio", 
+                        {
+                            "content": "c.1453-1523", 
+                            "type": "date"
+                        }, 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Mary, Blessed Virgin, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Jesus Christ", 
+                        {
+                            "content": "ca. 5 BC - 30 AD", 
+                            "type": "date"
+                        }, 
+                        "Judaea", 
+                        "Judaea"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "John, the Apostle, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Paul, the Apostle, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: source: handwritten note by Bernard Berenson (now erased) reads: \"Ambr. Bergognone\" (see related Surrogate 122077_2).", 
+                "Provenance: Duveen, 1921; F. Nicola, Pittsburgh, Pennsylvania (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1480", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1523", 
+                            "point": "end"
+                        }, 
+                        "1480-1523"
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1480", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "central panel 37 x 21 1/2 inches"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork665114", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "N 26"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519628", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519628", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122079_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "General note:  Date based on physical condition of photograph (silver mirroring)."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1890", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1970", 
+                                        "point": "end"
+                                    }, 
+                                    "1890-1970"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "261 x 300 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994308"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519629", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519629", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122079_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994310"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 122079_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "classification": [
+                            "N 26"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519626", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519626", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122077_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Inscription: Handwritten notes by Bernard Berenson on verso, erased.", 
+                            "General note:  Restored print (R 123)."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1890", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1959", 
+                                        "point": "end"
+                                    }, 
+                                    "1890-1959"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "253 x 297 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994305"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519627", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519627", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122077_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994306"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 122077_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "classification": [
+                            "N 26"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519630", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519630", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122078_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Inscription: Handwritten notes by Bernard Berenson on verso, erased."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1890", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1959", 
+                                        "point": "end"
+                                    }, 
+                                    "1890-1959"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "277 x 250 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994311"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519631", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10519631", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 122078_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1480", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate994313"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 122078_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "thrones"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "walls"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "flowers"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "ornaments"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "blessings"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "fruit"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "feathers"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "saints"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "apostles"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "writing"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "eagles"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "swords"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "inscriptions, Latin"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Madonna and Child Enthroned; St. John the Evangelist; St. Paul"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                5
+            ], 
+            "date": [
+                "1480"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519628", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519629", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519626", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519627", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519630", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519631"
+            ], 
+            "names": [
+                "Bergognone, Ambrogio", 
+                "Mary, Blessed Virgin, Saint", 
+                "Jesus Christ", 
+                "John, the Apostle, Saint", 
+                "Paul, the Apostle, Saint"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10519628"
+            ], 
+            "title": [
+                "Madonna and Child Enthroned; St. John the Evangelist; St. Paul"
+            ], 
+            "topics": [
+                "thrones", 
+                "walls", 
+                "flowers", 
+                "ornaments", 
+                "blessings", 
+                "fruit", 
+                "books", 
+                "feathers", 
+                "saints", 
+                "apostles", 
+                "writing", 
+                "eagles", 
+                "swords", 
+                "inscriptions, Latin"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 6, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Anonymous painter of Bologna", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }, 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: filed with Bolognese School at Biblioteca Berenson, Fototeca."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1401", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1500", 
+                            "point": "end"
+                        }, 
+                        "15th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1401", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "37 x 28 cm"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork687208", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "N 188"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10579932", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10579932", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 125331_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "? Artini, Luigi", 
+                                    {
+                                        "content": "1941 -", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "General note:  Photograph of a halftone image reproduced in a publication. Probably part of a series of photographs taken in the mid 1960s-mid 1980s by Luigi Artini for the Biblioteca Berenson."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1965", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1985", 
+                                        "point": "end"
+                                    }, 
+                                    "1965-1985"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1401", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "183 x 130 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate1001502"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10579933", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10579933", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 125331_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1401", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate1001503"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 125331_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "portraits"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "hats"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "parapets"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "labels (identifying artifacts)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "inscriptions"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "landscapes (representations)"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Bust of a young man"
+                    ]
+                }, 
+                {
+                    "content": {
+                        "title": [
+                            "Portrait of a member of the Dolfi Family"
+                        ]
+                    }, 
+                    "type": "alternative"
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                6
+            ], 
+            "date": [
+                "1401"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10579932", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10579933"
+            ], 
+            "names": [
+                "Anonymous painter of Bologna"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10579932"
+            ], 
+            "title": [
+                "Bust of a young man"
+            ], 
+            "topics": [
+                "portraits", 
+                "hats", 
+                "parapets", 
+                "labels (identifying artifacts)", 
+                "inscriptions", 
+                "landscapes (representations)"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 7, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Circle of Daddi, Bernardo", 
+                        {
+                            "content": "active ca. 1280-1348", 
+                            "type": "date"
+                        }, 
+                        "Italy", 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Jesus Christ", 
+                        {
+                            "content": "ca. 5 BC - 30 AD", 
+                            "type": "date"
+                        }, 
+                        "Judaea", 
+                        "Judaea"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Mary, Blessed Virgin, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "John, the Apostle, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Longinus, Saint", 
+                        {
+                            "content": "1st cent.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Mary Magdalene, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: Source: Handwritten notes by Bernard Berenson read: \"--- With Daddi / (Umbrian?) / Giottesque,\" on the back of a photograph held by Biblioteca Berenson, Fototeca (see related Surrogate 106515_2).", 
+                "Provenance: Ward (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1326", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1350", 
+                            "point": "end"
+                        }, 
+                        "2nd quarter of 14th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1326", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "114 x 45 cm"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork401026", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "F 82"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4627373", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4627373", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 106515_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "Inscription: Handwritten notes by Bernard Berenson (see verso).", 
+                            "Provenance: Sent by Mori, 29 May 1923."
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1920", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1923", 
+                                        "point": "end"
+                                    }, 
+                                    "1920-1923"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1326", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "295 x 121 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate906216"
+                                ]
+                            }
+                        ], 
+                        "subject": [
+                            {
+                                "topic": [
+                                    "inscriptions"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4627374", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4627374", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 106515_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1326", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate906217"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 106515_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "women saints"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "angels"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "saints"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "blood"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "blessings"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "horses"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "lances"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "soldiers"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "pails"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "Holy Women"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "priests"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "sponge"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "mandorla"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Crucifixion and Christ in Mandorla Blessing"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                7
+            ], 
+            "date": [
+                "1326"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4627373", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4627374"
+            ], 
+            "names": [
+                "Circle of Daddi, Bernardo", 
+                "Jesus Christ", 
+                "Mary, Blessed Virgin, Saint", 
+                "John, the Apostle, Saint", 
+                "Longinus, Saint", 
+                "Mary Magdalene, Saint"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4627373"
+            ], 
+            "title": [
+                "Crucifixion and Christ in Mandorla Blessing"
+            ], 
+            "topics": [
+                "women saints", 
+                "angels", 
+                "saints", 
+                "blood", 
+                "blessings", 
+                "horses", 
+                "lances", 
+                "soldiers", 
+                "pails", 
+                "books", 
+                "Holy Women", 
+                "priests", 
+                "sponge", 
+                "mandorla"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 8, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Follower of Ghirlandaio, Domenico", 
+                        {
+                            "content": "1449-1494", 
+                            "type": "date"
+                        }, 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Mary, Blessed Virgin, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Jesus Christ", 
+                        {
+                            "content": "ca. 5 BC - 30 AD", 
+                            "type": "date"
+                        }, 
+                        "Judaea", 
+                        "Judaea"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "John the Baptist, Saint", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: source: Christie's auction catalog, 26 June 1964.", 
+                "Provenance: Alan G. Fenwick; Christie's, London, 26 June 1964, lot 85 (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1476", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1500", 
+                            "point": "end"
+                        }, 
+                        "last quarter of 15th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1476", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "physicalDescription": [
+                {
+                    "extent": [
+                        "83.2 x 59.7 cm"
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork538179", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "F 247"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4870847", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4870847", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 102052_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "Cooper, A. C.", 
+                                    {
+                                        "content": "active 20th century", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }, 
+                            {
+                                "namePart": [
+                                    "Christie's International Group", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "associated name", 
+                                            "sponsor"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "note": [
+                            "General note:  negative # 700436"
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1960", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1964", 
+                                        "point": "end"
+                                    }, 
+                                    "ca. 1964"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1476", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "196 x 143 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate897830"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4870848", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:4870848", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 102052_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1476", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate897831"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 102052_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "blessings"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "parapets"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "worship"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "crosses"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "brooches"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "pearls"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "gems"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "landscapes (representations)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "castles"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Madonna and Child with the Infant St. John"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                8
+            ], 
+            "date": [
+                "1476"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4870847", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4870848"
+            ], 
+            "names": [
+                "Follower of Ghirlandaio, Domenico", 
+                "Mary, Blessed Virgin, Saint", 
+                "Jesus Christ", 
+                "John the Baptist, Saint"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:4870847"
+            ], 
+            "title": [
+                "Madonna and Child with the Infant St. John"
+            ], 
+            "topics": [
+                "books", 
+                "blessings", 
+                "parapets", 
+                "worship", 
+                "crosses", 
+                "brooches", 
+                "pearls", 
+                "gems", 
+                "landscapes (representations)", 
+                "castles"
+            ]
+        }
+    }, 
+    {
+        "annotations": [
+            {
+                "content": {
+                    "body": "", 
+                    "height": "502", 
+                    "image_url": "http://nrs.harvard.edu/urn-3:VIT.BB:10592557", 
+                    "title": "Different annotative handwriting than many photos in collection", 
+                    "width": "1061", 
+                    "x": "826.286432160804", 
+                    "y": "709.1507537688442"
+                }, 
+                "created_at": "2014-02-16T01:00:02.607Z", 
+                "id": 22, 
+                "record_id": 9, 
+                "updated_at": "2014-02-16T01:00:02.607Z", 
+                "user_id": 16
+            }
+        ], 
+        "id": 9, 
+        "original": {
+            "extension": [
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Workshop of Tintoretto, Jacopo", 
+                        {
+                            "content": "1519-1594", 
+                            "type": "date"
+                        }, 
+                        "Italy", 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "namePart": [
+                        "Venus (Roman deity)", 
+                        {
+                            "content": "n.d.", 
+                            "type": "date"
+                        }
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "associated name", 
+                                "subject"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Provenance: Fuhrmann, Brunn [?] (source: Biblioteca Berenson, Fototeca).", 
+                "Attribution: filed with Jacopo Tintoretto at Biblioteca Berenson, Fototeca."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1537", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1594", 
+                            "point": "end"
+                        }, 
+                        "1537-1594"
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1537", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork650496", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "content": {
+                        "classification": [
+                            "V 180"
+                        ], 
+                        "extension": [
+                            [], 
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10592556", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10592556", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 110621_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1920", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1970", 
+                                        "point": "end"
+                                    }, 
+                                    "1920-1970"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1537", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "primary support 277 x 264 mm; secondary support 283 x 270 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate974641"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "extension": [
+                            []
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10592557", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:10592557", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 110621_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1537", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate974642"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 110621_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "vases"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "glass"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "combs (grooming tools)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "pearls"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "scissors and shears"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "armbands"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "mirrors"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "braids (hairdressing)"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "pillows"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "nudes"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "nudity"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "windows"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "window frames"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Venus at the mirror"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                9
+            ], 
+            "date": [
+                "1537"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10592556", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10592557"
+            ], 
+            "names": [
+                "Workshop of Tintoretto, Jacopo", 
+                "Venus (Roman deity)"
+            ], 
+            "thumbnail": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:10592556"
+            ], 
+            "title": [
+                "Venus at the mirror"
+            ], 
+            "topics": [
+                "vases", 
+                "glass", 
+                "combs (grooming tools)", 
+                "pearls", 
+                "scissors and shears", 
+                "armbands", 
+                "mirrors", 
+                "braids (hairdressing)", 
+                "pillows", 
+                "nudes", 
+                "nudity", 
+                "windows", 
+                "window frames"
+            ]
+        }
+    }, 
+    {
+        "annotations": [], 
+        "id": 10, 
+        "original": {
+            "extension": [
+                [], 
+                []
+            ], 
+            "genre": [
+                "paintings"
+            ], 
+            "location": [
+                {
+                    "physicalLocation": [
+                        {
+                            "content": "unknown", 
+                            "displayLabel": "repository", 
+                            "type": "current"
+                        }
+                    ]
+                }
+            ], 
+            "name": [
+                {
+                    "namePart": [
+                        "Taddeo di Bartolo", 
+                        {
+                            "content": "ca.1362-ca.1422", 
+                            "type": "date"
+                        }, 
+                        "Italy", 
+                        "Italy"
+                    ], 
+                    "role": [
+                        {
+                            "roleTerm": [
+                                "creator", 
+                                "artist"
+                            ]
+                        }
+                    ]
+                }
+            ], 
+            "note": [
+                "Attribution: source: listed by Bernard Berenson as Taddeo di Bartolo (Italian Pictures of the Renaissance. Central Italian and North Italian Schools, 1968).", 
+                "Provenance: Henry Harris, London; private collection, Rome, 1950 (source: Biblioteca Berenson, Fototeca)."
+            ], 
+            "originInfo": [
+                {
+                    "dateCreated": [
+                        {
+                            "content": "1391", 
+                            "point": "start"
+                        }, 
+                        {
+                            "content": "1410", 
+                            "point": "end"
+                        }, 
+                        "late 14th - early 15th cent."
+                    ], 
+                    "dateOther": [
+                        {
+                            "content": "1391", 
+                            "keyDate": "yes"
+                        }
+                    ]
+                }
+            ], 
+            "recordInfo": [
+                {
+                    "languageOfCataloging": [
+                        {
+                            "languageTerm": [
+                                "eng"
+                            ]
+                        }
+                    ], 
+                    "recordContentSource": [
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH"
+                        }, 
+                        {
+                            "authority": "marcorg", 
+                            "content": "MH-VIA"
+                        }
+                    ], 
+                    "recordIdentifier": [
+                        {
+                            "content": "olvwork645803", 
+                            "source": "VIA"
+                        }
+                    ]
+                }
+            ], 
+            "relatedItem": [
+                {
+                    "extension": [
+                        "Companion to"
+                    ], 
+                    "titleInfo": [
+                        {
+                            "title": [
+                                "\"Bishop saint\" by Taddeo di Bartolo, whereabouts unknown (see Work ID olvwork645811)."
+                            ]
+                        }
+                    ]
+                }, 
+                {
+                    "content": {
+                        "classification": [
+                            "S 76"
+                        ], 
+                        "extension": [
+                            []
+                        ], 
+                        "genre": [
+                            "Photograph"
+                        ], 
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9429199", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9429199", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 126085_1", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "name": [
+                            {
+                                "namePart": [
+                                    "unknown", 
+                                    {
+                                        "content": "n.d.", 
+                                        "type": "date"
+                                    }
+                                ], 
+                                "role": [
+                                    {
+                                        "roleTerm": [
+                                            "creator", 
+                                            "photographer"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    {
+                                        "content": "1920", 
+                                        "point": "start"
+                                    }, 
+                                    {
+                                        "content": "1970", 
+                                        "point": "end"
+                                    }, 
+                                    "1920-1970"
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1391", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "physicalDescription": [
+                            {
+                                "extent": [
+                                    "103 x 75 mm"
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate972114"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Total"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }, 
+                {
+                    "content": {
+                        "location": [
+                            {
+                                "url": [
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9429557", 
+                                        "displayLabel": "Full Image", 
+                                        "note": "unrestricted"
+                                    }, 
+                                    {
+                                        "content": "http://nrs.harvard.edu/urn-3:VIT.BB:9429557", 
+                                        "displayLabel": "Thumbnail"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "physicalLocation": [
+                                    {
+                                        "content": "Biblioteca Berenson, Fototeca, Villa I Tatti - The Harvard University Center for Italian Renaissance Studies; 126085_2", 
+                                        "displayLabel": "repository", 
+                                        "type": "current"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "originInfo": [
+                            {
+                                "dateCreated": [
+                                    "n.d."
+                                ], 
+                                "dateOther": [
+                                    {
+                                        "content": "1391", 
+                                        "keyDate": "yes"
+                                    }
+                                ]
+                            }
+                        ], 
+                        "recordInfo": [
+                            {
+                                "recordIdentifier": [
+                                    "olvsurrogate972116"
+                                ]
+                            }
+                        ], 
+                        "titleInfo": [
+                            {
+                                "title": [
+                                    "Verso of photograph 126085_1"
+                                ]
+                            }
+                        ], 
+                        "typeOfResource": [
+                            "still image"
+                        ]
+                    }, 
+                    "type": "constituent"
+                }
+            ], 
+            "subject": [
+                {
+                    "topic": [
+                        "saints"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "bishops"
+                    ]
+                }, 
+                {
+                    "topic": [
+                        "books"
+                    ]
+                }
+            ], 
+            "titleInfo": [
+                {
+                    "title": [
+                        "Bishop saint"
+                    ]
+                }
+            ], 
+            "typeOfResource": [
+                "still image"
+            ]
+        }, 
+        "parsed": {
+            "curarium": [
+                10
+            ], 
+            "date": [
+                "1391"
+            ], 
+            "image": [
+                "http://nrs.harvard.edu/urn-3:VIT.BB:9429199", 
+                "http://nrs.harvard.edu/urn-3:VIT.BB:9429557"
+            ], 
+            "names": [
+                "Taddeo di Bartolo"
+            ], 
+            "title": [
+                "Bishop saint"
+            ], 
+            "topics": [
+                "saints", 
+                "bishops", 
+                "books"
+            ]
+        }
+    }
+]

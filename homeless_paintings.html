@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Homework 2 Graph</title>
+<style>
+  .link {
+    stroke: gray;
+    stroke-width: 1.5px;
+  }
+
+  .node {
+    fill: blue;
+    stroke: #000;
+    stroke-width: 1px;
+  }
+
+  .node:hover {
+    fill: red;
+  }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+  <form>
+  Layout:
+    <label><input type="radio" name="layout" value="force" checked> Force</label>
+    <label><input type="radio" name="layout" value="radial"> Radial</label>
+    <label><input type="radio" name="layout" value="map"> Map</label>
+    <label><input type="radio" name="layout" value="timeline"> Timeline</label>
+  </form>
+  
+  <table border="1">
+    <tr>
+      <td class="vis"></td>
+      <td class="filters"></td>
+      <td class="focus"></td>
+    </tr>
+  </table>
+
+<script>
+
+var width = 900,
+    height = 550;
+
+var filters = d3.select(".filters").append("text").text("The filters will go here.");
+var focus = d3.select(".focus").append("text").text("Click on a node!");
+
+var svg = d3.select(".vis").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+var svg_focus = d3.select(".focus").append("svg").attr("width",200).attr("height",height);
+
+var fill = d3.scale.category10();
+
+var graph = {nodes:[], links:[]};
+
+var branches = [];
+
+d3.json("data1.txt", function(json) {
+
+  for (var i = 0; i < 50; i++) {
+   
+    graph.nodes.push({
+      painting: json[i]['original']['titleInfo'][0]['title'][0],
+      artist: json[i]['original']['name'][0]['namePart'][0],
+      record: i,
+      image: json[i]['parsed']['image'][0]
+    });
+  }
+
+  function intersect(a, b) {
+    var t;
+    if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+    return a.filter(function (e) {
+        if (b.indexOf(e) !== -1) return true;
+    });
+  }
+
+    for(var i = 0; i < graph.nodes.length; i++) {
+
+      for (var j = i + 1; j < graph.nodes.length; j++) {
+
+        if ('topics' in json[i]['parsed'] && 'topics' in json[j]['parsed']) {
+
+          if (intersect(json[i]['parsed']['topics'],json[j]['parsed']['topics']).length) {
+
+            graph.links.push({"source": i, "target": j});
+          }
+        }
+      }
+    }
+
+          // Generate the force layout
+          var force = d3.layout.force()
+              .size([width, height])
+              .charge(-50)
+              .linkDistance(200)
+              .on("tick", tick)
+              .on("start", function(d) {})
+              .on("end", function(d) {})
+
+          function tick(d) {
+
+            graph_update(0);
+          }
+
+          function force_layout() {
+
+            force.nodes(graph.nodes)
+                .links(graph.links)
+                .start();
+          }
+
+          function radial_layout() {
+
+            force.stop();
+
+            var r = height/2;
+
+            var arc = d3.svg.arc()
+                    .outerRadius(r);
+
+            var pie = d3.layout.pie()
+            .sort(function(a, b) { return a.cat - b.cat;})
+                    .value(function(d, i) { return 1; }); // equal share for each point
+
+            graph.nodes = pie(graph.nodes).map(function(d, i) {
+              d.innerRadius = 0;
+              d.outerRadius = r;
+              d.data.x = arc.centroid(d)[0]+height/2;
+              d.data.y = arc.centroid(d)[1]+width/2;
+              d.data.endAngle = d.endAngle; 
+              d.data.startAngle = d.startAngle; 
+              return d.data;
+            })
+
+            graph_update(500);
+          }
+
+          function graph_update(delay) {
+
+            link.transition().duration(delay)
+                .attr("x1", function(d) { return d.target.x; })
+                .attr("y1", function(d) { return d.target.y; })
+                .attr("x2", function(d) { return d.source.x; })
+                .attr("y2", function(d) { return d.source.y; });
+
+            node.transition().duration(delay)
+                .attr("transform", function(d) { 
+                  return "translate("+d.x+","+d.y+")"; 
+                });
+          }
+
+          d3.select("input[value=\"force\"]").on("click", force_layout);
+          d3.select("input[value=\"radial\"]").on("click", radial_layout);
+          //d3.select("input[value=\"map\"]").on("click", map_layout);
+          //d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
+          
+          var node = svg.selectAll(".node")
+                        .data(graph.nodes)
+                      .enter()
+                        .append("g").attr("class", "node");
+
+          var link = svg.selectAll(".link")
+                        .data(graph.links)
+                      .enter().insert("svg:line","g.node")
+                        .attr("class", "link");
+
+          node.append("circle")
+              .attr("r", 5)
+              .on('click', function(d) {
+                svg_focus.selectAll("image").remove();
+                svg_focus.selectAll("text").remove();
+
+                svg_focus.append("svg:image")
+                  .attr("xlink:href",d.image)
+                  .attr("width",100)
+                  .attr("height",100)
+                  .attr("x",50)
+                  .attr("y",200)
+                
+                svg_focus.append("text").text("Painting: " + d.painting).attr("y",350);
+                svg_focus.append("text").text("Artist: " + d.artist).attr("y",375);
+                svg_focus.append("text").text("Record number: " + d.record).attr("y",400);
+              })
+              .append("svg:title")
+              .text(function(d) { return "Painting: " + d.painting + "\nArtist: " + d.artist + "\nRecord number: " + d.record; });
+
+          force_layout();
+})
+
+//A small amount of code is copied from the links provided in the problem set and the publically viewable questions on Piazza.
+
+</script>
+</body>
+</html>
