@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Homework 2 Graph</title>
+<title>Homeless Paintings of the Italian Renaissance</title>
 <style>
   .link {
     stroke: gray;
@@ -17,8 +17,19 @@
     fill: red;
   }
 
+  a {text-decoration: underline;}
+  a:link {fill: #0000FF;}
+  a:visited {fill: #800080;}
+  a:active {fill: #FF0000;}
+
 </style>
 <body>
+
+<h4>
+Homeless Paintings of the Italian Renaissance<br>
+Jason Mahr, Linda Song, and Ben Zauzmer
+</h4>
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
   <form>
   Layout:
@@ -30,36 +41,42 @@
   
   <table border="1">
     <tr>
-      <td class="vis"></td>
+      <td class="vis" rowspan="2"></td>
       <td class="filters"></td>
       <td class="focus"></td>
+    </tr>
+    <tr>
+      <td class="bar" colspan="2"></td>
     </tr>
   </table>
 
 <script>
 
-var width = 900,
-    height = 550;
+//Margins, where bar_height is the height of the bar graph cell
+var width = 750, height = 500, bar_height = 200;
 
-var filters = d3.select(".filters").append("text").text("The filters will go here.");
-var focus = d3.select(".focus").append("text").text("Click on a node!");
+//Create one svg for each of the four cells
+var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height", height);
+var svg_filters = d3.select(".filters").append("svg").attr("width",200).attr("height",height-bar_height);
+var svg_focus = d3.select(".focus").append("svg").attr("width",200).attr("height",height-bar_height);
+var svg_bar = d3.select(".bar").append("svg").attr("width",400).attr("height",bar_height);
 
-var svg = d3.select(".vis").append("svg")
-            .attr("width", width)
-            .attr("height", height);
+//Add filler text to the non-vis cells
+svg_filters.append("text").text("The filters will go here.").attr("y",50);
+svg_focus.append("text").text("Click on a node!").attr("y",50);
+svg_bar.append("text").text("The bar graph will go here.").attr("y",50);
 
-var svg_focus = d3.select(".focus").append("svg").attr("width",200).attr("height",height);
-
-var fill = d3.scale.category10();
-
+//Create structure for force diagram
 var graph = {nodes:[], links:[]};
 
-var branches = [];
+//Load data - data_text is only the first 10 entries
+//Will be changed to a CSV
+d3.json("data_test.txt", function(json) {
 
-d3.json("data1.txt", function(json) {
-
-  for (var i = 0; i < 50; i++) {
+  //Loop through paintings
+  for (var i = 0; i < 10; i++) {
    
+    //Add node for each painting
     graph.nodes.push({
       painting: json[i]['original']['titleInfo'][0]['title'][0],
       artist: json[i]['original']['name'][0]['namePart'][0],
@@ -68,128 +85,152 @@ d3.json("data1.txt", function(json) {
     });
   }
 
+  //Function that returns intersection of two arrays
   function intersect(a, b) {
     var t;
-    if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+    if (b.length > a.length) t = b, b = a, a = t;
     return a.filter(function (e) {
         if (b.indexOf(e) !== -1) return true;
     });
   }
 
-    for(var i = 0; i < graph.nodes.length; i++) {
+  //Loop through nodes
+  for(var i = 0; i < graph.nodes.length; i++) {
 
-      for (var j = i + 1; j < graph.nodes.length; j++) {
+    //Loop through nodes a second time for pairwise comparison
+    for (var j = i + 1; j < graph.nodes.length; j++) {
 
-        if ('topics' in json[i]['parsed'] && 'topics' in json[j]['parsed']) {
+      //Check if both nodes have topics section
+      if ('topics' in json[i]['parsed'] && 'topics' in json[j]['parsed']) {
 
-          if (intersect(json[i]['parsed']['topics'],json[j]['parsed']['topics']).length) {
+        //Determine size of intersection
+        var overlap = intersect(json[i]['parsed']['topics'],json[j]['parsed']['topics']).length;
 
-            graph.links.push({"source": i, "target": j});
-          }
+        //Check if the nodes share any topics
+        if (overlap) {
+
+          //Add link if the nodes share a topic
+          graph.links.push({"source": i, "target": j, "overlap": overlap});
         }
       }
     }
+  }
 
-          // Generate the force layout
-          var force = d3.layout.force()
-              .size([width, height])
-              .charge(-50)
-              .linkDistance(200)
-              .on("tick", tick)
-              .on("start", function(d) {})
-              .on("end", function(d) {})
+  //Generate the force layout
+  var force = d3.layout.force()
+      .size([width, height])
+      .charge(-50)
+      .linkDistance(200)
+      .on("tick", tick)
+      .on("start", function(d) {})
+      .on("end", function(d) {})
 
-          function tick(d) {
+  //Part of the force layout
+  function tick(d) {
 
-            graph_update(0);
-          }
+    graph_update(0);
+  }
 
-          function force_layout() {
+  //Start force layout if radio button selected
+  function force_layout() {
 
-            force.nodes(graph.nodes)
-                .links(graph.links)
-                .start();
-          }
+    force.nodes(graph.nodes)
+        .links(graph.links)
+        .start();
+  }
 
-          function radial_layout() {
+  //Start radial layout if radio button selected
+  function radial_layout() {
 
-            force.stop();
+    force.stop();
 
-            var r = height/2;
+    var r = height/2;
 
-            var arc = d3.svg.arc()
-                    .outerRadius(r);
+    var arc = d3.svg.arc().outerRadius(r);
 
-            var pie = d3.layout.pie()
-            .sort(function(a, b) { return a.cat - b.cat;})
-                    .value(function(d, i) { return 1; }); // equal share for each point
+    var pie = d3.layout.pie()
+    .sort(function(a, b) { return a.cat - b.cat;})
+            .value(function(d, i) { return 1; }); // equal share for each point
 
-            graph.nodes = pie(graph.nodes).map(function(d, i) {
-              d.innerRadius = 0;
-              d.outerRadius = r;
-              d.data.x = arc.centroid(d)[0]+height/2;
-              d.data.y = arc.centroid(d)[1]+width/2;
-              d.data.endAngle = d.endAngle; 
-              d.data.startAngle = d.startAngle; 
-              return d.data;
-            })
+    graph.nodes = pie(graph.nodes).map(function(d, i) {
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      d.data.x = arc.centroid(d)[0]+height/2;
+      d.data.y = arc.centroid(d)[1]+width/2;
+      d.data.endAngle = d.endAngle; 
+      d.data.startAngle = d.startAngle; 
+      return d.data;
+    })
 
-            graph_update(500);
-          }
+    graph_update(500);
+  }
 
-          function graph_update(delay) {
+  //Update graph via smooth transition
+  function graph_update(delay) {
 
-            link.transition().duration(delay)
-                .attr("x1", function(d) { return d.target.x; })
-                .attr("y1", function(d) { return d.target.y; })
-                .attr("x2", function(d) { return d.source.x; })
-                .attr("y2", function(d) { return d.source.y; });
+    link.transition().duration(delay)
+        .attr("x1", function(d) { return d.target.x; })
+        .attr("y1", function(d) { return d.target.y; })
+        .attr("x2", function(d) { return d.source.x; })
+        .attr("y2", function(d) { return d.source.y; });
 
-            node.transition().duration(delay)
-                .attr("transform", function(d) { 
-                  return "translate("+d.x+","+d.y+")"; 
-                });
-          }
+    node.transition().duration(delay)
+        .attr("transform", function(d) { 
+          return "translate("+d.x+","+d.y+")"; 
+        });
+  }
 
-          d3.select("input[value=\"force\"]").on("click", force_layout);
-          d3.select("input[value=\"radial\"]").on("click", radial_layout);
-          //d3.select("input[value=\"map\"]").on("click", map_layout);
-          //d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
-          
-          var node = svg.selectAll(".node")
-                        .data(graph.nodes)
-                      .enter()
-                        .append("g").attr("class", "node");
+  //Enable radio buttons (last two are commented out until implementation)
+  d3.select("input[value=\"force\"]").on("click", force_layout);
+  d3.select("input[value=\"radial\"]").on("click", radial_layout);
+  //d3.select("input[value=\"map\"]").on("click", map_layout);
+  //d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
+  
+  //Create nodes
+  var node = svg_vis.selectAll(".node")
+                .data(graph.nodes)
+              .enter()
+                .append("g").attr("class", "node");
 
-          var link = svg.selectAll(".link")
-                        .data(graph.links)
-                      .enter().insert("svg:line","g.node")
-                        .attr("class", "link");
+  //Create links
+  var link = svg_vis.selectAll(".link")
+              .data(graph.links)
+              .enter().insert("svg:line","g.node")
+              .attr("class", "link")
+              //Link thickness by number of overlapping topics
+              .style("stroke-width", function(d) {return d.overlap;});
 
-          node.append("circle")
-              .attr("r", 5)
-              .on('click', function(d) {
-                svg_focus.selectAll("image").remove();
-                svg_focus.selectAll("text").remove();
+  //Add circles to nodes
+  node.append("circle")
+      .attr("r", 5)
+      .on('click', function(d) {
 
-                svg_focus.append("svg:image")
-                  .attr("xlink:href",d.image)
-                  .attr("width",100)
-                  .attr("height",100)
-                  .attr("x",50)
-                  .attr("y",200)
-                
-                svg_focus.append("text").text("Painting: " + d.painting).attr("y",350);
-                svg_focus.append("text").text("Artist: " + d.artist).attr("y",375);
-                svg_focus.append("text").text("Record number: " + d.record).attr("y",400);
-              })
-              .append("svg:title")
-              .text(function(d) { return "Painting: " + d.painting + "\nArtist: " + d.artist + "\nRecord number: " + d.record; });
+        //Remove previous image and text from focus
+        svg_focus.selectAll("image").remove();
+        svg_focus.selectAll("text").remove();
 
-          force_layout();
+        //Add clicked image to focus
+        svg_focus.append("svg:image")
+          .attr("xlink:href",d.image)
+          .attr("width",125)
+          .attr("height",125)
+          .attr("x",35)
+          .attr("y",50)
+        
+        //Add clicked text to focus
+        svg_focus.append("text").text("Painting: " + d.painting).attr("y",200);
+        svg_focus.append("text").text("Artist: " + d.artist).attr("y",225);
+        svg_focus.append("text").text("Record number: " + d.record).attr("y",250);
+        svg_focus.append("text").attr("y",275).append("a").attr("xlink:href", "http://images.google.com/searchbyimage?image_url=" + d.image)
+          .text("Reverse Image Search");
+      })
+      //Tooltip on hover
+      .append("svg:title")
+        .text(function(d) { return "Painting: " + d.painting + "\nArtist: " + d.artist + "\nRecord number: " + d.record; });
+
+  //Default layout is force
+  force_layout();
 })
-
-//A small amount of code is copied from the links provided in the problem set and the publically viewable questions on Piazza.
 
 </script>
 </body>
