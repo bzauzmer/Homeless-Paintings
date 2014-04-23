@@ -44,6 +44,7 @@ Jason Mahr, Linda Song, and Ben Zauzmer
     <label><input type="radio" name="layout" value="radial"> Radial</label>
     <label><input type="radio" name="layout" value="map"> Map</label>
     <label><input type="radio" name="layout" value="timeline"> Timeline</label>
+    <label><input type="radio" name="layout" value="wordcloud"> Word Cloud</label>
   </form>
   
   <table border="1">
@@ -93,7 +94,8 @@ d3.json("data_test.txt", function(json) {
       painting: json[i]['original']['titleInfo'][0]['title'][0],
       artist: json[i]['original']['name'][0]['namePart'][0],
       record: i,
-      image: json[i]['parsed']['image'][0]
+      image: json[i]['parsed']['image'][0],
+      date: json[i]['parsed']['date'][0]
     });
   }
 
@@ -128,6 +130,8 @@ d3.json("data_test.txt", function(json) {
     }
   }
 
+  var yearScale = d3.scale.linear().domain([1300,1600]).range([100,width-100]);
+
   //Generate the force layout
   var force = d3.layout.force()
       .size([width, height])
@@ -146,6 +150,8 @@ d3.json("data_test.txt", function(json) {
   //Start force layout if radio button selected
   function force_layout() {
 
+    d3.select(".xaxis").remove();
+
     force.nodes(graph.nodes)
         .links(graph.links)
         .start();
@@ -155,6 +161,7 @@ d3.json("data_test.txt", function(json) {
   function radial_layout() {
 
     force.stop();
+    d3.select(".xaxis").remove();
 
     var r = height/2;
 
@@ -177,6 +184,31 @@ d3.json("data_test.txt", function(json) {
     graph_update(500);
   }
 
+  //Start timeline layout if radio button selected
+  function timeline_layout() {
+
+    force.stop();
+
+    for (var i = 0; i < node[0].length; i++) {
+
+      node[0][i]['__data__'].x = yearScale(node[0][i]['__data__'].date);
+      node[0][i]['__data__'].y = 250;
+    }
+
+    var xAxis = d3.svg.axis()
+      .scale(yearScale)
+      .orient("bottom")
+      .ticks(6,"d")
+      .tickSize(6,2);
+
+    svg_vis.append("g")
+      .attr("class", "xaxis")
+      .attr("transform", "translate(0,250)")
+      .call(xAxis);
+
+    graph_update(500);
+  }
+
   //Update graph via smooth transition
   function graph_update(delay) {
 
@@ -192,12 +224,13 @@ d3.json("data_test.txt", function(json) {
         });
   }
 
-  //Enable radio buttons (last two are commented out until implementation)
+  //Enable radio buttons (last three are commented out until implementation)
   d3.select("input[value=\"force\"]").on("click", force_layout);
   d3.select("input[value=\"radial\"]").on("click", radial_layout);
   //d3.select("input[value=\"map\"]").on("click", map_layout);
-  //d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
-  
+  d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
+  //d3.select("input[value=\"wordcloud\"]").on("click", wordcloud_layout);
+
   //Create nodes
   var node = svg_vis.selectAll(".node")
                 .data(graph.nodes)
@@ -227,12 +260,13 @@ d3.json("data_test.txt", function(json) {
           .attr("width",125)
           .attr("height",125)
           .attr("x",35)
-          .attr("y",50)
+          .attr("y",30)
         
         //Add clicked text to focus
-        svg_focus.append("text").text("Painting: " + d.painting).attr("y",200);
-        svg_focus.append("text").text("Artist: " + d.artist).attr("y",225);
-        svg_focus.append("text").text("Record number: " + d.record).attr("y",250);
+        svg_focus.append("text").text("Painting: " + d.painting).attr("y",175);
+        svg_focus.append("text").text("Artist: " + d.artist).attr("y",200);
+        svg_focus.append("text").text("Record number: " + d.record).attr("y",225);
+        svg_focus.append("text").text("Year: " + d.date).attr("y",250);
         svg_focus.append("text").attr("y",275).append("a").attr("xlink:href", "http://images.google.com/searchbyimage?image_url=" + d.image)
           .text("Reverse Image Search");
 
@@ -246,8 +280,8 @@ d3.json("data_test.txt", function(json) {
 
   // var svg_bar = d3.select(".bar").append("svg").attr("width",400).attr("height",bar_height);
   // making the bar graph
-  console.log(json);
-  createBarGraph(json);
+  //console.log(json);
+  //createBarGraph(json);
 
 })
 
