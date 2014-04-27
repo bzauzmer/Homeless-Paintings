@@ -57,8 +57,9 @@ Jason Mahr, Linda Song, and Ben Zauzmer
       <td class="bar" colspan="2">
       <!-- // making menu dropdown for the bar graph -->
       <p id="menu"><b>Bar Graph</b><br>Select series: <select>
-        <option value="Years">Years vs Number of Paintings Missing</option>
-        <option value="Artists">Artist vs Number of Paintings Missing</option></select>
+<!--         <option value="Years">Decade vs Number of Paintings Missing</option> -->
+        <option value="Artists">Artist vs Number of Paintings Missing</option>
+      </select>
       </td>
     </tr>
   </table>
@@ -68,11 +69,14 @@ Jason Mahr, Linda Song, and Ben Zauzmer
 //Margins, where bar_height is the height of the bar graph cell
 var width = 750, height = 500, bar_height = 200;
 
+// variables for the bar graph
+var svg_barwidth = 400;
+
 //Create one svg for each of the four cells
 var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height", height);
 var svg_filters = d3.select(".filters").append("svg").attr("width",200).attr("height",height-bar_height);
 var svg_focus = d3.select(".focus").append("svg").attr("width",200).attr("height",height-bar_height);
-var svg_bar = d3.select(".bar").append("svg").attr("width",400).attr("height",bar_height);
+var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Add filler text to the non-vis cells
 svg_filters.append("text").text("The filters will go here.").attr("y",50);
@@ -82,9 +86,15 @@ svg_bar.append("text").text("The bar graph will go here.").attr("y",50);
 //Create structure for force diagram
 var graph = {nodes:[], links:[]};
 
+// make an array of objects with the artist name and its corresponding number of missing paintings
+var artist_obj = [];
+
 //Load data - data_text is only the first 10 entries
 //Will be changed to a CSV
 d3.json("data_test.txt", function(json) {
+
+  // counting the strange 0's that appear after counting paintings
+  var zero_count = 0;
 
   //Loop through paintings
   for (var i = 0; i < 10; i++) {
@@ -97,6 +107,21 @@ d3.json("data_test.txt", function(json) {
       image: json[i]['parsed']['image'][0],
       date: json[i]['parsed']['date'][0]
     });
+
+    // if the artist isn't already in the array, create the counter to be set to 0
+    if (!artist_obj[graph.nodes[i].artist]) {
+      // console.log(artist_obj[graph.nodes[i].artist]);
+      artist_obj.push(artist_obj[graph.nodes[i].artist] = 0)
+      zero_count++;
+    } 
+    // increase the counter by 1 per occurance
+    ++artist_obj[graph.nodes[i].artist];
+
+  }
+
+  // to remove extraneous zeros
+  for (var j = 0; j < zero_count; j++) {
+    artist_obj.shift();
   }
 
   //Function that returns intersection of two arrays
@@ -280,8 +305,59 @@ d3.json("data_test.txt", function(json) {
 
   // var svg_bar = d3.select(".bar").append("svg").attr("width",400).attr("height",bar_height);
   // making the bar graph
-  //console.log(json);
-  //createBarGraph(json);
+  // console.log(json);
+
+// creates bar graph (artist vs painting)
+  function createArtistMissing(data) {
+
+    // make the artist_obj.missing_paintings.length the height of the bar chart per name of artist
+
+    var y = d3.scale.linear()
+      .domain([0, d3.max(artist_obj)])
+      .range([bar_height,0])
+
+    var x = d3.scale.ordinal()
+      .domain(artist_obj)
+      .range([0, svg_barwidth])
+
+    svg_bar.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (bar_height - 25) + ")")
+      .call(x)
+      .append("text")
+      .text("artists")
+
+    svg_bar.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + (svg_barwidth - 50) + ", -25)")
+      .call(y)
+      .append("text")
+      .text("total missing paintings")
+
+    svg_bar
+      .selectAll("g")
+        .data(data)
+      .enter()
+        .append("g")
+        .attr("transform", function(d, i) {
+          return "translate(0," + i * bar_height + ")";
+        });
+
+    svg_bar.selectAll(".bar")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("width", svg_barwidth / data.length)
+      .attr("height", function(d) {
+        return bar_height - y(d);
+      })
+      .attr("fill-opacity", .20);
+  }
+
+
+  createArtistMissing(artist_obj);
+
+
 
 })
 
@@ -300,74 +376,6 @@ d3.json("data_test.txt", function(json) {
 //     detailVis.selectAll(".title")
 //         .text(data.STATION);
 // }
-
-// function to create the bar graph
-var createBarGraph = function(json){
-
-    detailVis
-        .append("text")
-        .attr("class","title")
-        .attr("x", (detailVisWidth / 2))             
-        .attr("y", 20)
-        .attr("text-anchor", "middle")  
-        .style("font-size", "16px") 
-        .text(json.STATION);;
-
-        console.log(json.STATION);
-
-    xScale.domain([0,24]);
-    yScale.domain([0, 20000000]);
-
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom")
-        // .attr("transform", "translate(" + detailVisHeight + ",0)");
-
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient("right");
-
-    detailVis.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + (detailVisHeight - 25) + ")")
-        .call(xAxis)
-        .append("text")
-        // .attr("transform", "translate(0," + detailVisHeight + ")")
-        // .style("text-anchor", "end")
-        .text("hours");
-
-    detailVis.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + (detailVisWidth - 50) + ", -25)")
-        .call(yAxis)
-        // .ticks(10)
-        .append("text")
-        .attr("y", 8)
-        .attr("dy", ".71em")
-        // .style("text-anchor", "end")
-        .text("sum");
-        // .attr("transform", "translate(");
-
-
-    detailVis.selectAll(".bar")
-        .data(completeDataSet[ID].hourly)
-        .enter()
-        .append("rect")
-        .attr("x", function(d,i) { 
-            return xScale(i);
-        })
-        .attr("y", function(d) {
-            // console.log(d);
-            // console.log(yScale(d));
-            return yScale(d) - 25;
-        })
-        .attr("height", function(d) {
-            return detailVisHeight - yScale(d) ;
-        })
-        .attr("width", 10)
-        .attr("fill-opacity", .20);
-
-}
 
 </script>
 </body>
