@@ -172,7 +172,8 @@ function makevis() {
         artist: data[i]['artist'],
         record: data[i]['record'],
         image: data[i]['image'],
-        date: data[i]['date']
+        date: data[i]['date'],
+        city: data[i]['city']
       });
 
       // if the artist isn't already in the array, create the counter to be set to 0
@@ -249,6 +250,7 @@ function makevis() {
     //Start force layout if radio button selected
     function force_layout() {
 
+      svg_vis.select("image").remove();
       d3.select(".xaxis").remove();
 
       force.nodes(graph.nodes)
@@ -260,6 +262,7 @@ function makevis() {
     function radial_layout() {
 
       force.stop();
+      svg_vis.select("image").remove();
       d3.select(".xaxis").remove();
 
       var r = height/2;
@@ -283,10 +286,45 @@ function makevis() {
       graph_update(500);
     }
 
+    //Start map layout if radio button selected
+    function map_layout() {
+
+      force.stop();
+      d3.select(".xaxis").remove();
+
+      svg_vis.append('image')
+        .attr("xlink:href", "Italy map.jpg")
+        .attr("x", "150")
+        .attr("width", "500")
+        .attr("height", "500");
+
+      d3.json("Coordinates.json", function(json) {
+
+        for (var i = 0; i < node[0].length; i++) {
+
+          console.log(node[0][i]['__data__'].city);
+
+          if (node[0][i]['__data__'].city) {
+
+            node[0][i]['__data__'].x = json[node[0][i]['__data__'].city].x;
+            node[0][i]['__data__'].y = json[node[0][i]['__data__'].city].y;
+          }
+          else {
+
+            node[0][i]['__data__'].x = 0;
+            node[0][i]['__data__'].y = 0;
+          }
+        }
+
+        graph_update(500);
+      });
+    }
+
     //Start timeline layout if radio button selected
     function timeline_layout() {
 
       force.stop();
+      svg_vis.select("image").remove();
 
       for (var i = 0; i < node[0].length; i++) {
 
@@ -326,7 +364,7 @@ function makevis() {
     //Enable radio buttons (last three are commented out until implementation)
     d3.select("input[value=\"force\"]").on("click", force_layout);
     d3.select("input[value=\"radial\"]").on("click", radial_layout);
-    //d3.select("input[value=\"map\"]").on("click", map_layout);
+    d3.select("input[value=\"map\"]").on("click", map_layout);
     d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
     //d3.select("input[value=\"wordcloud\"]").on("click", wordcloud_layout);
 
