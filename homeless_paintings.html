@@ -22,7 +22,7 @@
   .node {
     fill: blue;
     stroke: #000;
-    stroke-width: 1px;
+    stroke-width: 0px;
   }
 
   .node:hover {
@@ -404,7 +404,7 @@ function makevis() {
           svg_focus.append("text").text("Artist: " + d.artist).attr("y",200);
           svg_focus.append("text").text("Record number: " + d.record).attr("y",225);
           svg_focus.append("text").text("Year: " + d.date).attr("y",250);
-          svg_focus.append("text").attr("y",275).append("a").attr("xlink:href", "http://images.google.com/searchbyimage?image_url=" + d.image)
+          svg_focus.append("text").attr("y",275).append("a").attr("xlink:href", "http://images.google.com/searchbyimage?image_url=" + d.image).attr("target","_blank")
             .text("Reverse Image Search");
 
         })
