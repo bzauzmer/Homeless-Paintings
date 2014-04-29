@@ -337,12 +337,17 @@ function makevis() {
       // making an array to hold only the number of missing paintings per artist
       var paintingsMissing = [];
       var artists_array = [];
+      var artobj = {};
 
       // looping through the missing paintings count array to push the number of paintings missing regardless of artist into an array
       for(var artist in artist_obj) {
         paintingsMissing.push(artist_obj[artist]);
         artists_array.push(artist);
+        artobj[artist] = artist_obj[artist];
       }
+
+      console.log(data);
+      console.log(artobj);
 
       // making the scales 
       var y = d3.scale.linear()
@@ -353,49 +358,63 @@ function makevis() {
         .domain(artists_array)
         .rangeBands([0, svg_barwidth])
 
-      console.log(data);
+      // console.log(data);
 
         // creating the bars
       var bar = svg_bar.selectAll("g")
-        .data(data)
+        .data(artobj)
       .enter().append("g")
-        .attr("transform", function(d) { 
+        .attr("transform", function(d, i) { 
           console.log(d);
           return "translate(" + x(d) + ",0)"; });
 
+      bar.append("rect")
+        .attr("y", function(d) { return y(d.value); })
+        .attr("height", function(d) { return height - y(d.value); })
+        .attr("width", x.rangeBand());
 
-      svg_bar.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + (bar_height - 25) + ")")
-        .call(x)
-        .append("text")
-        .text("artists")
+      bar.append("text")  
+        .attr("x", x.rangeBand() / 2)
+        .attr("y", function(d) { return y(d.value) + 3; })
+        .attr("dy", ".75em")
+        .text(function(d) { return d.value; });
 
-      svg_bar.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + (svg_barwidth - 50) + ", -25)")
-        .call(y)
-        .append("text")
-        .text("total missing paintings")
 
-      svg_bar
-        .selectAll("g")
-          .data(data)
-        .enter()
-          .append("g")
-          .attr("transform", function(d, i) {
-            return "translate(0," + i * bar_height + ")";
-          });
+      for(var key in objects) {
+          var value = objects[key];
+      }
 
-      svg_bar.selectAll(".bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("width", svg_barwidth / data.length)
-        .attr("height", function(d) {
-          return bar_height - y(d);
-        })
-        .attr("fill-opacity", .20);
+      //   .attr("class", "x axis")
+      //   .attr("transform", "translate(0," + (bar_height - 25) + ")")
+      //   .call(x)
+      //   .append("text")
+      //   .text("artists")
+
+      // bar.append("text")
+      //   .attr("class", "y axis")
+      //   .attr("transform", "translate(" + (svg_barwidth - 50) + ", -25)")
+      //   .call(y)
+      //   .append("text")
+      //   .text("total missing paintings")
+
+      // svg_bar
+      //   .selectAll("g")
+      //     .data(data)
+      //   .enter()
+      //     .append("g")
+      //     .attr("transform", function(d, i) {
+      //       return "translate(0," + i * bar_height + ")";
+      //     });
+
+      // svg_bar.selectAll(".bar")
+      //   .data(data)
+      //   .enter()
+      //   .append("rect")
+      //   .attr("width", svg_barwidth / data.length)
+      //   .attr("height", function(d) {
+      //     return bar_height - y(d);
+      //   })
+      //   .attr("fill-opacity", .20);
     }
 
     createArtistMissing(artist_obj);
