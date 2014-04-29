@@ -29,9 +29,9 @@
   }
 
   a {text-decoration: underline;}
-  a:link {fill: #0000FF;}
-  a:visited {fill: #800080;}
-  a:active {fill: #FF0000;}
+  a:link {color: #0000FF;}
+  a:visited {color: #800080;}
+  a:active {color: #FF0000;}
 
   .axis text {
   font: 10px sans-serif;
@@ -62,6 +62,11 @@
     pointer-events: none;         
   }
 
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+  }
 
 </style>
 <body>
@@ -85,7 +90,7 @@ Jason Mahr, Linda Song, and Ben Zauzmer
   <table border="1">
     <tr>
       <td class="vis" rowspan="2"></td>
-      <td class="filters"></td>
+      <td class="filters" width="200" height="270"></td>
       <td class="focus"></td>
     </tr>
     <tr>
@@ -110,15 +115,14 @@ var svg_barwidth = 400;
 //making margins
 var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
 
-//Create one svg for each of the four cells
+//Create svg's for vis and bar
 var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height", height);
-var svg_focus = d3.select(".focus").append("svg").attr("width",200).attr("height",height-bar_height);
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Add filler text to the non-vis cells
 d3.select(".filters").append("p").text("Filters:").attr("style","font-weight:bold");
 d3.select(".filters").append("text").text("Number of Paintings:");
-svg_focus.append("text").text("Click on a node!").attr("y",50);
+d3.select(".focus").append("text").attr("class", "centered").text("Click on a node!");
 
 //Create drop-down for number of paintings
 d3.select(".filters")
@@ -143,6 +147,15 @@ function makevis() {
   //Remove all nodes and links
   d3.selectAll(".node").remove();
   d3.selectAll(".link").remove();
+
+  //Radio buttons should start with force checked
+  d3.selectAll("input").each(function(d) {
+    
+    if (d3.select(this).attr("value") == 'force') {
+     
+      d3.select(this).node().checked = true;
+    }
+  });
 
   //Create structure for force diagram
   var graph = {nodes:[], links:[]};
@@ -409,24 +422,27 @@ function makevis() {
         .attr("r", 5)
         .on('click', function(d) {
 
+          //Text-align left once first node is clicked
+          d3.select(".focus").style("text-align", "left");
+          d3.selectAll(".focus text").remove();
+
           //Remove previous image and text from focus
-          svg_focus.selectAll("image").remove();
-          svg_focus.selectAll("text").remove();
+          d3.select(".focus img").remove();
+          d3.selectAll(".focus p").remove();
 
           //Add clicked image to focus
-          svg_focus.append("svg:image")
-            .attr("xlink:href",d.image)
+          d3.select(".focus").append("img")
+            .attr("src",d.image)
+            .style("text-align", "center")
             .attr("width",125)
-            .attr("height",125)
-            .attr("x",35)
-            .attr("y",30)
+            .attr("height",125);
           
           //Add clicked text to focus
-          svg_focus.append("text").text("Painting: " + d.painting).attr("y",175);
-          svg_focus.append("text").text("Artist: " + d.artist).attr("y",200);
-          svg_focus.append("text").text("Record number: " + d.record).attr("y",225);
-          svg_focus.append("text").text("Year: " + d.date).attr("y",250);
-          svg_focus.append("text").attr("y",275).append("a").attr("xlink:href", "http://images.google.com/searchbyimage?image_url=" + d.image).attr("target","_blank")
+          d3.select(".focus").append("p").text("Painting: " + d.painting);
+          d3.select(".focus").append("p").text("Artist: " + d.artist);
+          d3.select(".focus").append("p").text("Record number: " + d.record);
+          d3.select(".focus").append("p").text("Year: " + d.date);
+          d3.select(".focus").append("p").append("a").attr("href", "http://images.google.com/searchbyimage?image_url=" + d.image).attr("target","_blank")
             .text("Reverse Image Search");
 
         })
