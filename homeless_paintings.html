@@ -34,6 +34,18 @@
   a:visited {fill: #800080;}
   a:active {fill: #FF0000;}
 
+  .axis text {
+  font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+
 </style>
 <body>
 
@@ -116,6 +128,7 @@ function makevis() {
 
   // make an array of objects with the artist name and its corresponding number of missing paintings
   var artist_obj = [];
+  var obj_array = [];
 
   //Load data - data_text is only the first 10 entries
   //Will be changed to a CSV
@@ -151,6 +164,13 @@ function makevis() {
     for (var j = 0; j < zero_count; j++) {
       artist_obj.shift();
     }
+
+    // filtering out dup keys
+    for (artist in artist_obj) {
+      obj_array.push({ artist: artist, value: artist_obj[artist] })
+    }
+
+    // console.log(obj_array);
 
     //Function that returns intersection of two arrays
     function intersect(a, b) {
@@ -334,20 +354,21 @@ function makevis() {
   // creates bar graph (artist vs painting)
     function createArtistMissing(data) {
 
+      // clear the current graph 
+
       // making an array to hold only the number of missing paintings per artist
       var paintingsMissing = [];
       var artists_array = [];
-      var artobj = {};
+
+      console.log(data);
+
+      var barWidth = svg_barwidth / data.length;
 
       // looping through the missing paintings count array to push the number of paintings missing regardless of artist into an array
       for(var artist in artist_obj) {
         paintingsMissing.push(artist_obj[artist]);
         artists_array.push(artist);
-        artobj[artist] = artist_obj[artist];
       }
-
-      console.log(data);
-      console.log(artobj);
 
       // making the scales 
       var y = d3.scale.linear()
@@ -356,68 +377,121 @@ function makevis() {
 
       var x = d3.scale.ordinal()
         .domain(artists_array)
-        .rangeBands([0, svg_barwidth])
+        .rangeRoundBands([0, svg_barwidth], .1)
 
-      // console.log(data);
+      // making the axes
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
 
-        // creating the bars
-      var bar = svg_bar.selectAll("g")
-        .data(artobj)
-      .enter().append("g")
-        .attr("transform", function(d, i) { 
-          console.log(d);
-          return "translate(" + x(d) + ",0)"; });
-
-      bar.append("rect")
-        .attr("y", function(d) { return y(d.value); })
-        .attr("height", function(d) { return height - y(d.value); })
-        .attr("width", x.rangeBand());
-
-      bar.append("text")  
-        .attr("x", x.rangeBand() / 2)
-        .attr("y", function(d) { return y(d.value) + 3; })
-        .attr("dy", ".75em")
-        .text(function(d) { return d.value; });
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          .ticks(10, "%");
 
 
-      for(var key in objects) {
-          var value = objects[key];
-      }
+      // var bar = d3.select(".bar")
+      //     .attr("width", svg_barwidth + 25 + 25)
+      //     .attr("height", bar_height + 10 + 10)
+      //   .append("g")
+      //     .attr("transform", "translate(" + 25 + "," + 10 + ")");
 
-      //   .attr("class", "x axis")
-      //   .attr("transform", "translate(0," + (bar_height - 25) + ")")
-      //   .call(x)
-      //   .append("text")
-      //   .text("artists")
+      svg_bar.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + bar_height + ")")
+          .call(xAxis)
+          // .style("text-anchor", "")
+          .text("Artists");
+
+      svg_bar.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+          .style("text-anchor", "end")
+          .text("Missing Paintings");
+
+      svg_bar.selectAll(".bar")
+          .data(data)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.artist); })
+          .attr("y", function(d) { return y(d.value); })
+          .attr("height", function(d) { return bar_height - y(d.value); })
+          .attr("width", x.rangeBand());
+
+
+      // var bar = svg_bar.selectAll("g")
+      //     .data(data)
+      //   .enter().append("g")
+      //     .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+
+
+
+
+
+
+
+
+
+
+      // bar.append("rect")
+      //     .attr("y", function(d) { return y(d.value); })
+      //     .attr("height", function(d) { return height - y(d.value); })
+      //     .attr("width", x.rangeBand());
 
       // bar.append("text")
-      //   .attr("class", "y axis")
-      //   .attr("transform", "translate(" + (svg_barwidth - 50) + ", -25)")
-      //   .call(y)
-      //   .append("text")
-      //   .text("total missing paintings")
+      //     .attr("x", x.rangeBand() / 2)
+      //     .attr("y", function(d) { return y(d.value) + 3; })
+      //     .attr("dy", function(d,i) { return i; })
+      //     .text(function(d) { return d.value; });
 
-      // svg_bar
-      //   .selectAll("g")
-      //     .data(data)
-      //   .enter()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // // creating the bars
+      // var bar = svg_bar.selectAll("g")
+      //     .attr("width", width)
+      //     .attr("height", height)
       //     .append("g")
-      //     .attr("transform", function(d, i) {
-      //       return "translate(0," + i * bar_height + ")";
-      //     });
+      //       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
-      // svg_bar.selectAll(".bar")
-      //   .data(data)
-      //   .enter()
-      //   .append("rect")
-      //   .attr("width", svg_barwidth / data.length)
-      //   .attr("height", function(d) {
-      //     return bar_height - y(d);
-      //   })
-      //   .attr("fill-opacity", .20);
+      // // // creating the bars
+      // // var bar = svg_bar.selectAll("g")
+      // //   .data(data)
+      // //     .enter()
+      // //     .append("g")
+      // //     .attr("transform", function(d, i) { 
+      // //       return "translate(" + x(d.artist) + ",0)"; });
+
+
+
+      // bar.append("rect")
+      //   .attr("y", function(d) { return y(d.value); })
+      //   .attr("height", function(d) { return bar_height - y(d.value); })
+      //   .attr("width", x.rangeBand());
+
+      // bar.append("text")  
+      //   .attr("x", x.rangeBand() / 2)
+      //   .attr("y", function(d) { return y(d.value) + 3; })
+      //   .attr("dy", ".75em")
+      //   .text(function(d) { return d.value; });
+
+
     }
 
-    createArtistMissing(artist_obj);
+    createArtistMissing(obj_array);
 
   })
 }
