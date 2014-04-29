@@ -438,16 +438,11 @@ function makevis() {
     force_layout();
 
     // generates bar graph depending on the value of the chosen dropdown menu
-    function generateBarGraph(paintingsMissing) {
+    function generateBarGraph() {
 
       // // clear the current graph 
       d3.selectAll("rect").remove()
       d3.selectAll(".bar").selectAll("text").remove()
-
-
-      var y = d3.scale.linear()
-        .domain([0, d3.max(paintingsMissing)])
-        .range([bar_height - bar_margin.bottom,0])
 
       var series = menu.property("value");
 
