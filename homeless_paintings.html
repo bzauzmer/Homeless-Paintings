@@ -45,6 +45,10 @@
     shape-rendering: crispEdges;
   }
 
+  .bar rect{
+    fill: steelblue;
+  }
+
 
 </style>
 <body>
@@ -55,6 +59,7 @@ Jason Mahr, Linda Song, and Ben Zauzmer
 </h4>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <form>
   Layout:
     <label><input type="radio" name="layout" value="force" checked> Force</label>
@@ -360,6 +365,9 @@ function makevis() {
       var paintingsMissing = [];
       var artists_array = [];
 
+      //making margins
+      var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
+
       console.log(data);
 
       var barWidth = svg_barwidth / data.length;
@@ -371,13 +379,13 @@ function makevis() {
       }
 
       // making the scales 
-      var y = d3.scale.linear()
-        .domain([0, d3.max(paintingsMissing)])
-        .range([bar_height,0])
-
       var x = d3.scale.ordinal()
         .domain(artists_array)
-        .rangeRoundBands([0, svg_barwidth], .1)
+        .rangeRoundBands([bar_margin.right, svg_barwidth], .1)
+
+      var y = d3.scale.linear()
+        .domain([0, d3.max(paintingsMissing)])
+        .range([bar_height - bar_margin.bottom,0])
 
       // making the axes
       var xAxis = d3.svg.axis()
@@ -387,25 +395,30 @@ function makevis() {
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
-          .ticks(10, "%");
 
-
-      // var bar = d3.select(".bar")
-      //     .attr("width", svg_barwidth + 25 + 25)
-      //     .attr("height", bar_height + 10 + 10)
-      //   .append("g")
-      //     .attr("transform", "translate(" + 25 + "," + 10 + ")");
+      // // var bar = d3.select(".bar")
+      // //     .attr("width", svg_barwidth + 25 + 25)
+      // //     .attr("height", bar_height + 10 + 10)
+      // //   .append("g")
+      // //     .attr("transform", "translate(" + 25 + "," + 10 + ")");
 
       svg_bar.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(0," + bar_height + ")")
+          .attr("transform", "translate(0," + (bar_height - bar_margin.bottom) + ")")
           .call(xAxis)
-          // .style("text-anchor", "")
-          .text("Artists");
+          .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)" 
+                });
 
       svg_bar.append("g")
           .attr("class", "y axis")
+          .attr("transform", "translate(" + bar_margin.right + ",0)" )
           .call(yAxis)
+          .append("text")
           .style("text-anchor", "end")
           .text("Missing Paintings");
 
@@ -414,15 +427,14 @@ function makevis() {
         .enter().append("rect")
           .attr("class", "bar")
           .attr("x", function(d) { return x(d.artist); })
-          .attr("y", function(d) { return y(d.value); })
+          .attr("y", function(d) { return y(d.value) - bar_margin.bottom; })
           .attr("height", function(d) { return bar_height - y(d.value); })
           .attr("width", x.rangeBand());
 
-
-      // var bar = svg_bar.selectAll("g")
-      //     .data(data)
-      //   .enter().append("g")
-      //     .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+      // // var bar = svg_bar.selectAll("g")
+      // //     .data(data)
+      // //   .enter().append("g")
+      // //     .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
 
 
 
@@ -449,34 +461,6 @@ function makevis() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-      // // creating the bars
-      // var bar = svg_bar.selectAll("g")
-      //     .attr("width", width)
-      //     .attr("height", height)
-      //     .append("g")
-      //       .attr("transform", "translate(" + 0 + "," + 0 + ")");
-
-      // // // creating the bars
-      // // var bar = svg_bar.selectAll("g")
-      // //   .data(data)
-      // //     .enter()
-      // //     .append("g")
-      // //     .attr("transform", function(d, i) { 
-      // //       return "translate(" + x(d.artist) + ",0)"; });
-
-
-
       // bar.append("rect")
       //   .attr("y", function(d) { return y(d.value); })
       //   .attr("height", function(d) { return bar_height - y(d.value); })
@@ -497,20 +481,17 @@ function makevis() {
 }
 
 // function that updates the bar graph
-// var updateBarGraph = function(json){
+var updateBarGraph = function(json){
 
-//    detailVis.selectAll("rect")
-//        .data(completeDataSet[ID].hourly)
-//        .transition()
-//        .duration(1000)
-//        .attr("y", function(d) { return yScale(d) - 25; })
-//        .attr("height", function(d) { return detailVisHeight - yScale(d); })
-//        .attr("width", 10)
-//        .attr("fill-opacity", .20);
-
-//     detailVis.selectAll(".title")
-//         .text(data.STATION);
-// }
+   detailVis.selectAll("rect")
+       .data(completeDataSet[ID].hourly)
+       .transition()
+       .duration(1000)
+       .attr("y", function(d) { return yScale(d) - 25; })
+       .attr("height", function(d) { return detailVisHeight - yScale(d); })
+       .attr("width", 10)
+       .attr("fill-opacity", .20);
+}
 
 </script>
 </body>
