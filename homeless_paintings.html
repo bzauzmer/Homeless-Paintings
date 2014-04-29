@@ -107,14 +107,6 @@ var width = 750, height = 500, bar_height = 200;
 // variables for the bar graph
 var svg_barwidth = 400;
 
-// make an array of objects with the artist name and its corresponding number of missing paintings
-var artist_obj = [];
-var obj_array = [];
-
-// making an array to hold only the number of missing paintings per artist
-var paintingsMissing = [];
-var artists_array = [];
-
 //making margins
 var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
 
@@ -155,6 +147,10 @@ function makevis() {
   //Create structure for force diagram
   var graph = {nodes:[], links:[]};
 
+  // make an array of objects with the artist name and its corresponding number of missing paintings
+  var artist_obj = [];
+  var obj_array = [];
+
   //Load data - data_text is only the first 10 entries
   //Will be changed to a CSV
   d3.csv("data.csv", function(data) {
@@ -193,12 +189,6 @@ function makevis() {
     // filtering out dup keys
     for (artist in artist_obj) {
       obj_array.push({ artist: artist, value: artist_obj[artist] })
-    }
-
-    // looping through the missing paintings count array to push the number of paintings missing regardless of artist into an array
-    for(var artist in artist_obj) {
-      paintingsMissing.push(artist_obj[artist]);
-      artists_array.push(artist);
     }
 
     //Function that returns intersection of two arrays
@@ -448,7 +438,17 @@ function makevis() {
     force_layout();
 
     // generates bar graph depending on the value of the chosen dropdown menu
-    function generateBarGraph() {
+    function generateBarGraph(paintingsMissing) {
+
+      // // clear the current graph 
+      d3.selectAll("rect").remove()
+      d3.selectAll(".bar").selectAll("text").remove()
+
+
+      var y = d3.scale.linear()
+        .domain([0, d3.max(paintingsMissing)])
+        .range([bar_height - bar_margin.bottom,0])
+
       var series = menu.property("value");
 
       if (series == "Artists") {
@@ -458,105 +458,108 @@ function makevis() {
       }
     } 
 
+    // creates bar graph (artist vs painting)
+    function createArtistMissing(data) {
+
+      console.log(data);
+
+      // making an array to hold only the number of missing paintings per artist
+      var paintingsMissing = [];
+      var artists_array = [];
+
+      // looping through the missing paintings count array to push the number of paintings missing regardless of artist into an array
+      for(var artist in artist_obj) {
+        paintingsMissing.push(artist_obj[artist]);
+        artists_array.push(artist);
+      }
+
+      // making the scales 
+      var x = d3.scale.ordinal()
+        .domain(artists_array)
+        .rangeRoundBands([bar_margin.right, svg_barwidth], .1)
+
+      var y = d3.scale.linear()
+        .domain([0, d3.max(paintingsMissing)])
+        .range([bar_height - bar_margin.bottom,0])
+
+      // making the axes
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+
+      // for tooltip
+      var div = d3.select(".bar").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      svg_bar.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + (bar_height - bar_margin.bottom) + ")")
+          .call(xAxis)
+          .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)" 
+                });
+
+      svg_bar.append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + bar_margin.right + ",0)" )
+          .call(yAxis)
+          .append("text")
+          .style("text-anchor", "end")
+          .text("Missing Paintings");
+
+      svg_bar.selectAll(".bar")
+          .data(data)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.artist); })
+          .attr("y", function(d) { return y(d.value) - bar_margin.bottom; })
+          .attr("height", function(d) { return bar_height - y(d.value); })
+          .attr("width", x.rangeBand())
+          .attr("opacity", .9)
+
+          // for mouseover details
+          .on("mouseover", function(d) {
+            div.transition()
+              .duration(200)
+              .style("opacity", .9);
+            div.html("<b>" + "Artist: " + "</b>" + d.artist + "<br>")
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - 28) + "px");
+          })
+          .on("mouseout", function(d) {
+            div.transition()
+              .duration(500)
+              .style("opacity", 0);
+          })
+    }
+
+    // function that updates the bar graph to linear vs linear
+    function createDecadeMissing(data) {
+      console.log("working on this");
+
+      
+    }
+
     // update bar graph when menu selection is changed    
     var menu = d3.select("#menu select")
     .on("change", generateBarGraph); 
+
+    generateBarGraph();
 
   })
 }
 
 
-// creates bar graph (artist vs painting)
-function createArtistMissing(data) {
 
-  console.log(data);
-
-  // // clear the current graph 
-  d3.selectAll("rect").remove()
-  d3.selectAll(".bar").selectAll("text").remove()
-
-  // making the scales 
-  var x = d3.scale.ordinal()
-    .domain(artists_array)
-    .rangeRoundBands([bar_margin.right, svg_barwidth], .1)
-
-  var y = d3.scale.linear()
-    .domain([0, d3.max(paintingsMissing)])
-    .range([bar_height - bar_margin.bottom,0])
-
-  // making the axes
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient("left")
-
-  // for tooltip
-  var div = d3.select(".bar").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
-  svg_bar.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + (bar_height - bar_margin.bottom) + ")")
-      .call(xAxis)
-      .selectAll("text")  
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", function(d) {
-            return "rotate(-65)" 
-            });
-
-  svg_bar.append("g")
-      .attr("class", "y axis")
-      .attr("transform", "translate(" + bar_margin.right + ",0)" )
-      .call(yAxis)
-      .append("text")
-      .style("text-anchor", "end")
-      .text("Missing Paintings");
-
-  svg_bar.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.artist); })
-      .attr("y", function(d) { return y(d.value) - bar_margin.bottom; })
-      .attr("height", function(d) { return bar_height - y(d.value); })
-      .attr("width", x.rangeBand())
-      .attr("opacity", .9)
-
-      // for mouseover details
-      .on("mouseover", function(d) {
-        div.transition()
-          .duration(200)
-          .style("opacity", .9);
-        div.html("<b>" + "Artist: " + "</b>" + d.artist + "<br>")
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      })
-      .on("mouseout", function(d) {
-        div.transition()
-          .duration(500)
-          .style("opacity", 0);
-      })
-}
-
-// function that updates the bar graph to linear vs linear
-function createDecadeMissing(data) {
-
-
-   // detailVis.selectAll("rect")
-   //     .data(completeDataSet[ID].hourly)
-   //     .transition()
-   //     .duration(1000)
-   //     .attr("y", function(d) { return yScale(d) - 25; })
-   //     .attr("height", function(d) { return detailVisHeight - yScale(d); })
-   //     .attr("width", 10)
-   //     .attr("fill-opacity", .20);
-}
 
 </script>
 </body>
