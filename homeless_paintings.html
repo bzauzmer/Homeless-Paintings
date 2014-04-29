@@ -124,6 +124,9 @@ d3.json("data_test.txt", function(json) {
     artist_obj.shift();
   }
 
+  // error checking
+  console.log(artist_obj);
+
   //Function that returns intersection of two arrays
   function intersect(a, b) {
     var t;
@@ -319,6 +322,9 @@ d3.json("data_test.txt", function(json) {
     var x = d3.scale.ordinal()
       .domain(artist_obj)
       .range([0, svg_barwidth])
+
+    console.log(x("Benvenuto di Giovanni"));
+    console.log(y(3))
 
     svg_bar.append("g")
       .attr("class", "x axis")
