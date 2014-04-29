@@ -86,7 +86,7 @@ var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("
 d3.select(".filters").append("p").text("Filters:").attr("style","font-weight:bold");
 d3.select(".filters").append("text").text("Number of Paintings:");
 svg_focus.append("text").text("Click on a node!").attr("y",50);
-svg_bar.append("text").text("The bar graph will go here.").attr("y",50);
+// svg_bar.append("text").text("The bar graph will go here.").attr("y",50);
 
 //Create drop-down for number of paintings
 d3.select(".filters")
@@ -151,9 +151,6 @@ function makevis() {
     for (var j = 0; j < zero_count; j++) {
       artist_obj.shift();
     }
-
-    // error checking
-    console.log(artist_obj);
 
     //Function that returns intersection of two arrays
     function intersect(a, b) {
@@ -337,18 +334,35 @@ function makevis() {
   // creates bar graph (artist vs painting)
     function createArtistMissing(data) {
 
-      // make the artist_obj.missing_paintings.length the height of the bar chart per name of artist
+      // making an array to hold only the number of missing paintings per artist
+      var paintingsMissing = [];
+      var artists_array = [];
 
+      // looping through the missing paintings count array to push the number of paintings missing regardless of artist into an array
+      for(var artist in artist_obj) {
+        paintingsMissing.push(artist_obj[artist]);
+        artists_array.push(artist);
+      }
+
+      // making the scales 
       var y = d3.scale.linear()
-        .domain([0, d3.max(artist_obj)])
+        .domain([0, d3.max(paintingsMissing)])
         .range([bar_height,0])
 
       var x = d3.scale.ordinal()
-        .domain(artist_obj)
-        .range([0, svg_barwidth])
+        .domain(artists_array)
+        .rangeBands([0, svg_barwidth])
 
-      console.log(x("Benvenuto di Giovanni"));
-      console.log(y(3))
+      console.log(data);
+
+        // creating the bars
+      var bar = svg_bar.selectAll("g")
+        .data(data)
+      .enter().append("g")
+        .attr("transform", function(d) { 
+          console.log(d);
+          return "translate(" + x(d) + ",0)"; });
+
 
       svg_bar.append("g")
         .attr("class", "x axis")
