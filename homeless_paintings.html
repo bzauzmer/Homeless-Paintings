@@ -16,7 +16,6 @@
 
   .link {
     stroke: gray;
-    stroke-width: 1.5px;
   }
 
   .node {
@@ -108,9 +107,6 @@ var width = 750, height = 500, bar_height = 200;
 // variables for the bar graph
 var svg_barwidth = 400;
 
-//Create structure for force diagram
-var graph = {nodes:[], links:[]};
-
 // make an array of objects with the artist name and its corresponding number of missing paintings
 var artist_obj = [];
 var obj_array = [];
@@ -131,7 +127,6 @@ var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("
 d3.select(".filters").append("p").text("Filters:").attr("style","font-weight:bold");
 d3.select(".filters").append("text").text("Number of Paintings:");
 svg_focus.append("text").text("Click on a node!").attr("y",50);
-// svg_bar.append("text").text("The bar graph will go here.").attr("y",50);
 
 //Create drop-down for number of paintings
 d3.select(".filters")
@@ -153,8 +148,12 @@ makevis();
 //This is the main funciton that creates the visualization
 function makevis() {
 
+  //Remove all nodes and links
   d3.selectAll(".node").remove();
   d3.selectAll(".link").remove();
+
+  //Create structure for force diagram
+  var graph = {nodes:[], links:[]};
 
   //Load data - data_text is only the first 10 entries
   //Will be changed to a CSV
@@ -179,12 +178,11 @@ function makevis() {
       // if the artist isn't already in the array, create the counter to be set to 0
       if (!artist_obj[graph.nodes[i].artist]) {
         // console.log(artist_obj[graph.nodes[i].artist]);
-        artist_obj.push(artist_obj[graph.nodes[i].artist] = 0)
+        artist_obj.push(artist_obj[graph.nodes[i].artist] = 0);
         zero_count++;
       } 
       // increase the counter by 1 per occurance
       ++artist_obj[graph.nodes[i].artist];
-
     }
 
     // to remove extraneous zeros
@@ -230,6 +228,7 @@ function makevis() {
       }
     }
 
+    //Create scale for timeline
     var yearScale = d3.scale.linear().domain([1300,1600]).range([100,width-100]);
 
     //Generate the force layout
@@ -250,9 +249,14 @@ function makevis() {
     //Start force layout if radio button selected
     function force_layout() {
 
+      //Delete map and x-axis
       svg_vis.select("image").remove();
       d3.select(".xaxis").remove();
 
+      //Reset links
+      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
+
+      //Start force
       force.nodes(graph.nodes)
           .links(graph.links)
           .start();
@@ -261,9 +265,15 @@ function makevis() {
     //Start radial layout if radio button selected
     function radial_layout() {
 
+      //Stop force
       force.stop();
+
+      //Delete map and x-axis
       svg_vis.select("image").remove();
       d3.select(".xaxis").remove();
+
+      //Reset links
+      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
 
       var r = height/2;
 
@@ -289,30 +299,40 @@ function makevis() {
     //Start map layout if radio button selected
     function map_layout() {
 
+      //Stop force
       force.stop();
+
+      //Delete x-axis
       d3.select(".xaxis").remove();
 
+      //Add map of Italy
       svg_vis.append('image')
         .attr("xlink:href", "Italy map.jpg")
         .attr("x", "150")
         .attr("width", "500")
         .attr("height", "500");
 
+      //Hide links
+      svg_vis.selectAll(".link").style("stroke-width", 0);
+
+      //Open coordinates json file
       d3.json("Coordinates.json", function(json) {
 
+        //Loop through nodes
         for (var i = 0; i < node[0].length; i++) {
 
-          console.log(node[0][i]['__data__'].city);
-
+          //Check if node has city
           if (node[0][i]['__data__'].city) {
 
+            //Set coordinates by city
             node[0][i]['__data__'].x = json[node[0][i]['__data__'].city].x;
             node[0][i]['__data__'].y = json[node[0][i]['__data__'].city].y;
           }
           else {
 
-            node[0][i]['__data__'].x = 0;
-            node[0][i]['__data__'].y = 0;
+            //If no city, send to (-10,-10)
+            node[0][i]['__data__'].x = -10;
+            node[0][i]['__data__'].y = -10;
           }
         }
 
@@ -323,21 +343,31 @@ function makevis() {
     //Start timeline layout if radio button selected
     function timeline_layout() {
 
+      //Stop force
       force.stop();
+
+      //Delete map
       svg_vis.select("image").remove();
 
+      //Reset links
+      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
+
+      //Loop through nodes
       for (var i = 0; i < node[0].length; i++) {
 
+        //Move to timeline
         node[0][i]['__data__'].x = yearScale(node[0][i]['__data__'].date);
         node[0][i]['__data__'].y = 250;
       }
 
+      //Define x-axis
       var xAxis = d3.svg.axis()
         .scale(yearScale)
         .orient("bottom")
         .ticks(6,"d")
         .tickSize(6,2);
 
+      //Add x-axis
       svg_vis.append("g")
         .attr("class", "xaxis")
         .attr("transform", "translate(0,250)")
@@ -349,19 +379,21 @@ function makevis() {
     //Update graph via smooth transition
     function graph_update(delay) {
 
+      //Transition links
       link.transition().duration(delay)
           .attr("x1", function(d) { return d.target.x; })
           .attr("y1", function(d) { return d.target.y; })
           .attr("x2", function(d) { return d.source.x; })
           .attr("y2", function(d) { return d.source.y; });
 
+      //Transition nodes
       node.transition().duration(delay)
           .attr("transform", function(d) { 
             return "translate("+d.x+","+d.y+")"; 
           });
     }
 
-    //Enable radio buttons (last three are commented out until implementation)
+    //Enable radio buttons (last one is commented out until implementation)
     d3.select("input[value=\"force\"]").on("click", force_layout);
     d3.select("input[value=\"radial\"]").on("click", radial_layout);
     d3.select("input[value=\"map\"]").on("click", map_layout);
