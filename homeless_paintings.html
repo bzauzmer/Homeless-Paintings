@@ -248,20 +248,21 @@ function makevis() {
             date_array.push(date_array[data[i]['date']] = 0);
           }
 
-          // to store list of topics for current painting in an array of strings; list is currently a string
-          var ts = graph.nodes[i].topics.slice(3,-2).split("', u'");
+          // parse strings representing topic lists
+          if (graph.nodes[i].topics) {
+            // to store list of topics for current painting in an array of strings; list is currently a string
+            var ts = graph.nodes[i].topics.slice(3,-2).split("', u'");
 
-          // parse topics
-          ts.forEach(function(t) {
-            if (!topics_array[t]) {
-              topics_array.push(topics_array[t] = 1);
-              t_zerocount++;
-            } else {
-              ++topics_array[t];
-            }
-          });
-
-          console.log(ts);
+            // parse topics
+            ts.forEach(function(t) {
+              if (!topics_array[t]) {
+                topics_array.push(topics_array[t] = 1);
+                t_zerocount++;
+              } else {
+                ++topics_array[t];
+              }
+            });
+          };
 
           // increase the counter by 1 per occurance
           ++artist_obj[data[i]['artist']];
@@ -292,10 +293,7 @@ function makevis() {
       topics_objarray.push({topic: topic, value: topics_array[topic]})
     }
 
-    console.log(topics_array);
-    console.log(topics_objarray);
-
-     // parsing dates
+    // parsing dates
     for (date in date_array) {
       date_objarray.push({ date: parseInt(date), value: date_array[date] });
     }
@@ -541,66 +539,7 @@ function makevis() {
       graph_update(500);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    //Update graph via smooth transition
+  //Update graph via smooth transition
     function graph_update(delay) {
 
       //Transition links
@@ -834,9 +773,6 @@ function makevis() {
 
   })
 }
-
-
-
 
 </script>
 </body>
