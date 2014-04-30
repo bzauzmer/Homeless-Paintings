@@ -140,7 +140,7 @@ d3.select(".p_num")
   .append("select")
   .attr("class","num")
   .selectAll("option")
-  .data([10,20,30,40,50])
+  .data([10,20,30,40,50,100,11189])
   .enter()
   .append("option")
   .text(function (d) {return d;})
@@ -202,7 +202,8 @@ function makevis() {
   var date_objarray = [];
 
   // make an array of topic totals
-  var topics = [];
+  var topics_array = [];
+  var topics_objarray = [];
 
   // make an array for topics that also includes painting id
   var topics_id = [];
@@ -251,11 +252,11 @@ function makevis() {
 
           // parse topics
           ts.forEach(function(t) {
-            if (!topics[t]) {
-              topics.push(topics[t] = 1);
+            if (!topics_array[t]) {
+              topics_array.push(topics_array[t] = 1);
               t_zerocount++;
             } else {
-              ++topics[t];
+              ++topics_array[t];
             }
           });
 
@@ -277,15 +278,21 @@ function makevis() {
 
     // to remove extraneous zeros for topics
     for (var k = 0; k < t_zerocount; k++) {
-      topics.shift();
+      topics_array.shift();
     }
 
-    console.log(topics);
-
-    // filtering out dup keys
+    // filtering out dup keys for artists
     for (artist in artist_obj) {
       obj_array.push({ artist: artist, value: artist_obj[artist] })
     }
+
+    // filtering out dup keys for topics
+    for (topic in topics_array) {
+      topics_objarray.push({topic: topic, value: topics_array[topic]})
+    }
+
+    console.log(topics_array);
+    console.log(topics_objarray);
 
      // parsing dates
     for (date in date_array) {
@@ -486,6 +493,44 @@ function makevis() {
 
       graph_update(500);
     }
+
+    //Start word cloud layout if radio button selected
+    function word_cloud() {
+
+      //Stop force
+      force.stop();
+
+      //Delete map
+      svg_vis.select("image").remove();
+
+      //Delete map and x-axis
+      svg_vis.select("image").remove();
+      d3.select(".xaxis").remove();
+
+      //Reset links
+      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
+
+      var tnode = svg.selectAll(".tnode")
+        .data(topics_objarray)
+        .enter().append("g")
+        .attr("class","tnode")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")";});
+
+      tnode.append("title")
+        .text(function(d) {return d.topic;});
+
+      tnode.append("circle")
+        .attr("r", function(d) {return d.value * 3;})
+        .style("blue");
+
+      tnode.append("text")
+        .attr("dy",".3em")
+        .style("text-anchor","middle")
+        .text(function(d) {return d.topic;});
+
+      graph_update(500);
+    }
+    
 
     //Update graph via smooth transition
     function graph_update(delay) {
