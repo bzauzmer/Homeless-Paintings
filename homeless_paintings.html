@@ -202,6 +202,9 @@ function makevis() {
   var date_array = [];
   var date_objarray = [];
 
+  //make an array of the cities
+  var city_obj = [];
+
   // make an array of topic totals
   var topics_array = [];
   var topics_objarray = [];
@@ -248,6 +251,11 @@ function makevis() {
             date_array.push(date_array[data[i]['date']] = 0);
           }
 
+          // if the city isn't already in the array, create the counter to be set to 0
+          if (data[i]['city'] && !city_obj[data[i]['city']]) {
+            city_obj.push(city_obj[data[i]['city']] = 0);
+          }
+
           // parse strings representing topic lists
           if (graph.nodes[i].topics) {
             // to store list of topics for current painting in an array of strings; list is currently a string
@@ -267,6 +275,10 @@ function makevis() {
           // increase the counter by 1 per occurance
           ++artist_obj[data[i]['artist']];
           ++date_array[data[i]['date']];
+
+          if (data[i]['city']) {
+            ++city_obj[data[i]['city']];
+          }
         }
       }
     }
@@ -276,6 +288,7 @@ function makevis() {
     // to remove extraneous zeros
     for (var j = 0; j < zero_count; j++) {
       artist_obj.shift();
+      city_obj.shift();
     }
 
     // to remove extraneous zeros for topics
@@ -366,11 +379,13 @@ function makevis() {
     //Start force layout if radio button selected
     function force_layout() {
 
-      //Delete map and x-axis
+      //Delete map, text and x-axis
       svg_vis.select("image").remove();
+      svg_vis.selectAll("text").remove();
       d3.select(".xaxis").remove();
 
-      //Reset links
+      //Reset nodes and links
+      d3.selectAll("circle").attr("r",5);
       svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
 
       //Start force
@@ -385,11 +400,13 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map and x-axis
+      //Delete map, text, and x-axis
       svg_vis.select("image").remove();
+      svg_vis.selectAll("text").remove();
       d3.select(".xaxis").remove();
 
-      //Reset links
+      //Reset nodes and links
+      d3.selectAll("circle").attr("r",5);
       svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
 
       var r = height/2;
@@ -445,15 +462,30 @@ function makevis() {
             node[0][i]['__data__'].x = json[node[0][i]['__data__'].city].x;
             node[0][i]['__data__'].y = json[node[0][i]['__data__'].city].y;
           }
-          else {
-
-            //If no city, send to (-10,-10)
-            node[0][i]['__data__'].x = -10;
-            node[0][i]['__data__'].y = -10;
-          }
         }
 
+        //Hide nodes without cities
+        svg_vis.selectAll("circle").attr("r",function (d) {if (d.city) {return 5;} else {return 0;}});
+
+        //Remove 'All' from cities
+        cities.shift();
+
+        //Add city labels (red if city has nodes)
+        svg_vis.selectAll("text")
+          .data(cities)
+          .enter()
+          .append("text")
+          .text(function (d) {return d;})
+          .attr("x", function (d) {return json[d].x + 8;})
+          .attr("y", function (d) {return json[d].y + 5;})
+          .attr("style", function (d) {
+            if (Object.keys(city_obj).indexOf(d) > -1) {
+              return "fill: #ff0000"
+            }
+          });
+
         graph_update(500);
+
       });
     }
 
@@ -463,10 +495,13 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map
+      //Delete map and text
       svg_vis.select("image").remove();
+      svg_vis.selectAll("text").remove();
 
-      //Reset links
+
+      //Reset nodes and links
+      d3.selectAll("circle").attr("r",5);
       svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
 
       //Loop through nodes
