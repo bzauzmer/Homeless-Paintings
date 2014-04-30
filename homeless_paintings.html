@@ -201,12 +201,19 @@ function makevis() {
   var date_array = [];
   var date_objarray = [];
 
+  // make an array of topic totals
+  var topics = [];
+
+  // make an array for topics that also includes painting id
+  var topics_id = [];
+
   //Load data - data_text is only the first 10 entries
   //Will be changed to a CSV
   d3.csv("data.csv", function(data) {
 
     // counting the strange 0's that appear after counting paintings
     var zero_count = 0;
+    var t_zerocount = 0;
 
     //Loop through paintings
     for (var i = 0; i < d3.select(".num").node().value; i++) {
@@ -224,7 +231,8 @@ function makevis() {
             record: data[i]['record'],
             image: data[i]['image'],
             date: data[i]['date'],
-            city: data[i]['city']
+            city: data[i]['city'],
+            topics: data[i]['topics']
           });
 
           // if the artist isn't already in the array, create the counter to be set to 0
@@ -237,6 +245,21 @@ function makevis() {
           if (!date_array[data[i]['date']]) {
             date_array.push(date_array[data[i]['date']] = 0);
           }
+
+          // to store list of topics for current painting in an array of strings; list is currently a string
+          var ts = graph.nodes[i].topics.slice(3,-2).split("', u'");
+
+          // parse topics
+          ts.forEach(function(t) {
+            if (!topics[t]) {
+              topics.push(topics[t] = 1);
+              t_zerocount++;
+            } else {
+              ++topics[t];
+            }
+          });
+
+          console.log(ts);
 
           // increase the counter by 1 per occurance
           ++artist_obj[data[i]['artist']];
@@ -251,6 +274,13 @@ function makevis() {
     for (var j = 0; j < zero_count; j++) {
       artist_obj.shift();
     }
+
+    // to remove extraneous zeros for topics
+    for (var k = 0; k < t_zerocount; k++) {
+      topics.shift();
+    }
+
+    console.log(topics);
 
     // filtering out dup keys
     for (artist in artist_obj) {
