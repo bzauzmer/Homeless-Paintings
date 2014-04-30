@@ -118,7 +118,8 @@ Jason Mahr, Linda Song, and Ben Zauzmer
 <script>
 
 //Margins, where bar_height is the height of the bar graph cell
-var width = 750, height = 500, bar_height = 200;
+// var width = 750, height = 500, bar_height = 200;
+var width = 1280, height = 720, bar_height = 200;
 
 // variables for the bar graph
 var svg_barwidth = 400;
@@ -495,41 +496,108 @@ function makevis() {
     }
 
     //Start word cloud layout if radio button selected
-    function word_cloud() {
+    function wordcloud_layout() {
 
       //Stop force
       force.stop();
-
-      //Delete map
-      svg_vis.select("image").remove();
 
       //Delete map and x-axis
       svg_vis.select("image").remove();
       d3.select(".xaxis").remove();
 
-      //Reset links
-      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
+      //Hide nodes and links
+      svg_vis.selectAll("circle").attr("r",0);
+      svg_vis.selectAll(".link").style("stroke-width", 0);
 
-      var tnode = svg.selectAll(".tnode")
+      var color = d3.scale.category20c();
+
+      // padding from margins
+      var tpad = 100;
+      
+      var tnode = svg_vis.selectAll(".tnode")
         .data(topics_objarray)
         .enter().append("g")
         .attr("class","tnode")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")";});
+        .attr("transform", function(d) { return "translate(" + (Math.floor((Math.random() * (width-tpad*2)))+tpad) + "," + (Math.floor((Math.random() * (height-tpad*2)))+tpad) + ")";});
 
-      tnode.append("title")
-        .text(function(d) {return d.topic;});
+      // tnode.append("title")
+      //   .text(function(d) {return d.topic;});
 
       tnode.append("circle")
-        .attr("r", function(d) {return d.value * 3;})
-        .style("blue");
+        .attr("r", function(d) {return 20 + d.value * 3;})
+        .style("fill", function(d) {return color(d.topic);});
 
       tnode.append("text")
         .attr("dy",".3em")
+        .attr("font","10px sans-serif")
         .style("text-anchor","middle")
-        .text(function(d) {return d.topic;});
+        // .text(function(d) {return d.topic;});
+        // I want to make the things more legible
+        .text(function(d) {
+          //return d.topic.substr(0,d.topic.indexOf(' '));
+          return d.topic.replace(/([a-zA-Z]+)(.*)/,'$1');
+        });
 
       graph_update(500);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
     //Update graph via smooth transition
@@ -549,12 +617,12 @@ function makevis() {
           });
     }
 
-    //Enable radio buttons (last one is commented out until implementation)
+    //Enable radio buttons
     d3.select("input[value=\"force\"]").on("click", force_layout);
     d3.select("input[value=\"radial\"]").on("click", radial_layout);
     d3.select("input[value=\"map\"]").on("click", map_layout);
     d3.select("input[value=\"timeline\"]").on("click", timeline_layout);
-    //d3.select("input[value=\"wordcloud\"]").on("click", wordcloud_layout);
+    d3.select("input[value=\"wordcloud\"]").on("click", wordcloud_layout);
 
     //Create nodes
     var node = svg_vis.selectAll(".node")
