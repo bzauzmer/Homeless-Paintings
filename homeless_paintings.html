@@ -149,12 +149,14 @@ d3.select(".p_num")
 
 d3.select(".filters").append("p").attr("class", "p_city").text("City:");
 
+var cities = ['All','Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
+
 //Create drop-down for number of paintings
 d3.select(".p_city")
   .append("select")
   .attr("class","city")
   .selectAll("option")
-  .data(['All','Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'])
+  .data(cities)
   .enter()
   .append("option")
   .text(function (d) {return d;})
