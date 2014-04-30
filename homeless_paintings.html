@@ -74,6 +74,11 @@
     stroke-width: 1.5px;
   }
 
+  .centered {
+
+    text-align: center;
+  }
+
 </style>
 <body>
 
@@ -126,12 +131,12 @@ var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height"
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Add filler text to the non-vis cells
-d3.select(".filters").append("p").text("Filters:").attr("style","font-weight:bold");
-d3.select(".filters").append("text").text("Number of Paintings:");
-d3.select(".focus").append("text").attr("class", "centered").text("Click on a node!");
+d3.select(".filters").append("p").attr("class", "centered").text("Filters:").attr("style","font-weight:bold");
+d3.select(".filters").append("p").attr("class", "p_num").text("Number of Paintings:");
+d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
 
 //Create drop-down for number of paintings
-d3.select(".filters")
+d3.select(".p_num")
   .append("select")
   .attr("class","num")
   .selectAll("option")
@@ -141,8 +146,30 @@ d3.select(".filters")
   .text(function (d) {return d;})
   .attr("value", function (d) {return d;});
 
-//If drop-down is changed, makevis
-d3.select("select").on("change", makevis);
+d3.select(".filters").append("p").attr("class", "p_city").text("City:");
+
+//Create drop-down for number of paintings
+d3.select(".p_city")
+  .append("select")
+  .attr("class","city")
+  .selectAll("option")
+  .data(['All','Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'])
+  .enter()
+  .append("option")
+  .text(function (d) {return d;})
+  .attr("value", function (d) {return d;});
+
+d3.select(".filters").append("p").attr("class", "p_artist").text("Artist:");
+
+d3.select(".p_artist")
+  .append("select")
+  .attr("class","artist")
+  .selectAll("option")
+  .data(['All'])
+  .enter()
+  .append("option")
+  .text(function (d) {return d;})
+  .attr("value", function (d) {return d;});
 
 //Makevis on initial page load
 makevis();
@@ -150,7 +177,7 @@ makevis();
 //This is the main funciton that creates the visualization
 function makevis() {
 
-  //Remove all nodes and links
+  //Remove all nodes, links, and dynamic drop-downs
   d3.selectAll(".node").remove();
   d3.selectAll(".link").remove();
 
@@ -183,32 +210,42 @@ function makevis() {
 
     //Loop through paintings
     for (var i = 0; i < d3.select(".num").node().value; i++) {
+
+      //Check if city matches selection
+      if (d3.select(".city").node().value == 'All' || d3.select(".city").node().value == data[i]['city']) {
      
-      //Add node for each painting
-      graph.nodes.push({
-        painting: data[i]['painting'],
-        artist: data[i]['artist'],
-        record: data[i]['record'],
-        image: data[i]['image'],
-        date: data[i]['date'],
-        city: data[i]['city']
-      });
+        //Check if artist matches selection
+        if (d3.select(".artist").node().value == 'All' || d3.select(".artist").node().value == data[i]['artist']) {
 
-      // if the artist isn't already in the array, create the counter to be set to 0
-      if (!artist_obj[graph.nodes[i].artist]) {
-        artist_obj.push(artist_obj[graph.nodes[i].artist] = 0);
-        zero_count++;
-      } 
+          //Add node for each painting
+          graph.nodes.push({
+            painting: data[i]['painting'],
+            artist: data[i]['artist'],
+            record: data[i]['record'],
+            image: data[i]['image'],
+            date: data[i]['date'],
+            city: data[i]['city']
+          });
 
-      // parse date
-      if (!date_array[graph.nodes[i].date]) {
-        date_array.push(date_array[graph.nodes[i].date] = 0);
+          // if the artist isn't already in the array, create the counter to be set to 0
+          if (!artist_obj[data[i]['artist']]) {
+            artist_obj.push(artist_obj[data[i]['artist']] = 0);
+            zero_count++;
+          } 
+
+          // parse date
+          if (!date_array[data[i]['date']]) {
+            date_array.push(date_array[data[i]['date']] = 0);
+          }
+
+          // increase the counter by 1 per occurance
+          ++artist_obj[data[i]['artist']];
+          ++date_array[data[i]['date']];
+        }
       }
-
-      // increase the counter by 1 per occurance
-      ++artist_obj[graph.nodes[i].artist];
-      ++date_array[graph.nodes[i].date];
     }
+
+    d3.select(".artist").remove();
 
     // to remove extraneous zeros
     for (var j = 0; j < zero_count; j++) {
@@ -223,7 +260,27 @@ function makevis() {
      // parsing dates
     for (date in date_array) {
       date_objarray.push({ date: parseInt(date), value: date_array[date] });
-    }   
+    }
+
+    //Create array of current artists
+    var key_arr = Object.keys(artist_obj);
+
+    //Add 'All' as the first option
+    key_arr.unshift('All');
+
+    //Create drop-down for aritst
+    d3.select(".p_artist")
+      .append("select")
+      .attr("class","artist")
+      .selectAll("option")
+      .data(key_arr)
+      .enter()
+      .append("option")
+      .text(function (d) {return d;})
+      .attr("value", function (d) {return d;});
+
+    //If drop-down is changed, makevis
+    d3.selectAll("select").on("change", makevis);
 
     //Function that returns intersection of two arrays
     function intersect(a, b) {
