@@ -7,11 +7,13 @@
      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
      font-weight: 300;    
      font-size: 10pt;
-     background-color: #F0F0F0  ;   
+     background-color: #F0F0F0;
+     /* was #d0ffff in case want to revert */
   }
 
   table {
     background-color: white;
+    /* was #b0ffff in case want to revert */
   }
 
   .link {
@@ -75,7 +77,6 @@
   }
 
   .centered {
-
     text-align: center;
   }
 
@@ -229,6 +230,9 @@ function makevis() {
   // make an array for topics that also includes painting id
   var topics_id = [];
 
+  // know length of longest topic string, for accuracy of alphabetic scale later
+  var topic_longestLength = 0;
+
   //Load data - data_text is only the first 10 entries
   //Will be changed to a CSV
   d3.csv("data.csv", function(data) {
@@ -248,6 +252,8 @@ function makevis() {
 
           //Check if painting is in date range
           if (data[i]['date'] >= d3.select(".start").node().value && data[i]['date'] <= d3.select(".end").node().value) {
+
+            //(Soon) Check if painting has selected topics
 
             //Add node for each painting
             graph.nodes.push({
@@ -287,6 +293,7 @@ function makevis() {
               ts.forEach(function(t) {
                 if (!topics_array[t]) {
                   topics_array.push(topics_array[t] = 1);
+                  topic_longestLength = Math.max(t.length, topic_longestLength);
                   t_zerocount++;
                 } else {
                   ++topics_array[t];
@@ -329,6 +336,16 @@ function makevis() {
     for (topic in topics_array) {
       topics_objarray.push({topic: topic, value: topics_array[topic]})
     }
+
+    // To test alphabetic sorter, uncomment below
+    /*
+    var manyZ = "";
+    for (var i = 0; i < 100; i++) {
+      manyZ += "Z";
+    }
+    topics_objarray.push({topic: "A",value: -4});
+    topics_objarray.push({topic: manyZ, value: -4});
+    */
 
     // parsing dates
     for (date in date_array) {
@@ -589,39 +606,153 @@ function makevis() {
       svg_vis.selectAll("circle").attr("r",0);
       svg_vis.selectAll(".link").style("stroke-width", 0);
 
+      // instructions for user
+      var instructions = "There are " + t_zerocount + " topics. " +
+        "Topics are listed alphabetically. " +
+        "Drag multiple topics into the black box to view paintings containing " +
+        "all of your selected topics.";
+
+      // show instructions for user
+      svg_vis.append("text")
+        .text(instructions)
+        .style("fill","steelblue")
+        .attr("font-style","italic")
+        .attr("font-size","0px")
+        .attr("transform","translate(165,15)")
+        .transition()
+          .duration(1300)
+          .attr("font-size","15px");
+
       var color = d3.scale.category20c();
 
       // padding from margins
-      var tpad = 100;
-      
+      var t_padding = 50;
+
+      // to store adjusted width, which is width - 2 * padding
+      var adjusted_width = width - 2 * t_padding;
+
+      // maximum pixel, considering the current height, width, and padding
+      var max_pixel = adjusted_width * (height - 2 * t_padding);
+
+      // a helper function that converts a string with a single letter of the alphabet to a number between 1 and 26
+      var toNumber = function(c) {
+        var n = 0;
+        if (c==" ") {n=0;}
+        else if (c=="a" || c=="A") {n=1;}    else if (c=="b" || c=="B") {n=2;}
+        else if (c=="c" || c=="C") {n=3;}    else if (c=="d" || c=="D") {n=4;}
+        else if (c=="e" || c=="E") {n=5;}    else if (c=="f" || c=="F") {n=6;}
+        else if (c=="g" || c=="G") {n=7;}    else if (c=="h" || c=="H") {n=8;}
+        else if (c=="i" || c=="I") {n=9;}    else if (c=="j" || c=="J") {n=10;}
+        else if (c=="k" || c=="K") {n=11;}   else if (c=="l" || c=="L") {n=12;}
+        else if (c=="m" || c=="M") {n=13;}   else if (c=="n" || c=="N") {n=14;}
+        else if (c=="o" || c=="O") {n=15;}   else if (c=="p" || c=="P") {n=16;}
+        else if (c=="q" || c=="Q") {n=17;}   else if (c=="r" || c=="R") {n=18;}
+        else if (c=="s" || c=="S") {n=19;}   else if (c=="t" || c=="T") {n=20;}
+        else if (c=="u" || c=="U") {n=21;}   else if (c=="v" || c=="V") {n=22;}
+        else if (c=="w" || c=="W") {n=23;}   else if (c=="x" || c=="X") {n=24;}
+        else if (c=="y" || c=="Y") {n=25;}   else {n=26;}
+        return n;
+      }
+
+      // I am organizing alphabetically to the accuracy of accuracy letters
+      var accuracy = topic_longestLength;
+
+      // Last possible string
+      var zstring = "";
+      for (i = 0; i < accuracy; i++) {
+        zstring += "z";
+      }
+
+      // a helper function to add accuracy to the end of any string
+      var add_spaces = function(str) {
+        for (i = 0; i < accuracy; i++) {
+          str += " ";
+        }
+        return str;
+      }
+
+      // an array which contains the necessary powers of 26 for accuracy
+      var powers = [];
+      for (i = accuracy - 1; i >= 0; i--) {
+        powers.push(Math.pow(26,i));
+      }
+
+      /* a helper function to alphabetically convert any string to a number b/w
+       * 1 (a) and 11881376 (which is 26*26^4 + 26*26^3 + 26*26^2 + 26*26^1 +
+       * 26*26^0 = 12356630 and represents zzzzz). Max will change depending on
+       * what accuracy is set to.
+       */
+      var toTotal = function(str) {
+
+        // so there is no error if the string is too short
+        var s = add_spaces(str);
+
+        // variable for running total
+        var total = 0;
+        
+        // convert string to number between 1 and 12356630
+        for (var i = 0; i < accuracy; i++) {
+          total += toNumber(s.slice(i,i+1)) * powers[i];
+        }
+
+        // return result
+        return total;
+      }
+
+      // a scale so that a is in top-left and zstring is in bottom-right,
+      // did not use "" as top-left because no topic starts with that.
+      var alphaScale = d3.scale.linear()
+        .domain([toTotal("a"),toTotal(zstring)])
+        .range([1,max_pixel]);
+
+      // making the nodes representing the topics      
       var tnode = svg_vis.selectAll(".tnode")
         .data(topics_objarray)
         .enter().append("g")
         .attr("class","tnode")
-        .attr("transform", function(d) { return "translate(" + (Math.floor((Math.random() * (width-tpad*2)))+tpad) + "," + (Math.floor((Math.random() * (height-tpad*2)))+tpad) + ")";});
+        // .attr("transform", function(d) { return "translate(" + (Math.floor((Math.random() * (width-t_padding*2)))+t_padding) + "," + (Math.floor((Math.random() * (height-t_padding*2)))+t_padding) + ")";});
+        // .transition()
+        //   .duration(1000) 
+        .attr("transform", function(d) {
+          var pixel_number = Math.round(alphaScale(toTotal(d.topic)));
+          var x = pixel_number % adjusted_width;
+          var adjusted_x = x ? x + t_padding - 1 : width - t_padding;
+          var y = (Math.floor(pixel_number / adjusted_width) + t_padding);
+          return "translate(" + adjusted_x + "," + y + ")";});
 
       // tnode.append("title")
       //   .text(function(d) {return d.topic;});
 
+      // minimum radius for topic nodes
+      var min_radius = 16;
+
       tnode.append("circle")
-        .attr("r", function(d) {return 20 + d.value * 3;})
-        .style("fill", function(d) {return color(d.topic);});
+        .attr("r",0)
+        .style("fill","white")
+        .transition()
+          .duration(1200)
+          .attr("r", function(d) {return min_radius + d.value * 3;})
+          .style("fill", function(d) {return color(d.topic);});
 
       tnode.append("text")
         .attr("dy",".3em")
-        .attr("font","10px sans-serif")
         .style("text-anchor","middle")
         // .text(function(d) {return d.topic;});
         // I want to make the things more legible
         .text(function(d) {
           //return d.topic.substr(0,d.topic.indexOf(' '));
-          return d.topic.replace(/([a-zA-Z]+)(.*)/,'$1');
-        });
+          return d.topic.replace(/([a-zA-Z ,]+)(.*)/,'$1');
+          //return d.topic;
+        })
+        .attr("font-size","0px")
+        .transition()
+          .duration(1200)
+          .attr("font-size","12px");
 
       graph_update(500);
     }
 
-  //Update graph via smooth transition
+    //Update graph via smooth transition
     function graph_update(delay) {
 
       //Transition links
