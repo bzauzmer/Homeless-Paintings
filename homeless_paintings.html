@@ -89,10 +89,11 @@
 
 <h4>
 Homeless Paintings of the Italian Renaissance<br>
-Jason Mahr, Linda Song, and Ben Zauzmer<br><br>
+Jason Mahr, Linda Song, and Ben Zauzmer
+<!--<br><br>
 Art historian and Harvard graduate Bernard Berenson donated over 11,000 photographs of "homeless" paintings to Harvard upon his death.
 These paintings have been lost, stolen, destroyed in World War II, etc.
-The goal of this project is to visualize the collection, and perhaps even to help viewers find some of the paintings by filtering through the interactive data and using the Reverse Google Image Search link on the right side to hunt for lost art.
+The goal of this project is to visualize the collection, and perhaps even to help viewers find some of the paintings by filtering through the interactive data and using the Reverse Google Image Search link on the right side to hunt for lost art.-->
 </h4>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -238,8 +239,23 @@ function makevis() {
   var city_obj = [];
 
   // make arrays for topic totals
+  var topic_names = [];
   var topics_array = [];
   var topics_objarray = [];
+
+  /* make an array for topics that also includes average
+   * year of paintings that contain the topic
+   */
+  var topics_yrAvg = [];
+
+  // array for median year, perhaps one is better than the other
+  var topics_yrMed = [];
+
+  // variables to store final arrays and maxes and mins
+  var avg_max = 0,
+      avg_min = 3014, /* Code will be fine for another 1000 years */
+      med_max = 0,
+      med_min = 3014;
 
   // know length of longest topic string, for accuracy of alphabetic scale later
   var topic_longestLength = 0;
@@ -249,12 +265,11 @@ function makevis() {
 
     // counting the strange 0's that appear after counting paintings
     var zero_count = 0;
-    var t_zerocount = 0;
 
     //Loop through paintings
     for (var i = 0; i < data.length; i++) {
 
-     //Check if city matches selection
+      //Check if city matches selection
       if (d3.select(".select_city").node().value == 'All' || d3.select(".select_city").node().value == data[i]['city']) {
 
         //Check if artist matches selection
@@ -264,6 +279,7 @@ function makevis() {
           if (data[i]['date'] >= d3.select(".start").node().value && data[i]['date'] <= d3.select(".end").node().value) {
 
             //(Soon) Check if painting has selected topics
+            // if (1==1) { if (1==1) { if (1==1) {
 
             //Add node for each painting
             graph.nodes.push({
@@ -302,12 +318,25 @@ function makevis() {
               // parse topics
               ts.forEach(function(t) {
                 if (!topics_array[t]) {
+                  topic_names.push(t);
                   topics_array.push(topics_array[t] = 1);
-                  topic_longestLength = Math.max(t.length,topic_longestLength);
-                  // topics_yrAvg.push(topics_array[t] = )
-                  t_zerocount++;
+                  topic_longestLength = Math.max(t.length, topic_longestLength);
+                  var parsedDate = parseInt(data[i].date);
+                  topics_yrAvg.push(topics_yrAvg[t] = {total: parsedDate,
+                    count: 1, average: parsedDate});
+                  topics_yrMed.push(topics_yrMed[t] = [parsedDate]);
+                  avg_max = Math.max(avg_max, parsedDate);
+                  avg_min = Math.min(avg_min, parsedDate);
                 } else {
                   ++topics_array[t];
+                  var parsedDate = parseInt(data[i].date);
+                  topics_yrAvg[t].total += parsedDate;
+                  topics_yrAvg[t].count += 1;
+                  topics_yrAvg[t].average =
+                    topics_yrAvg[t].total/topics_yrAvg[t].count;
+                  avg_max = Math.max(avg_max, topics_yrAvg[t].average);
+                  avg_min = Math.min(avg_min, topics_yrAvg[t].average);
+                  topics_yrMed[t].push(parsedDate);
                 }
               });
             };
@@ -330,10 +359,29 @@ function makevis() {
       city_obj.shift();
     }
 
-    // to remove extraneous zeros for topics
+    // to remove extraneous zeros for topic counts & averages
+    var t_zerocount = topic_names.length;
     for (var k = 0; k < t_zerocount; k++) {
       topics_array.shift();
+      topics_yrAvg.shift();
+      topics_yrMed.shift();
     }
+
+    // helper function to calculate median of any array
+    var median = function(array) {
+      array.sort(function(a,b) {return a - b;});
+      var mid_index = Math.floor(array.length/2);
+      if (array.length % 2) { return array[mid_index]; }
+      else {return (array[mid_index - 1] + array[mid_index]) / 2.0;}
+    }
+
+    // simplify average array & calculate median so each topic maps to a number
+    topic_names.forEach(function(topic) {
+      topics_yrAvg[topic] = topics_yrAvg[topic].average;
+      topics_yrMed[topic] = median(topics_yrMed[topic]);
+      med_max = Math.max(med_max, topics_yrMed[topic]);
+      med_min = Math.min(med_min, topics_yrMed[topic]);
+    })
 
     // filtering out dup keys for artists
     for (artist in artist_obj) {
@@ -345,15 +393,19 @@ function makevis() {
       topics_objarray.push({topic: topic, value: topics_array[topic]})
     }
 
-    // To test alphabetic sorter, uncomment below
-    /*
+    // To direct user to ABC sorting, & AND and OR boxes LALALA
     var manyZ = "";
     for (var i = 0; i < 100; i++) {
       manyZ += "Z";
     }
-    topics_objarray.push({topic: "A",value: -4});
-    topics_objarray.push({topic: manyZ, value: -4});
-    */
+    var nn = -6;  /* what's needed for these circles to have r = 8px */
+    topics_objarray.push({topic: "A",value: nn,not_t: true});
+    topics_objarray.push({topic: manyZ, value: nn,not_t: true});
+    topics_objarray.push({topic: "A",value: nn,not_t: true,andor: 1});
+    topics_objarray.push({topic: "N",value: nn,not_t: true,andor: 2});
+    topics_objarray.push({topic: "D",value: nn,not_t: true,andor: 3});
+    topics_objarray.push({topic: "O",value: nn,not_t: true,andor: 4});
+    topics_objarray.push({topic: "R",value: nn,not_t: true,andor: 5});
 
     // parsing dates
     for (date in date_array) {
@@ -414,13 +466,16 @@ function makevis() {
     //Start force layout if radio button selected
     function force_layout() {
 
-      //Delete map, text, x-axis, and map circles
+      //Delete map, text, x-axis, map circles, and word cloud
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
       svg_vis.selectAll(".xaxis").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
       svg_vis.selectAll(".event").remove();
+      d3.selectAll(".word_cloud_structure").remove();
+      d3.selectAll(".word_cloud_instructions").remove();
+      d3.selectAll(".word_cloud_nodes").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -438,13 +493,16 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map, text, x-axis, and map circles
+      //Delete map, text, x-axis, map circles, and word cloud
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
       svg_vis.selectAll(".xaxis").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
       svg_vis.selectAll(".event").remove();
+      d3.selectAll(".word_cloud_structure").remove();
+      d3.selectAll(".word_cloud_instructions").remove();
+      d3.selectAll(".word_cloud_nodes").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -477,10 +535,13 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete x-axis and text
+      //Delete x-axis, text, and word cloud
       svg_vis.selectAll(".xaxis").remove();
       svg_vis.selectAll("text").remove();
       svg_vis.selectAll(".event").remove();
+      d3.selectAll(".word_cloud_structure").remove();
+      d3.selectAll(".word_cloud_instructions").remove();
+      d3.selectAll(".word_cloud_nodes").remove();
 
       //Add map of Italy
       svg_vis.append('image')
@@ -554,12 +615,15 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map, text, and map circles
+      //Delete map, text, map circles, and word cloud
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
       svg_vis.selectAll(".event").remove();
+      d3.selectAll(".word_cloud_structure").remove();
+      d3.selectAll(".word_cloud_instructions").remove();
+      d3.selectAll(".word_cloud_nodes").remove();
 
       //Reset nodes
       d3.selectAll("circle").attr("r",5);      
@@ -620,18 +684,172 @@ function makevis() {
       graph_update(500);
     }
 
+    //To avoid excessive transitions
+    var has_seen_word_cloud = false;
+
     //Start word cloud layout if radio button selected
     function wordcloud_layout() {
+
+      // LALALA - color choice, durations, and delays
+      choice = 2;
+      var dur = 1000;
+      var durations = [dur];
+      var delays = has_seen_word_cloud ? [0,0,0,0,0,0,0,0,0,0,0,0] : 
+        [0*dur,1*dur,2*dur,3*dur,4*dur,5*dur];
+
+      has_seen_word_cloud = true;
+
+      //User chose whether to use median or average
+      var tendency_years = topics_yrMed,
+          ty_min = med_min,
+          ty_max = med_max;
 
       //Stop force
       force.stop();
 
-      //Delete map and x-axis
+      //Delete map, text, x-axis, map circles, and word cloud
       svg_vis.select("image").remove();
-      d3.select(".xaxis").remove();
+      svg_vis.selectAll("text").remove();
+      svg_vis.selectAll(".xaxis").remove();
+      svg_vis.selectAll(".city").remove();
+      svg_vis.selectAll(".absent").remove();
+      svg_vis.selectAll(".event").remove();
+      d3.selectAll(".word_cloud_structure").remove();
+      d3.selectAll(".word_cloud_instructions").remove();
+      d3.selectAll(".word_cloud_nodes").remove();
+
+      // padding for toolbox
+      var toolbox = 99.5;
+
+      // padding from margins for visualization
+      var t_padding = 50;
+
+      // adjusted bottom margin
+      var t_bottom = t_padding + Math.round(toolbox);
+
+      // horizontal midpoint of screen
+      var midpoint = width / 2;
+
+      //Make page look like the way I want it to
+      // word_cloud_structure
+      var pixels_between_lines = 3;
+      var space_for_boxes = 120.5;
+
+      // four horizontal lines
+      svg_vis.append("line")
+        .attr("x1",0)
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint - (space_for_boxes - pixels_between_lines))
+        .attr("y2",height - toolbox - pixels_between_lines)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",0)
+        .attr("y1",height - toolbox)
+        .attr("x2",midpoint - space_for_boxes)
+        .attr("y2",height - toolbox)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint + (space_for_boxes - pixels_between_lines))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",width)
+        .attr("y2",height - toolbox - pixels_between_lines)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint + space_for_boxes)
+        .attr("y1",height - toolbox)
+        .attr("x2",width)
+        .attr("y2",height - toolbox)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      // four vertical lines
+      svg_vis.append("line")
+        .attr("x1",midpoint - space_for_boxes)
+        .attr("y1",height - toolbox)
+        .attr("x2",midpoint - space_for_boxes)
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint - (space_for_boxes - pixels_between_lines))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint - (space_for_boxes - pixels_between_lines))
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint + (space_for_boxes - pixels_between_lines))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint + (space_for_boxes - pixels_between_lines))
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint + space_for_boxes)
+        .attr("y1",height - toolbox)
+        .attr("x2",midpoint + space_for_boxes)
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      // two move vertical lines
+      svg_vis.append("line")
+        .attr("x1",midpoint - (pixels_between_lines/2))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint - (pixels_between_lines/2))
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
+
+      svg_vis.append("line")
+        .attr("x1",midpoint + (pixels_between_lines/2))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint + (pixels_between_lines/2))
+        .attr("y2",height)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
 
       //Hide nodes and links
-      svg_vis.selectAll("circle").attr("r",0);
+      d3.selectAll("circle").attr("r",0);
       svg_vis.selectAll(".link").style("stroke-width", 0);
 
       // instructions for user
@@ -646,21 +864,39 @@ function makevis() {
         .style("fill","steelblue")
         .attr("font-style","italic")
         .attr("font-size","0px")
+        .attr("class","word_cloud_instructions")
         .attr("transform","translate(168,15)")
-        .transition()
-          .duration(1300)
+        .transition().duration(durations[0]).delay(delays[0])
           .attr("font-size","15px");
 
-      var color = d3.scale.category20c();
+      // color scale based on average
+      // var color = d3.scale.linear()
+      //   .domain([avg_min, avg_max])
+      //   .range(["blue","red"]);
 
-      // padding from margins
-      var t_padding = 50;
+      // color functions based on median or average, or random colors
+      var color = [
+        (/* Ocean */
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#DDFFFF","#105E5F"])),
+        (/* Fire */
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#9F000F","#FFE82C"])),
+        (/* Water */
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#2554C7","#92DAFF"])),
+        (/* Random colors, borrowed from goo.gl/Tru4Dj */
+        function(d) {
+          var letters = '0123456789ABCDEF'.split('');
+          var color = '#';
+          for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+          } 
+          return color;
+        })];
 
       // to store adjusted width, which is width - 2 * padding
       var adjusted_width = width - 2 * t_padding;
 
       // maximum pixel, considering the current height, width, and padding
-      var max_pixel = adjusted_width * (height - 2 * t_padding);
+      var max_pixel = adjusted_width * (height - t_padding - t_bottom);
 
       // a helper function that converts a string with a single letter of the alphabet to a number between 1 and 26
       var toNumber = function(c) {
@@ -732,6 +968,84 @@ function makevis() {
         .domain([toTotal("a"),toTotal(zstring)])
         .range([1,max_pixel]);
 
+      // bind data to nodes
+      var tnodes = svg_vis.selectAll("g topic")
+        .data(topics_objarray)
+
+      // positions for AND and OR LALALA
+      var dist_ctr = 11;
+      var init_and = 4;
+      var init_or = 8;
+      var dist_circ = 15;
+      var andor_pos = ["",
+        {x: (midpoint-dist_ctr), y: (height-(toolbox-init_and))},
+        {x: (midpoint-dist_ctr), y: (height-(toolbox-(dist_circ+init_and)))},
+        {x: (midpoint-dist_ctr), y: (height-(toolbox-(2*dist_circ+init_and)))},
+        {x: (midpoint+dist_ctr), y: (height-(dist_circ+init_or))},
+        {x: (midpoint+dist_ctr), y: (height-init_or)}
+      ]
+
+      // append groups
+      var tnodesEnter = tnodes.enter()
+        .append("g")
+        .attr("class",function(d) {
+          return (d.not_t) ? "word_cloud_structure" : "word_cloud_nodes";
+        })
+        .attr("transform", function(d) {
+          if (d.andor) {
+            d["x"] = andor_pos[d.andor].x;
+            d["y"] = andor_pos[d.andor].y;
+            d["orig_x"] = d.x;
+            d["orig_y"] = d.y;
+            return "translate(" + d.x + "," + d.y + ")";
+          } else {
+            var pixel_number = Math.round(alphaScale(toTotal(d.topic)));
+            var unadjusted_x = pixel_number % adjusted_width;
+            d["x"] = unadjusted_x ? unadjusted_x + t_padding - 1 : width - t_padding;
+            d["y"] = (Math.floor(pixel_number / adjusted_width) + t_padding);
+            d["orig_x"] = d.x;
+            d["orig_y"] = d.y;
+            return "translate(" + d.x + "," + d.y + ")";
+          }
+        });
+
+      // min & max radius of circle for the sake of usability
+      var min_radius = 14, /* absolute min for 5px nodes. */
+          max_radius = 70,
+          r_incr = 1;
+
+      // append circle to group
+      var tcircle = tnodesEnter.append("circle")
+        .attr("r",0)
+        // 0 = Ocean, 1 = Fire, 2 = Water, 3 = Random, decide average or median up there ^
+        .attr("class", function(d) { return (d.not_t) ? "nT" : "isT_circle"; })
+        .style("fill", function(d) { return color[choice](tendency_years[d.topic]);})
+        .transition().duration(durations[0]).delay(function(d) {
+          return delays[(d.not_t) ? 4 : 1];
+        })
+          .attr("r", function(d) {
+            d["r"] = Math.min(min_radius + d.value * r_incr, max_radius);
+            d["move_r"] = 1.5 * d.r;
+            return d.r;
+          });
+
+      // append text to group
+      tnodesEnter.append("text")
+        .attr("dy", function(d) { return (d.not_t) ? "4px" : ".3em"; })
+        .attr("class", function(d) { return (d.not_t) ? "nT" : "isT_text"; })
+        .style("fill", function(d) { return (d.not_t) ? "white" : "black"; })
+        .text(function(d) {
+          if (d.not_t) { return d.topic.charAt(0); } else {
+          d["label"] = d.topic.replace(/([a-zA-Z ,]+)(.*)/,'$1');
+          return d.label; }
+        })
+        .style("text-anchor","middle")
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(function(d) {
+          return delays[(d.not_t) ? 5 : 2];
+        })
+          .attr("font-size", "12px");
+
       // function so that circles can move
       var move_circle = d3.behavior.drag()
         .origin(function(d) {
@@ -739,48 +1053,6 @@ function makevis() {
         .on("dragstart",dragstarted)
         .on("drag", dragged)
         .on("dragend", dragended);
-
-      // bind data to nodes
-      var tnodes = svg_vis.selectAll("g topic")
-        .data(topics_objarray)
-
-      // append groups
-      var tnodesEnter = tnodes.enter()
-        .append("g")
-        .attr("transform", function(d) {
-          var pixel_number = Math.round(alphaScale(toTotal(d.topic)));
-          var unadjusted_x = pixel_number % adjusted_width;
-          d["x"] = unadjusted_x ? unadjusted_x + t_padding - 1 : width - t_padding;
-          d["y"] = (Math.floor(pixel_number / adjusted_width) + t_padding);
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-
-      // minimum radius of circle, needs to be large enough for nodes
-      var min_radius = 20;
-
-      // append circle to group
-      var tcircle = tnodesEnter.append("circle")
-        .attr("r",0)
-        .attr("fill", function(d) { return color(d.topic);})
-        .transition().duration(1200).delay(1000)
-          .attr("r", function(d) {
-            d["r"] = min_radius + d.value * 3;
-            d["move_r"] = 1.5 * d.r;
-            return d.r;
-          });
-
-      // append text to group
-      tnodesEnter.append("text")
-        .attr("dy", ".3em")
-        .style("text-anchor","middle")
-        .text(function(d) {
-          d["label"] = d.topic.replace(/([a-zA-Z ,]+)(.*)/,'$1');
-          return d.label;
-        })
-        .attr("font-size","0px")
-        .transition().delay(2200)
-          .duration(1200)
-          .attr("font-size","12px");
 
       // call move_circle
       tnodesEnter.call(move_circle);
@@ -790,9 +1062,13 @@ function makevis() {
         d3.select(this).transition()
             .ease("elastic")
             .duration(500)
-            .select("circle")
+            .select(".isT_circle")
             .transition().duration(500).delay(0)
               .attr("r", d.move_r);
+        d3.select(this).transition()
+            .select(".isT_text")
+            .transition().duration(500).delay(0)
+              .attr("font-size", "18px");
       }
 
       // move group when it is dragged
@@ -801,7 +1077,12 @@ function makevis() {
         d.y = d3.event.y;
 
         d3.select(this)
-            .attr("transform", "translate(" + d.x + "," + d.y + ")");
+            .attr("transform", function(d) {
+              if (!d.not_t) { return "translate(" + d.x + "," + d.y + ")"; }
+              else { return "translate(" + d.orig_x + "," + d.orig_y + ")"; }
+            });
+
+        // here can have gradient change from concave to convex if circle is in box, or circle is hovering over!
       }
 
       // shrink circle back to original size when group is released
@@ -809,9 +1090,20 @@ function makevis() {
         d3.select(this).transition()
             .ease("elastic")
             .duration(500)
-            .select("circle")
+            .select(".isT_circle")
             .transition().duration(500).delay(0)
               .attr("r", d.r);
+        d3.select(this).transition()
+            .select(".isT_text")
+            .transition().duration(500).delay(0)
+              .attr("font-size", "12px");
+
+        // RIGHT HERE IS A POWEFUL PLACE
+        /* can check if any circles are in the AND or OR slots
+           can check if anything was moved off the screen and respawn it in its correct location based on user's choice bw the two options
+              - can record in an array a STACK of deleted items
+           can keep a RUNNING ARRAY of circles in each box. whenever something is dropped, if the new x,y is in the box, then add that circle to the array if it's not already there. if the new x,y is not, then REMOVE the circle from the array if it is there.
+         */
       }
 
       // update graph
