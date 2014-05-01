@@ -21,13 +21,12 @@
   }
 
   .node {
-    fill: blue;
     stroke: #000;
     stroke-width: 0px;
   }
 
   .node:hover {
-    fill: red;
+    fill: red !important;
   }
 
   a {text-decoration: underline;}
@@ -150,6 +149,9 @@ var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
 //Create svg's for vis and bar
 var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height", height);
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
+
+//Create color scale for nodes
+var colorScale = d3.scale.linear().domain([1300,1600]).range(["lightblue","blue"]);
 
 //Add filler text to the non-vis cells
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
@@ -430,6 +432,9 @@ function makevis() {
       force.nodes(graph.nodes)
           .links(graph.links)
           .start();
+
+      //Color nodes
+      d3.selectAll(".node").style("fill", function (d) {return colorScale(d.date);});
     }
 
     //Start radial layout if radio button selected
