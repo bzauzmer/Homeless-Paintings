@@ -80,6 +80,10 @@
     text-align: center;
   }
 
+  .event {
+    fill: #ff0000;
+  }
+
 </style>
 <body>
 
@@ -89,7 +93,9 @@ Jason Mahr, Linda Song, and Ben Zauzmer
 </h4>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
   <form>
   Layout:
     <label><input type="radio" name="layout" value="force" checked> Force</label>
@@ -99,15 +105,19 @@ Jason Mahr, Linda Song, and Ben Zauzmer
     <label><input type="radio" name="layout" value="wordcloud"> Word Cloud</label>
   </form>
   
-  <table border="1">
+    <table border="1">
     <tr>
       <td class="vis" rowspan="2"></td>
       <td class="filters" width="300" height="270">
-        <b>Filters:</b>
+        <p class="centered"><b>Filters:</b></p>
+        Note: Due to the large size of this dataset (11,233 paintings), you must either choose years within a five-year period, choose a specific artist, or choose a specific city.
         <br>
         Start Date: 1300<input type="range" min="1300" max="1600" class="start" value="1300">1600
         <br>
         End Date: 1300<input type="range" min="1300" max="1600" class="end" value="1600">1600
+        <br><br>
+        Artist: 
+        <div><input id="ArtistList" type="text" /></div>
       </td>
       <td class="focus"></td>
     </tr>
@@ -139,19 +149,7 @@ var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height"
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Add filler text to the non-vis cells
-d3.select(".filters").append("p").attr("class", "p_num").text("Number of Paintings:");
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
-
-//Create drop-down for number of paintings
-d3.select(".p_num")
-  .append("select")
-  .attr("class","num")
-  .selectAll("option")
-  .data([10,20,30,40,50,100])
-  .enter()
-  .append("option")
-  .text(function (d) {return d;})
-  .attr("value", function (d) {return d;});
 
 //Create city filter label
 d3.select(".filters").append("p").attr("class", "p_city").text("City:");
@@ -159,36 +157,16 @@ d3.select(".filters").append("p").attr("class", "p_city").text("City:");
 //Define cities
 var cities = ['Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
 
-//Copy cities
-var cities_full = cities.slice(0);
+//JQuery for autocomplete
+d3.csv("data.csv", function(data) {
 
-//Add 'All' to beginning of cities_full
-cities_full.unshift('All');
-
-//Create drop-down for number of paintings
-d3.select(".p_city")
-  .append("select")
-  .attr("class","city")
-  .selectAll("option")
-  .data(cities_full)
-  .enter()
-  .append("option")
-  .text(function (d) {return d;})
-  .attr("value", function (d) {return d;});
-
-//Create artist filter label
-d3.select(".filters").append("p").attr("class", "p_artist").text("Artist:");
-
-//Create drop-down for artists
-d3.select(".p_artist")
-  .append("select")
-  .attr("class","artist")
-  .selectAll("option")
-  .data(['All'])
-  .enter()
-  .append("option")
-  .text(function (d) {return d;})
-  .attr("value", function (d) {return d;});
+  $(function () {  
+    var artistList = $("#ArtistList").autocomplete({
+      source: data.map(function (d) {return d.artist;}),
+      change: function() { makevis(); }
+    });
+  });
+});
 
 //Makevis on initial page load
 makevis();
@@ -209,6 +187,30 @@ function makevis() {
     }
   });
 
+  //Copy cities
+  var cities_full = cities.slice(0);
+
+  //Check if cities is allowed to have 'All'
+  if (d3.select(".end").node().value - d3.select(".start").node().value <= 5 || $( "#ArtistList" ).val() != '') {
+
+    //Add 'All' to beginning of cities
+    cities_full.unshift('All');
+  }
+
+  //Remove previous city drop-down
+  d3.select(".select_city").remove();
+
+  //Create drop-down for cities
+  d3.select(".p_city")
+    .append("select")
+    .attr("class","select_city")
+    .selectAll("option")
+    .data(cities_full)
+    .enter()
+    .append("option")
+    .text(function (d) {return d;})
+    .attr("value", function (d) {return d;});
+
   //Create structure for force diagram
   var graph = {nodes:[], links:[]};
 
@@ -227,16 +229,10 @@ function makevis() {
   var topics_array = [];
   var topics_objarray = [];
 
-  /* make an array for topics that also includes average
-   * year of paintings that contain the topic
-   */
-  // var topics_yrAvg = [];
-
   // know length of longest topic string, for accuracy of alphabetic scale later
   var topic_longestLength = 0;
 
-  //Load data - data_text is only the first 10 entries
-  //Will be changed to a CSV
+  //Load data
   d3.csv("data.csv", function(data) {
 
     // counting the strange 0's that appear after counting paintings
@@ -244,13 +240,13 @@ function makevis() {
     var t_zerocount = 0;
 
     //Loop through paintings
-    for (var i = 0; i < d3.select(".num").node().value; i++) {
+    for (var i = 0; i < data.length; i++) {
 
-      //Check if city matches selection
-      if (d3.select(".city").node().value == 'All' || d3.select(".city").node().value == data[i]['city']) {
+     //Check if city matches selection
+      if (d3.select(".select_city").node().value == 'All' || d3.select(".select_city").node().value == data[i]['city']) {
 
         //Check if artist matches selection
-        if (d3.select(".artist").node().value == 'All' || d3.select(".artist").node().value == data[i]['artist']) {
+        if ($( "#ArtistList" ).val() == '' || $( "#ArtistList" ).val() == data[i]['artist']) {
 
           //Check if painting is in date range
           if (data[i]['date'] >= d3.select(".start").node().value && data[i]['date'] <= d3.select(".end").node().value) {
@@ -316,9 +312,6 @@ function makevis() {
       }
     }
 
-    //Delete old version of artist drop-down
-    d3.select(".artist").remove();
-
     // to remove extraneous zeros
     for (var j = 0; j < zero_count; j++) {
       artist_obj.shift();
@@ -355,23 +348,6 @@ function makevis() {
       date_objarray.push({ date: parseInt(date), value: date_array[date] });
     }
 
-    //Create array of current artists
-    var key_arr = Object.keys(artist_obj);
-
-    //Add 'All' as the first option
-    key_arr.unshift('All');
-
-    //Create drop-down for aritst
-    d3.select(".p_artist")
-      .append("select")
-      .attr("class","artist")
-      .selectAll("option")
-      .data(key_arr)
-      .enter()
-      .append("option")
-      .text(function (d) {return d;})
-      .attr("value", function (d) {return d;});
-
     //If drop-down or input is changed, makevis
     d3.selectAll("select").on("change", makevis);
     d3.selectAll(".start").on("change", makevis);
@@ -393,7 +369,8 @@ function makevis() {
       for (var j = i + 1; j < graph.nodes.length; j++) {
 
         //Determine size of intersection
-        var overlap = intersect(data[i]['topics'].slice(3,data[i]['topics'].length-2).split("', u'"), data[j]['topics'].slice(3,data[j]['topics'].length-2).split("', u'")).length;
+        var overlap = intersect(data[i]['topics'].slice(3,data[i]['topics'].length-2).split("', u'"),
+          data[j]['topics'].slice(3,data[j]['topics'].length-2).split("', u'")).length;
 
         //Check if the nodes share any topics
         if (overlap) {
@@ -428,9 +405,10 @@ function makevis() {
       //Delete map, text, x-axis, and map circles
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
-      svg_vis.select(".xaxis").remove();
+      svg_vis.selectAll(".xaxis").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
+      svg_vis.selectAll(".event").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -451,9 +429,10 @@ function makevis() {
       //Delete map, text, x-axis, and map circles
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
-      svg_vis.select(".xaxis").remove();
+      svg_vis.selectAll(".xaxis").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
+      svg_vis.selectAll(".event").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -470,8 +449,8 @@ function makevis() {
       graph.nodes = pie(graph.nodes).map(function(d, i) {
         d.innerRadius = 0;
         d.outerRadius = r;
-        d.data.x = arc.centroid(d)[0]+height/2;
-        d.data.y = arc.centroid(d)[1]+width/2;
+        d.data.x = arc.centroid(d)[0]+height/2+300;
+        d.data.y = arc.centroid(d)[1]+width/2-230;
         d.data.endAngle = d.endAngle; 
         d.data.startAngle = d.startAngle; 
         return d.data;
@@ -486,8 +465,10 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete x-axis
-      d3.select(".xaxis").remove();
+      //Delete x-axis and text
+      svg_vis.selectAll(".xaxis").remove();
+      svg_vis.selectAll("text").remove();
+      svg_vis.selectAll(".event").remove();
 
       //Add map of Italy
       svg_vis.append('image')
@@ -524,7 +505,7 @@ function makevis() {
           .append("circle")
           .attr("class", "city")
           .attr("transform", function (d) {return "translate(" + json[d.key].x + "," + json[d.key].y + ")";})
-          .attr("r", function (d) {return 5*d.value;})
+          .attr("r", function (d) {return 5 + d.value;})
           .attr("style", "fill: #0000ff");
 
         //Create black dots for cities not in data
@@ -533,7 +514,7 @@ function makevis() {
           .enter()
           .append("circle")
           .attr("class", "absent")
-          .attr("transform", function (d) { console.log(d); return "translate(" + json[d].x + "," + json[d].y + ")";})
+          .attr("transform", function (d) {return "translate(" + json[d].x + "," + json[d].y + ")";})
           .attr("r", function (d) {if (Object.keys(city_obj).indexOf(d) > -1) {return 0} else {return 3};});
 
         //Add city labels (red if city has nodes)
@@ -566,10 +547,13 @@ function makevis() {
       svg_vis.selectAll("text").remove();
       svg_vis.selectAll(".city").remove();
       svg_vis.selectAll(".absent").remove();
+      svg_vis.selectAll(".event").remove();
 
-      //Reset nodes and links
-      d3.selectAll("circle").attr("r",5);
-      svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
+      //Reset nodes
+      d3.selectAll("circle").attr("r",5);      
+
+      //Hide links
+      svg_vis.selectAll(".link").style("stroke-width", 0);
 
       //Loop through nodes
       for (var i = 0; i < node[0].length; i++) {
@@ -586,11 +570,40 @@ function makevis() {
         .ticks(6,"d")
         .tickSize(6,2);
 
+      //Label for axis 1
+      svg_vis.append("text")
+        .text("Paintings:")
+        .attr("transform", "translate(20,255)");
+
+      //Label for axis 2
+      svg_vis.append("text")
+        .text("Events:")
+        .attr("transform", "translate(20,405)");
+
       //Add x-axis
       svg_vis.append("g")
         .attr("class", "xaxis")
         .attr("transform", "translate(0,250)")
         .call(xAxis);
+
+      //Add history timeline
+      svg_vis.append("g")
+        .attr("class", "xaxis")
+        .attr("transform", "translate(0,400)")
+        .call(xAxis);
+
+      d3.csv('events.csv', function(data) {
+
+        svg_vis.selectAll(".event")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class","event")
+          .attr("transform", function (d) {return "translate(" + yearScale(d.Year) + "," + "400)";})
+          .attr("r", 5)
+          .append("svg:title")
+            .text(function (d) {return d.Title + " (" + d.Year + ")\n" + d.Description;});
+      });
 
       graph_update(500);
     }
