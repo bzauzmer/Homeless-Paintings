@@ -101,7 +101,13 @@ Jason Mahr, Linda Song, and Ben Zauzmer
   <table border="1">
     <tr>
       <td class="vis" rowspan="2"></td>
-      <td class="filters" width="200" height="270"></td>
+      <td class="filters" width="300" height="270">
+        <b>Filters:</b>
+        <br>
+        Start Date: 1300<input type="range" min="1300" max="1600" class="start" value="1300">1600
+        <br>
+        End Date: 1300<input type="range" min="1300" max="1600" class="end" value="1600">1600
+      </td>
       <td class="focus"></td>
     </tr>
     <tr>
@@ -122,7 +128,7 @@ Jason Mahr, Linda Song, and Ben Zauzmer
 var width = 1280, height = 720, bar_height = 400;
 
 // variables for the bar graph
-var svg_barwidth = 400;
+var svg_barwidth = 500;
 
 //making margins
 var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
@@ -132,7 +138,6 @@ var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height"
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Add filler text to the non-vis cells
-d3.select(".filters").append("p").attr("class", "centered").text("Filters:").attr("style","font-weight:bold");
 d3.select(".filters").append("p").attr("class", "p_num").text("Number of Paintings:");
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
 
@@ -141,29 +146,39 @@ d3.select(".p_num")
   .append("select")
   .attr("class","num")
   .selectAll("option")
-  .data([10,20,30,40,50,100,11189])
+  .data([10,20,30,40,50,100])
   .enter()
   .append("option")
   .text(function (d) {return d;})
   .attr("value", function (d) {return d;});
 
+//Create city filter label
 d3.select(".filters").append("p").attr("class", "p_city").text("City:");
 
-var cities = ['All','Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
+//Define cities
+var cities = ['Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
+
+//Copy cities
+var cities_full = cities.slice(0);
+
+//Add 'All' to beginning of cities_full
+cities_full.unshift('All');
 
 //Create drop-down for number of paintings
 d3.select(".p_city")
   .append("select")
   .attr("class","city")
   .selectAll("option")
-  .data(cities)
+  .data(cities_full)
   .enter()
   .append("option")
   .text(function (d) {return d;})
   .attr("value", function (d) {return d;});
 
+//Create artist filter label
 d3.select(".filters").append("p").attr("class", "p_artist").text("Artist:");
 
+//Create drop-down for artists
 d3.select(".p_artist")
   .append("select")
   .attr("class","artist")
@@ -227,67 +242,71 @@ function makevis() {
 
       //Check if city matches selection
       if (d3.select(".city").node().value == 'All' || d3.select(".city").node().value == data[i]['city']) {
-     
+
         //Check if artist matches selection
         if (d3.select(".artist").node().value == 'All' || d3.select(".artist").node().value == data[i]['artist']) {
 
-          //Add node for each painting
-          graph.nodes.push({
-            painting: data[i]['painting'],
-            artist: data[i]['artist'],
-            record: data[i]['record'],
-            image: data[i]['image'],
-            date: data[i]['date'],
-            city: data[i]['city'],
-            topics: data[i]['topics']
-          });
+          //Check if painting is in date range
+          if (data[i]['date'] >= d3.select(".start").node().value && data[i]['date'] <= d3.select(".end").node().value) {
 
-          // if the artist isn't already in the array, create the counter to be set to 0
-          if (!artist_obj[data[i]['artist']]) {
-            artist_obj.push(artist_obj[data[i]['artist']] = 0);
-            zero_count++;
-          } 
-
-
-          var century = Math.floor(parseInt(graph.nodes[i].date) / 100);
-
-          // parse date
-          if (!date_array[century]) {
-            date_array.push(date_array[century] = 0);
-          }
-
-          // if the city isn't already in the array, create the counter to be set to 0
-          if (data[i]['city'] && !city_obj[data[i]['city']]) {
-            city_obj.push(city_obj[data[i]['city']] = 0);
-          }
-
-          // parse strings representing topic lists
-          if (graph.nodes[i].topics) {
-            // to store list of topics for current painting in an array of strings; list is currently a string
-            var ts = graph.nodes[i].topics.slice(3,-2).split("', u'");
-
-            // parse topics
-            ts.forEach(function(t) {
-              if (!topics_array[t]) {
-                topics_array.push(topics_array[t] = 1);
-                t_zerocount++;
-              } else {
-                ++topics_array[t];
-              }
+            //Add node for each painting
+            graph.nodes.push({
+              painting: data[i]['painting'],
+              artist: data[i]['artist'],
+              record: data[i]['record'],
+              image: data[i]['image'],
+              date: data[i]['date'],
+              city: data[i]['city'],
+              topics: data[i]['topics']
             });
-          };
 
-          // increase the counter by 1 per occurance
-          ++artist_obj[graph.nodes[i].artist];
-          ++date_array[century];
+            // if the artist isn't already in the array, create the counter to be set to 0
+            if (!artist_obj[data[i]['artist']]) {
+              artist_obj.push(artist_obj[data[i]['artist']] = 0);
+              zero_count++;
+            }
 
-          if (data[i]['city']) {
-            ++city_obj[data[i]['city']];
+            var century = Math.floor(parseInt(data[i].date) / 100);
+
+            // parse date
+            if (!date_array[century]) {
+              date_array.push(date_array[century] = 0);
+            }
+
+            // if the city isn't already in the array, create the counter to be set to 0
+            if (data[i]['city'] && !city_obj[data[i]['city']]) {
+              city_obj.push(city_obj[data[i]['city']] = 0);
+            }
+
+            // parse strings representing topic lists
+            if (data[i].topics) {
+              // to store list of topics for current painting in an array of strings; list is currently a string
+              var ts = data[i].topics.slice(3,-2).split("', u'");
+
+              // parse topics
+              ts.forEach(function(t) {
+                if (!topics_array[t]) {
+                  topics_array.push(topics_array[t] = 1);
+                  t_zerocount++;
+                } else {
+                  ++topics_array[t];
+                }
+              });
+            };
+
+            // increase the counter by 1 per occurance
+            ++artist_obj[data[i].artist];
+            ++date_array[century];
+
+            if (data[i]['city']) {
+              ++city_obj[data[i]['city']];
+            }
           }
         }
       }
     }
 
+    //Delete old version of artist drop-down
     d3.select(".artist").remove();
 
     // to remove extraneous zeros
@@ -333,8 +352,10 @@ function makevis() {
       .text(function (d) {return d;})
       .attr("value", function (d) {return d;});
 
-    //If drop-down is changed, makevis
+    //If drop-down or input is changed, makevis
     d3.selectAll("select").on("change", makevis);
+    d3.selectAll(".start").on("change", makevis);
+    d3.selectAll(".end").on("change", makevis);
 
     //Function that returns intersection of two arrays
     function intersect(a, b) {
@@ -384,10 +405,12 @@ function makevis() {
     //Start force layout if radio button selected
     function force_layout() {
 
-      //Delete map, text and x-axis
+      //Delete map, text, x-axis, and map circles
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
-      d3.select(".xaxis").remove();
+      svg_vis.select(".xaxis").remove();
+      svg_vis.selectAll(".city").remove();
+      svg_vis.selectAll(".absent").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -405,10 +428,12 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map, text, and x-axis
+      //Delete map, text, x-axis, and map circles
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
-      d3.select(".xaxis").remove();
+      svg_vis.select(".xaxis").remove();
+      svg_vis.selectAll(".city").remove();
+      svg_vis.selectAll(".absent").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -472,8 +497,24 @@ function makevis() {
         //Hide nodes without cities
         svg_vis.selectAll("circle").attr("r",function (d) {if (d.city) {return 5;} else {return 0;}});
 
-        //Remove 'All' from cities
-        cities.shift();
+        //Create circles sized by city frequency
+        svg_vis.selectAll(".city")
+          .data(d3.entries(city_obj))
+          .enter()
+          .append("circle")
+          .attr("class", "city")
+          .attr("transform", function (d) {return "translate(" + json[d.key].x + "," + json[d.key].y + ")";})
+          .attr("r", function (d) {return 5*d.value;})
+          .attr("style", "fill: #0000ff");
+
+        //Create black dots for cities not in data
+        svg_vis.selectAll(".absent")
+          .data(cities)
+          .enter()
+          .append("circle")
+          .attr("class", "absent")
+          .attr("transform", function (d) { console.log(d); return "translate(" + json[d].x + "," + json[d].y + ")";})
+          .attr("r", function (d) {if (Object.keys(city_obj).indexOf(d) > -1) {return 0} else {return 3};});
 
         //Add city labels (red if city has nodes)
         svg_vis.selectAll("text")
@@ -500,10 +541,11 @@ function makevis() {
       //Stop force
       force.stop();
 
-      //Delete map and text
+      //Delete map, text, and map circles
       svg_vis.select("image").remove();
       svg_vis.selectAll("text").remove();
-
+      svg_vis.selectAll(".city").remove();
+      svg_vis.selectAll(".absent").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -834,7 +876,6 @@ function makevis() {
 
   })
 }
-
 </script>
 </body>
 </html>
