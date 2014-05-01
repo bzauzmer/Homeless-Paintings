@@ -223,12 +223,14 @@ function makevis() {
   //make an array of the cities
   var city_obj = [];
 
-  // make an array of topic totals
+  // make arrays for topic totals
   var topics_array = [];
   var topics_objarray = [];
 
-  // make an array for topics that also includes painting id
-  var topics_id = [];
+  /* make an array for topics that also includes average
+   * year of paintings that contain the topic
+   */
+  // var topics_yrAvg = [];
 
   // know length of longest topic string, for accuracy of alphabetic scale later
   var topic_longestLength = 0;
@@ -293,7 +295,8 @@ function makevis() {
               ts.forEach(function(t) {
                 if (!topics_array[t]) {
                   topics_array.push(topics_array[t] = 1);
-                  topic_longestLength = Math.max(t.length, topic_longestLength);
+                  topic_longestLength = Math.max(t.length,topic_longestLength);
+                  // topics_yrAvg.push(topics_array[t] = )
                   t_zerocount++;
                 } else {
                   ++topics_array[t];
@@ -618,7 +621,7 @@ function makevis() {
         .style("fill","steelblue")
         .attr("font-style","italic")
         .attr("font-size","0px")
-        .attr("transform","translate(165,15)")
+        .attr("transform","translate(168,15)")
         .transition()
           .duration(1300)
           .attr("font-size","15px");
@@ -699,56 +702,94 @@ function makevis() {
         return total;
       }
 
-      // a scale so that a is in top-left and zstring is in bottom-right,
-      // did not use "" as top-left because no topic starts with that.
+      // a scale so that a is in top-left and zstring is in bottom-right, did not use "" as top-left because no topic starts with a space.
       var alphaScale = d3.scale.linear()
         .domain([toTotal("a"),toTotal(zstring)])
         .range([1,max_pixel]);
 
-      // making the nodes representing the topics      
-      var tnode = svg_vis.selectAll(".tnode")
+      // function so that circles can move
+      var move_circle = d3.behavior.drag()
+        .origin(function(d) {
+          return {x: d.x, y: d.y}; })
+        .on("dragstart",dragstarted)
+        .on("drag", dragged)
+        .on("dragend", dragended);
+
+      // bind data to nodes
+      var tnodes = svg_vis.selectAll("g topic")
         .data(topics_objarray)
-        .enter().append("g")
-        .attr("class","tnode")
-        // .attr("transform", function(d) { return "translate(" + (Math.floor((Math.random() * (width-t_padding*2)))+t_padding) + "," + (Math.floor((Math.random() * (height-t_padding*2)))+t_padding) + ")";});
-        // .transition()
-        //   .duration(1000) 
+
+      // append groups
+      var tnodesEnter = tnodes.enter()
+        .append("g")
         .attr("transform", function(d) {
           var pixel_number = Math.round(alphaScale(toTotal(d.topic)));
-          var x = pixel_number % adjusted_width;
-          var adjusted_x = x ? x + t_padding - 1 : width - t_padding;
-          var y = (Math.floor(pixel_number / adjusted_width) + t_padding);
-          return "translate(" + adjusted_x + "," + y + ")";});
+          var unadjusted_x = pixel_number % adjusted_width;
+          d["x"] = unadjusted_x ? unadjusted_x + t_padding - 1 : width - t_padding;
+          d["y"] = (Math.floor(pixel_number / adjusted_width) + t_padding);
+          return "translate(" + d.x + "," + d.y + ")";
+        });
 
-      // tnode.append("title")
-      //   .text(function(d) {return d.topic;});
+      // minimum radius of circle, needs to be large enough for nodes
+      var min_radius = 20;
 
-      // minimum radius for topic nodes
-      var min_radius = 16;
-
-      tnode.append("circle")
+      // append circle to group
+      var tcircle = tnodesEnter.append("circle")
         .attr("r",0)
-        .style("fill","white")
-        .transition()
-          .duration(1200)
-          .attr("r", function(d) {return min_radius + d.value * 3;})
-          .style("fill", function(d) {return color(d.topic);});
+        .attr("fill", function(d) { return color(d.topic);})
+        .transition().duration(1200).delay(1000)
+          .attr("r", function(d) {
+            d["r"] = min_radius + d.value * 3;
+            d["move_r"] = 1.5 * d.r;
+            return d.r;
+          });
 
-      tnode.append("text")
-        .attr("dy",".3em")
+      // append text to group
+      tnodesEnter.append("text")
+        .attr("dy", ".3em")
         .style("text-anchor","middle")
-        // .text(function(d) {return d.topic;});
-        // I want to make the things more legible
         .text(function(d) {
-          //return d.topic.substr(0,d.topic.indexOf(' '));
-          return d.topic.replace(/([a-zA-Z ,]+)(.*)/,'$1');
-          //return d.topic;
+          d["label"] = d.topic.replace(/([a-zA-Z ,]+)(.*)/,'$1');
+          return d.label;
         })
         .attr("font-size","0px")
-        .transition()
+        .transition().delay(2200)
           .duration(1200)
           .attr("font-size","12px");
 
+      // call move_circle
+      tnodesEnter.call(move_circle);
+
+      // expand circle when group is clicked
+      function dragstarted(d) {
+        d3.select(this).transition()
+            .ease("elastic")
+            .duration(500)
+            .select("circle")
+            .transition().duration(500).delay(0)
+              .attr("r", d.move_r);
+      }
+
+      // move group when it is dragged
+      function dragged(d) {
+        d.x = d3.event.x;
+        d.y = d3.event.y;
+
+        d3.select(this)
+            .attr("transform", "translate(" + d.x + "," + d.y + ")");
+      }
+
+      // shrink circle back to original size when group is released
+      function dragended(d) {
+        d3.select(this).transition()
+            .ease("elastic")
+            .duration(500)
+            .select("circle")
+            .transition().duration(500).delay(0)
+              .attr("r", d.r);
+      }
+
+      // update graph
       graph_update(500);
     }
 
