@@ -151,12 +151,6 @@ var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("
 //Add filler text to the non-vis cells
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
 
-//Create city filter label
-d3.select(".filters").append("p").attr("class", "p_city").text("City:");
-
-//Define cities
-var cities = ['Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
-
 //JQuery for autocomplete
 d3.csv("data.csv", function(data) {
 
@@ -167,6 +161,23 @@ d3.csv("data.csv", function(data) {
     });
   });
 });
+
+//Create city filter label
+d3.select(".filters").append("p").attr("class", "p_city").text("City:");
+
+//Define cities
+var cities = ['Bologna','Catania','Florence','Genoa','Messina','Milan','Naples','Padua','Palermo','Rome','Trieste','Turin','Venice','Verona'];
+
+//Create drop-down for cities
+d3.select(".p_city")
+  .append("select")
+  .attr("class","select_city")
+  .selectAll("option")
+  .data(cities)
+  .enter()
+  .append("option")
+  .text(function (d) {return d;})
+  .attr("value", function (d) {return d;});
 
 //Makevis on initial page load
 makevis();
@@ -193,23 +204,21 @@ function makevis() {
   //Check if cities is allowed to have 'All'
   if (d3.select(".end").node().value - d3.select(".start").node().value <= 5 || $( "#ArtistList" ).val() != '') {
 
+    //Remove 'All' from the list of cities
+    d3.select(".all").remove();
+
     //Add 'All' to beginning of cities
-    cities_full.unshift('All');
+    d3.select(".select_city")
+      .append("option")
+      .attr("class", "all")
+      .text("All")
+      .attr("value", "All");
   }
-
-  //Remove previous city drop-down
-  d3.select(".select_city").remove();
-
-  //Create drop-down for cities
-  d3.select(".p_city")
-    .append("select")
-    .attr("class","select_city")
-    .selectAll("option")
-    .data(cities_full)
-    .enter()
-    .append("option")
-    .text(function (d) {return d;})
-    .attr("value", function (d) {return d;});
+  else {
+    
+    //Remove 'All' from the list of cities
+    d3.select(".all").remove();
+  }
 
   //Create structure for force diagram
   var graph = {nodes:[], links:[]};
