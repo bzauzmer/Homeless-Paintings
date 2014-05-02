@@ -145,6 +145,12 @@ var width = 1280, height = 720, bar_height = 400;
 // variables for the bar graph
 var svg_barwidth = 500;
 
+// variables for the word cloud
+var has_seen_word_cloud = false,      // to avoid excessive transitions
+user_wants_median = true,             // average or median (default is median)
+color_scale_desired = 0,              // which color scale (default emerald)
+topic_position_alphabetically = true; // how does user want topics positioned?    
+
 //making margins
 var bar_margin = { top: 30, right: 40, bottom: 50, left: 50 };
 
@@ -724,43 +730,43 @@ function makevis() {
       graph_update(500);
     }
 
-    /* Some control options. */
-    //To avoid excessive transitions
-    has_seen_word_cloud = false;
-
-    //Average or Median (default median)
-    user_wants_median = true;
-
-    //Which color scale (default ocean)
-    color_scale_desired = 2;
-
-    //How does user want topics positioned?
-    topic_position_alphabetically = true;
-
-    var wc_color = function(choice) {
-      color_scale_desired = choice;
+    // function for color changes
+    wc_color = function() {
+      var colors_array = ["Emerald","Ruby","Sapphire","Disco"];
+      var color_desired = d3.event.target.value;
+      var csd = $.inArray(color_desired,colors_array);
+      color_scale_desired = (csd >= 0 && csd < 4) ? csd : 0; // default emerald
       wordcloud_layout();
     }
-    var wc_central_tendency = function(choice) {
-      user_wants_median = choice;
+
+    // function for avg/median preference changes
+    wc_central_tendency = function() {
+      var am_array = ["Average","Median"];
+      var am_desired = d3.event.target.value;
+      var uwm_tmp = $.inArray(am_desired,am_array);
+      user_wants_median = (uwm_tmp != 0);                    // default true
       wordcloud_layout();
     }
-    var wc_sort = function(choice) {
-      topic_position_alphabetically = choice;
+
+    // function for sorting preference changes
+    wc_sort = function() {
+      var sorts_array = [
+        "Alphabetical (A in top-left, Z in bottom-right)",
+        "By year (x-axis) and frequency (y-axis)"
+      ];
+      var sort_desired = d3.event.target.value;
+      var tpa_tmp = $.inArray(sort_desired,sorts_array);
+      topic_position_alphabetically = (tpa_tmp != 1);        // default alpha
       wordcloud_layout();
     }
 
     //Start word cloud layout if radio button selected
     function wordcloud_layout() {
 
-      //Color scale choice
-      cchoice = color_scale_desired;
-
-      //Average or median choice
-      uwm = user_wants_median;
-
-      //Position choice
-      tpa = topic_position_alphabetically;
+      // recopying variables to avoid complications from changes in state
+      var cchoice = color_scale_desired;
+      var uwm = user_wants_median;
+      var tpa = topic_position_alphabetically;
 
       //Deleted topic circles
       deleted = [];
@@ -951,7 +957,7 @@ function makevis() {
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("Colors are based on average or median year. Choose one:")
+        .text("Position is based on average or median year. Choose one:")
         .attr("x",14)
         .attr("y",668)
         .attr("font-size","0px")
@@ -977,39 +983,73 @@ function makevis() {
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
-      // radio buttons
-      // svg_vis.append("label")
-      //   .text("Sea Green")
-      //   .insert("input")
-      //     .attr({
-      //       type: "radio",
-      //       class: "word_cloud_structure",
-      //       name: "color",
-      //       value: "ocean",
-      //     })
-      //   .property("checked");
+      // drop down menu for colors
+      var dropDown_color = d3.select("body").append("select")
+        .attr("name","color-list");
 
-// <form>
-//   Layout:
-//     <label><input type="radio" name="layout" value="force" checked> Force</label>
-//     <label><input type="radio" name="layout" value="radial"> Radial</label>
-//     <label><input type="radio" name="layout" value="map"> Map</label>
-//     <label><input type="radio" name="layout" value="timeline"> Timeline</label>
-//     <label><input type="radio" name="layout" value="wordcloud"> Word Cloud</label>
-//   </form>
+      // options for the drop down menu
+      var options = dropDown_color.selectAll("option")
+        .data([
+          {value: "Choose a color"},
+          {value: "Emerald"},
+          {value: "Ruby"},
+          {value: "Sapphire"},
+          {value: "Disco"}
+        ])
+        .enter()
+        .append("option");
 
-      //Enable radio buttons
-      // d3.select("input[value=\"ocean\"]").on("click", wc_color(0));
-      // d3.select("input[value=\"fire\"]").on("click", wc_color(1));
-      // d3.select("input[value=\"water\"]").on("click", wc_color(2));
-      // d3.select("input[value=\"disco\"]").on("click", wc_color(3));
-      // d3.select("input[value=\"average\"]").on("click", wc_central_tendency(false));
-      // d3.select("input[value=\"median\"]").on("click", wc_central_tendency(true));
-      // d3.select("input[value=\"alphabetical\"]").on("click", wc_sort(true));
-      // d3.select("input[value=\"not_alphabetical\"]").on("click", wc_sort(false));
+      // text and values for the options
+      options.text(function(d) { return d.value; })
+             .attr("value", function(d) { return d.value; });
 
+      // features of the menu itself
+      dropDown_color.on("change", wc_color)
+                    .attr("class","word_cloud_structure");
 
+      // drop down menu for average/median
+      var dropDown_am = d3.select("body").append("select")
+        .attr("name","am-list");
 
+      // options for the drop down menu
+      var options = dropDown_am.selectAll("option")
+        .data([
+          {value: "Choose a measure"},
+          {value: "Average"},
+          {value: "Median"},
+        ])
+        .enter()
+        .append("option");
+
+      // text and values for the options
+      options.text(function(d) { return d.value; })
+             .attr("value", function(d) { return d.value; });
+
+      // features of the menu itself
+      dropDown_am.on("change", wc_central_tendency)
+                 .attr("class","word_cloud_structure");
+
+      // drop down menu for sort
+      var dropDown_sort = d3.select("body").append("select")
+        .attr("name","sort-list");
+
+      // options for the drop down menu
+      var options = dropDown_sort.selectAll("option")
+        .data([
+          {value: "Choose a position algorithm"},
+          {value: "Alphabetical (A in top-left, Z in bottom-right)"},
+          {value: "By year (x-axis) and frequency (y-axis)"},
+        ])
+        .enter()
+        .append("option");
+
+      // text and values for the options
+      options.text(function(d) { return d.value; })
+             .attr("value", function(d) { return d.value; });
+
+      // features of the menu itself
+      dropDown_sort.on("change", wc_sort)
+                   .attr("class","word_cloud_structure");
 
       //Hide nodes and links
       d3.selectAll("circle").attr("r",0);
@@ -1036,11 +1076,11 @@ function makevis() {
 
       // color functions based on median or average, or random colors
       var color = [
-        (/* Ocean */
-        d3.scale.linear().domain([ty_min, ty_max]).range(["#105E5F","#DDFFFF"])),
-        (/* Fire */
+        (/* Emerald */
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#B8FFF0","#006010"])),
+        (/* Ruby */
         d3.scale.linear().domain([ty_min, ty_max]).range(["#FFE82C","#9F000F"])),
-        (/* Water */
+        (/* Sapphire */
         d3.scale.linear().domain([ty_min, ty_max]).range(["#92DAFF","#2554C7"])),
         (/* Random colors, borrowed from goo.gl/Tru4Dj */
         function(d) {
@@ -1575,7 +1615,7 @@ function makevis() {
           .call(xAxis)
           .append("text")  
           .style("text-anchor", "end")
-          .text("Century");
+          .text("Century")
             .attr("transform", "translate(" + (svg_barwidth - bar_margin.right) + ",0)");
 
       svg_bar.append("g")
