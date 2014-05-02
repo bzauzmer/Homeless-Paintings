@@ -129,7 +129,7 @@ The goal of this project is to visualize the collection, and perhaps even to hel
       <!-- // making menu dropdown for the bar graph -->
       <p id="menu"><b>Bar Graph</b><br>Select series: <select>
         <option value="Artists">Artist vs Number of Paintings Missing</option>
-        <option value="Years">Decade vs Number of Paintings Missing</option>
+        <option value="Years">Century vs Number of Paintings Missing</option>
       </select>
       </td>
     </tr>
@@ -1310,10 +1310,12 @@ function makevis() {
       console.log(date_array);
       console.log(date_objarray);
 
+      // var dates = [];
+
       // making the linear scales
       var x = d3.scale.linear()
         .domain(d3.extent(Object.keys(date_array)))
-        .range([bar_margin.right, svg_barwidth])
+        .range([bar_margin.right, svg_barwidth - bar_margin.left])
 
       var y = d3.scale.linear()
         .domain([0, d3.max(date_array)])
@@ -1323,10 +1325,12 @@ function makevis() {
       var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
+        .tickValues(Object.keys(date_array));
 
       var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
+        .ticks(d3.max(date_array));
 
       // for tooltip
       var div = d3.select(".bar").append("div")
@@ -1338,8 +1342,9 @@ function makevis() {
           .attr("transform", "translate(0," + (bar_height - bar_margin.bottom) + ")")
           .call(xAxis)
           .append("text")  
-          .style("text-anchor", "end")
-          .text("Decade");
+          // .style("text-anchor", "end")
+          .text("Century")
+            .attr("transform", "translate(" + (svg_barwidth - bar_margin.right) + ",0)");
 
       svg_bar.append("g")
           .attr("class", "y axis")
