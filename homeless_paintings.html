@@ -1150,7 +1150,12 @@ function makevis() {
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text(((uwm) ? "Median " : "Average ") + "Year Color Scale")
+        .text(function() {
+          if (cchoice == 3) {
+            return "Colors are random!";
+          } else {
+          return ((uwm) ? "Median " : "Average ") + "Year Color Scale";}
+        })
         .attr("x",14)
         .attr("y",716)
         .attr("font-size","0px")
