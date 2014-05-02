@@ -152,7 +152,7 @@ var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height"
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Create color scale for nodes
-+var colorScale = d3.scale.linear().domain([1300,1600]).range(["lightblue","blue"]);
+var colorScale = d3.scale.linear().domain([1300,1600]).range(["lightblue","blue"]);
 
 //Add filler text to the non-vis cells
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
