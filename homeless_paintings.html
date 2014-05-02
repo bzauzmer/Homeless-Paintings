@@ -26,7 +26,7 @@
   }
 
   .node:hover {
-    fill: red !important;
+    fill: red;
   }
 
   a {text-decoration: underline;}
@@ -153,7 +153,7 @@ var svg_vis = d3.select(".vis").append("svg").attr("width", width).attr("height"
 var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("height",bar_height);
 
 //Create color scale for nodes
-var colorScale = d3.scale.linear().domain([1300,1600]).range(["lightblue","blue"]);
+var colorScale = d3.scale.linear().domain([1250,1950]).range(["lightblue","blue"]);
 
 //Add filler text to the non-vis cells
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
@@ -269,6 +269,15 @@ function makevis() {
   // know length of longest topic string, for accuracy of alphabetic scale later
   var topic_longestLength = 0;
 
+  // know number of paintings in the topic that has the most paintings
+  var topic_largest = 0;
+
+  // new array mapping topic to painting IDs with the topics
+  var topic_ids = [];
+
+  // another needed things
+  var recFULL = [];
+
   //Load data
   d3.csv("data.csv", function(data) {
 
@@ -283,9 +292,6 @@ function makevis() {
 
           //Check if painting is in date range
           if (data[i]['date'] >= d3.select(".start").node().value && data[i]['date'] <= d3.select(".end").node().value) {
-
-            //(Soon) Check if painting has selected topics
-            // if (1==1) { if (1==1) { if (1==1) {
 
             //Add node for each painting
             graph.nodes.push({
@@ -333,6 +339,8 @@ function makevis() {
                   topics_yrMed.push(topics_yrMed[t] = [parsedDate]);
                   avg_max = Math.max(avg_max, parsedDate);
                   avg_min = Math.min(avg_min, parsedDate);
+                  topic_largest = Math.max(topic_largest, 1);
+                  topic_ids.push(topic_ids[t] = [data[i].record]);
                 } else {
                   ++topics_array[t];
                   var parsedDate = parseInt(data[i].date);
@@ -343,6 +351,8 @@ function makevis() {
                   avg_max = Math.max(avg_max, topics_yrAvg[t].average);
                   avg_min = Math.min(avg_min, topics_yrAvg[t].average);
                   topics_yrMed[t].push(parsedDate);
+                  topic_largest = Math.max(topic_largest,topics_yrAvg[t].count);
+                  topic_ids[t].push(data[i].record);
                 }
               });
             };
@@ -351,6 +361,16 @@ function makevis() {
             ++artist_obj[data[i].artist];
             max_artist_number = Math.max(max_artist_number,artist_obj[data[i].artist]);
             ++date_array[century];
+
+            recFULL.push({
+              painting: data[i]['painting'],
+              artist: data[i]['artist'],
+              record: data[i]['record'],
+              image: data[i]['image'],
+              date: data[i]['date'],
+              city: data[i]['city'],
+              topics: data[i]['topics']
+            })
 
             if (data[i]['city']) {
               ++city_obj[data[i]['city']];
@@ -397,7 +417,7 @@ function makevis() {
 
     // filtering out dup keys for topics
     for (topic in topics_array) {
-      topics_objarray.push({topic: topic, value: topics_array[topic]})
+      topics_objarray.push({topic: topic, value: topics_array[topic], paintings: topic_ids[topic]})
     }
 
     // To direct user to ABC sorting, & AND and OR boxes. LALALA (for ez nav)
@@ -484,6 +504,7 @@ function makevis() {
       d3.selectAll(".word_cloud_structure").remove();
       d3.selectAll(".word_cloud_instructions").remove();
       d3.selectAll(".word_cloud_nodes").remove();
+      d3.selectAll(".detailNode").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -496,7 +517,7 @@ function makevis() {
     }
 
     //Color nodes
-    d3.selectAll(".node").style("fill", function (d) {return colorScale(d.date);});
+    d3.selectAll("circle").style("fill","blue");
 
     //Start radial layout if radio button selected
     function radial_layout() {
@@ -514,6 +535,7 @@ function makevis() {
       d3.selectAll(".word_cloud_structure").remove();
       d3.selectAll(".word_cloud_instructions").remove();
       d3.selectAll(".word_cloud_nodes").remove();
+      d3.selectAll(".detailNode").remove();
 
       //Reset nodes and links
       d3.selectAll("circle").attr("r",5);
@@ -553,6 +575,7 @@ function makevis() {
       d3.selectAll(".word_cloud_structure").remove();
       d3.selectAll(".word_cloud_instructions").remove();
       d3.selectAll(".word_cloud_nodes").remove();
+      d3.selectAll(".detailNode").remove();
 
       //Add map of Italy
       var d_x = 400,
@@ -640,6 +663,7 @@ function makevis() {
       d3.selectAll(".word_cloud_structure").remove();
       d3.selectAll(".word_cloud_instructions").remove();
       d3.selectAll(".word_cloud_nodes").remove();
+      d3.selectAll(".detailNode").remove();
 
       //Reset nodes
       d3.selectAll("circle").attr("r",5);      
@@ -700,25 +724,62 @@ function makevis() {
       graph_update(500);
     }
 
+    /* Some control options. */
     //To avoid excessive transitions
-    var has_seen_word_cloud = false;
+    has_seen_word_cloud = false;
+
+    //Average or Median (default median)
+    user_wants_median = true;
+
+    //Which color scale (default ocean)
+    color_scale_desired = 2;
+
+    //How does user want topics positioned?
+    topic_position_alphabetically = true;
+
+    var wc_color = function(choice) {
+      color_scale_desired = choice;
+      wordcloud_layout();
+    }
+    var wc_central_tendency = function(choice) {
+      user_wants_median = choice;
+      wordcloud_layout();
+    }
+    var wc_sort = function(choice) {
+      topic_position_alphabetically = choice;
+      wordcloud_layout();
+    }
 
     //Start word cloud layout if radio button selected
     function wordcloud_layout() {
 
-      // LALALA - color choice, durations, and delays
-      choice = 2;
+      //Color scale choice
+      cchoice = color_scale_desired;
+
+      //Average or median choice
+      uwm = user_wants_median;
+
+      //Position choice
+      tpa = topic_position_alphabetically;
+
+      //Deleted topic circles
+      deleted = [];
+
+      //AND and OR items
+      andand = [];
+      oror = [];
+
+      //Do not delay once user has already seen the page
       var dur = 1000;
       var durations = [dur];
       var delays = has_seen_word_cloud ? [0,0,0,0,0,0,0,0,0,0,0,0] : 
         [0*dur,1*dur,2*dur,3*dur,4*dur,5*dur];
-
       has_seen_word_cloud = true;
 
       //User chose whether to use median or average
-      var tendency_years = topics_yrMed,
-          ty_min = med_min,
-          ty_max = med_max;
+      var tendency_years = (user_wants_median) ? topics_yrMed : topics_yrAvg,
+          ty_min = (user_wants_median) ? med_min : avg_min,
+          ty_max = (user_wants_median) ? med_max : avg_max;
 
       //Stop force
       force.stop();
@@ -733,6 +794,7 @@ function makevis() {
       d3.selectAll(".word_cloud_structure").remove();
       d3.selectAll(".word_cloud_instructions").remove();
       d3.selectAll(".word_cloud_nodes").remove();
+      d3.selectAll(".detailNode").remove();
 
       // padding for toolbox
       var toolbox = 99.5;
@@ -864,15 +926,102 @@ function makevis() {
         .transition().duration(durations[0]).delay(delays[3])
           .attr("stroke-width",1);
 
+      // to store adjusted width, which is width - 2 * padding
+      var adjusted_width = width - 2 * t_padding;
+
+      // maximum pixel, considering the current height, width, and padding
+      var max_pixel = adjusted_width * (height - t_padding - t_bottom);
+
+      // min & max radius of circle for the sake of usability
+      var min_radius = 14, /* absolute min for 5px nodes. */
+          max_radius = 70,
+          r_incr = 1;
+
+      // small node radius
+      var ncr = 5;
+
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text("Choose a color scheme:")
+        .attr("x",14)
+        .attr("y",644)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
+
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text("Colors are based on average or median year. Choose one:")
+        .attr("x",14)
+        .attr("y",668)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
+
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text("Choose a position sort:")
+        .attr("x",14)
+        .attr("y",692)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
+
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text("Radius is based on topic frequency. Each additional pixel currently represents about " + Math.round(1/r_incr) + " " +
+          ((Math.round(1/r_incr) == 1) ? "painting." : "paintings."))
+        .attr("x",14)
+        .attr("y",716)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
+
+      // radio buttons
+      // svg_vis.append("label")
+      //   .text("Sea Green")
+      //   .insert("input")
+      //     .attr({
+      //       type: "radio",
+      //       class: "word_cloud_structure",
+      //       name: "color",
+      //       value: "ocean",
+      //     })
+      //   .property("checked");
+
+// <form>
+//   Layout:
+//     <label><input type="radio" name="layout" value="force" checked> Force</label>
+//     <label><input type="radio" name="layout" value="radial"> Radial</label>
+//     <label><input type="radio" name="layout" value="map"> Map</label>
+//     <label><input type="radio" name="layout" value="timeline"> Timeline</label>
+//     <label><input type="radio" name="layout" value="wordcloud"> Word Cloud</label>
+//   </form>
+
+      //Enable radio buttons
+      // d3.select("input[value=\"ocean\"]").on("click", wc_color(0));
+      // d3.select("input[value=\"fire\"]").on("click", wc_color(1));
+      // d3.select("input[value=\"water\"]").on("click", wc_color(2));
+      // d3.select("input[value=\"disco\"]").on("click", wc_color(3));
+      // d3.select("input[value=\"average\"]").on("click", wc_central_tendency(false));
+      // d3.select("input[value=\"median\"]").on("click", wc_central_tendency(true));
+      // d3.select("input[value=\"alphabetical\"]").on("click", wc_sort(true));
+      // d3.select("input[value=\"not_alphabetical\"]").on("click", wc_sort(false));
+
+
+
+
       //Hide nodes and links
       d3.selectAll("circle").attr("r",0);
       svg_vis.selectAll(".link").style("stroke-width", 0);
 
       // instructions for user
       var instructions = "There are " + t_zerocount + " topics. " +
-        "Topics are listed alphabetically. " +
-        "Drag multiple topics into the black box to view paintings containing " +
-        "all of your selected topics.";
+        "Topics are listed " + ((tpa) ? "alphabetically. " :
+          ("by " + ((uwm) ? "median " : "average ") +
+          "year (x-axis) and frequency (y-axis). ")) +
+        "Drag multiple topics into the boxes to view paintings containing " +
+        "all or any of your selected topics.";
 
       // show instructions for user
       svg_vis.append("text")
@@ -881,23 +1030,18 @@ function makevis() {
         .attr("font-style","italic")
         .attr("font-size","0px")
         .attr("class","word_cloud_instructions")
-        .attr("transform","translate(168,15)")
+        .attr("transform","translate(15,15)")
         .transition().duration(durations[0]).delay(delays[0])
           .attr("font-size","15px");
-
-      // color scale based on average
-      // var color = d3.scale.linear()
-      //   .domain([avg_min, avg_max])
-      //   .range(["blue","red"]);
 
       // color functions based on median or average, or random colors
       var color = [
         (/* Ocean */
-        d3.scale.linear().domain([ty_min, ty_max]).range(["#DDFFFF","#105E5F"])),
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#105E5F","#DDFFFF"])),
         (/* Fire */
-        d3.scale.linear().domain([ty_min, ty_max]).range(["#9F000F","#FFE82C"])),
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#FFE82C","#9F000F"])),
         (/* Water */
-        d3.scale.linear().domain([ty_min, ty_max]).range(["#2554C7","#92DAFF"])),
+        d3.scale.linear().domain([ty_min, ty_max]).range(["#92DAFF","#2554C7"])),
         (/* Random colors, borrowed from goo.gl/Tru4Dj */
         function(d) {
           var letters = '0123456789ABCDEF'.split('');
@@ -907,12 +1051,6 @@ function makevis() {
           } 
           return color;
         })];
-
-      // to store adjusted width, which is width - 2 * padding
-      var adjusted_width = width - 2 * t_padding;
-
-      // maximum pixel, considering the current height, width, and padding
-      var max_pixel = adjusted_width * (height - t_padding - t_bottom);
 
       // a helper function that converts a string with a single letter of the alphabet to a number between 1 and 26
       var toNumber = function(c) {
@@ -980,15 +1118,22 @@ function makevis() {
       }
 
       // a scale so that a is in top-left and zstring is in bottom-right, did not use "" as top-left because no topic starts with a space.
-      var alphaScale = d3.scale.linear()
-        .domain([toTotal("a"),toTotal(zstring)])
-        .range([1,max_pixel]);
+      var nodeScale = [
+        (d3.scale.linear()
+          .domain([toTotal("a"),toTotal(zstring)])
+          .range([1,max_pixel])),
+        (d3.scale.linear()
+          .domain([ty_min,ty_max])
+          .range([t_padding,width-t_padding])),
+        (d3.scale.linear()
+          .domain([1,topic_largest])
+          .range([height-t_bottom,t_padding]))];
 
       // bind data to nodes
       var tnodes = svg_vis.selectAll("g topic")
         .data(topics_objarray)
 
-      // positions for AND and OR LALALA
+      // positions for AND and OR
       var dist_ctr = 11;
       var init_and = 4;
       var init_or = 8;
@@ -1007,6 +1152,59 @@ function makevis() {
         .attr("class",function(d) {
           return (d.not_t) ? "word_cloud_structure" : "word_cloud_nodes";
         })
+        .on('dblclick', function(d) {
+          d3.selectAll(".detailNode").remove();
+          var ps = topic_ids[d.topic];
+          var newA = [];
+          for (var i = 0; i < recFULL.length; i++) {
+            var m = $.inArray(recFULL[i].record, ps);
+            if (m >= 0) {
+              newA.push(recFULL[i]);
+            }
+          }
+          console.log(newA.length);
+          svg_vis.selectAll(".noneHere").data(newA).enter().append("circle")
+            .attr("class","detailNode")
+            .attr("cx",function(d,i) {
+              var column_number = i % 20;
+              return (768 + column_number * 12);
+            })
+            .attr("cy",function(d,i) {
+              var row_number = Math.floor(i/20);
+              return (633 + row_number * 12)
+            })
+            .attr("r",5)
+            .style("fill", function(d) { return colorScale(d.date); })
+            .on('click', function(d) {
+
+              //Text-align left once first node is clicked
+              d3.select(".focus").style("text-align", "left");
+              d3.selectAll(".focus text").remove();
+
+              //Remove previous image and text from focus
+              d3.select(".focus img").remove();
+              d3.selectAll(".focus p").remove();
+
+              //Add clicked image to focus
+              d3.select(".focus").append("img")
+                .attr("src",d.image)
+                .style("text-align", "center")
+                .attr("width",125)
+                .attr("height",125);
+
+              //Add clicked text to focus
+              d3.select(".focus").append("p").text("Painting: " + d.painting);
+              d3.select(".focus").append("p").text("Artist: " + d.artist);
+              d3.select(".focus").append("p").text("Record number: " + d.record);
+              d3.select(".focus").append("p").text("Year: " + d.date);
+              d3.select(".focus").append("p").append("a").attr("href", "http://images.google.com/searchbyimage?image_url=" + d.image).attr("target","_blank")
+                .text("Reverse Image Search");
+
+            })
+            //Tooltip on hover
+            .append("svg:title")
+              .text(function(d) { return "Painting: " + d.painting + "\nArtist: " + d.artist + "\nRecord number: " + d.record; });
+            })
         .attr("transform", function(d) {
           if (d.andor) {
             d["x"] = andor_pos[d.andor].x;
@@ -1015,35 +1213,45 @@ function makevis() {
             d["orig_y"] = d.y;
             return "translate(" + d.x + "," + d.y + ")";
           } else {
-            var pixel_number = Math.round(alphaScale(toTotal(d.topic)));
-            var unadjusted_x = pixel_number % adjusted_width;
-            d["x"] = unadjusted_x ? unadjusted_x + t_padding - 1 : width - t_padding;
-            d["y"] = (Math.floor(pixel_number / adjusted_width) + t_padding);
+            if (tpa) {
+              var pixel_number = Math.round(nodeScale[0](toTotal(d.topic)));
+              var unadjusted_x = pixel_number % adjusted_width;
+              d["x"] = unadjusted_x ? unadjusted_x + t_padding - 1 : width - t_padding;
+              d["y"] = (Math.floor(pixel_number / adjusted_width) + t_padding);
+            } else {
+              if (!d.not_t) {
+                d["x"] = nodeScale[1](tendency_years[d.topic]);
+                d["y"] = nodeScale[2](d.value);
+              } else {
+                // the instructional characters will have radius 0 as per below
+                d["x"] = 0;
+                d["y"] = 0;
+              }
+            }
             d["orig_x"] = d.x;
             d["orig_y"] = d.y;
             return "translate(" + d.x + "," + d.y + ")";
           }
         });
 
-      // min & max radius of circle for the sake of usability
-      var min_radius = 14, /* absolute min for 5px nodes. */
-          max_radius = 70,
-          r_incr = 1;
-
       // append circle to group
       var tcircle = tnodesEnter.append("circle")
         .attr("r",0)
         // 0 = Ocean, 1 = Fire, 2 = Water, 3 = Random, decide average or median up there ^
         .attr("class", function(d) { return (d.not_t) ? "nT" : "isT_circle"; })
-        .style("fill", function(d) { return color[choice](tendency_years[d.topic]);})
+        .style("fill", function(d) { return color[cchoice](tendency_years[d.topic]);})
         .transition().duration(durations[0]).delay(function(d) {
           return delays[(d.not_t) ? 4 : 1];
         })
           .attr("r", function(d) {
-            d["r"] = Math.min(min_radius + d.value * r_incr, max_radius);
+            var tmp_r = Math.min(min_radius + d.value * r_incr, max_radius);
+            if (d.not_t && !d.andor && !tpa) { tmp_r = 0; }
+            d["r"] = tmp_r;
+            d["dr"] = d.r - 5 // dr represents deltaR, used two functions later
+            d["cap"] = Math.floor(d.r*2/(ncr*2)) // # nodes that can fit inside
             d["move_r"] = 1.5 * d.r;
             return d.r;
-          });
+          })
 
       // append text to group
       tnodesEnter.append("text")
@@ -1061,7 +1269,7 @@ function makevis() {
           return delays[(d.not_t) ? 5 : 2];
         })
           .attr("font-size", "12px");
-
+      
       // function so that circles can move
       var move_circle = d3.behavior.drag()
         .origin(function(d) {
@@ -1098,28 +1306,54 @@ function makevis() {
               else { return "translate(" + d.orig_x + "," + d.orig_y + ")"; }
             });
 
-        // here can have gradient change from concave to convex if circle is in box, or circle is hovering over!
+        // want removed
+        if (d.x < 0 || d.x > width || d.y < 0 || d.y > height) {
+          var n = $.inArray(this.topic, deleted);
+          if (n < 0) {deleted.push(this.topic);}
+        } else {
+          // nevermind, don't remove
+          var n = $.inArray(this.topic, deleted);
+          if (n >= 0) {deleted.splice(n,1);}
+        }
+
+        // want AND
+        if (d.x >= 522 && d.x <= 638 && d.y >= 623 && d.y <= 720) {
+          var n = $.inArray(this.topic, andand);
+          if (n < 0) {andand.push(this.topic);}
+        } else {
+          // nevermind, don't want AND
+          var n = $.inArray(this.topic, andand);
+          if (n >= 0) {andand.splice(n,1);}
+        }
+
+        // OR
+        if (d.x >= 642 && d.x <= 758 && d.y >= 623 && d.y <= 720) {
+          var n = $.inArray(this.topic, oror);
+          if (n < 0) {oror.push(this.topic);}
+        } else {
+          // nevermind, don't want AND
+          var n = $.inArray(this.topic, oror);
+          if (n >= 0) {oror.splice(n,1);}
+        }
       }
 
-      // shrink circle back to original size when group is released
+      // remove deleted items
       function dragended(d) {
+
         d3.select(this).transition()
             .ease("elastic")
             .duration(500)
             .select(".isT_circle")
             .transition().duration(500).delay(0)
               .attr("r", d.r);
+
         d3.select(this).transition()
             .select(".isT_text")
             .transition().duration(500).delay(0)
               .attr("font-size", "12px");
 
-        // RIGHT HERE IS A POWEFUL PLACE
-        /* can check if any circles are in the AND or OR slots
-           can check if anything was moved off the screen and respawn it in its correct location based on user's choice bw the two options
-              - can record in an array a STACK of deleted items
-           can keep a RUNNING ARRAY of circles in each box. whenever something is dropped, if the new x,y is in the box, then add that circle to the array if it's not already there. if the new x,y is not, then REMOVE the circle from the array if it is there.
-         */
+        var n = $.inArray(this.topic, deleted);
+        if (n >= 0) {d3.select(this).remove();}
       }
 
       // update graph
@@ -1309,10 +1543,6 @@ function makevis() {
 
     // function that updates the graph to linear vs linear bar graph
     function createDecadeMissing(artists_array, paintingsMissing) {
-      console.log(date_array);
-      console.log(date_objarray);
-
-      // var dates = [];
 
       // making the linear scales
       var x = d3.scale.linear()
@@ -1344,8 +1574,8 @@ function makevis() {
           .attr("transform", "translate(0," + (bar_height - bar_margin.bottom) + ")")
           .call(xAxis)
           .append("text")  
-          // .style("text-anchor", "end")
-          .text("Century")
+          .style("text-anchor", "end")
+          .text("Century");
             .attr("transform", "translate(" + (svg_barwidth - bar_margin.right) + ",0)");
 
       svg_bar.append("g")
