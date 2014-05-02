@@ -94,6 +94,7 @@ Art historian and Harvard graduate Bernard Berenson donated over 11,000 photogra
 These paintings have been lost, stolen, destroyed in World War II, etc.
 The goal of this project is to visualize the collection, and perhaps even to help viewers find some of the paintings by filtering through the interactive data and using the Reverse Google Image Search link on the right side to hunt for lost art.-->
 </h4>
+<p><a href="https://github.com/bzauzmer/Homeless-Paintings">Data + Process Book</a></p>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -1243,7 +1244,8 @@ function makevis() {
       // making the axes
       var xAxis = d3.svg.axis()
           .scale(x)
-          .orient("bottom");
+          .orient("bottom")
+          .ticks(d3.max(artists_array));
 
       var yAxis = d3.svg.axis()
           .scale(y)
