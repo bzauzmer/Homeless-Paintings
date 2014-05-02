@@ -735,7 +735,7 @@ function makevis() {
       var colors_array = ["Emerald","Ruby","Sapphire","Disco"];
       var color_desired = d3.event.target.value;
       var csd = $.inArray(color_desired,colors_array);
-      color_scale_desired = (csd >= 0 && csd < 4) ? csd : 0; // default emerald
+      color_scale_desired = (csd >= 0 && csd < 4) ? csd : 0;  // default emerald
       wordcloud_layout();
     }
 
@@ -744,7 +744,7 @@ function makevis() {
       var am_array = ["Average","Median"];
       var am_desired = d3.event.target.value;
       var uwm_tmp = $.inArray(am_desired,am_array);
-      user_wants_median = (uwm_tmp != 0);                    // default true
+      user_wants_median = (uwm_tmp != 0);                     // default true
       wordcloud_layout();
     }
 
@@ -756,7 +756,7 @@ function makevis() {
       ];
       var sort_desired = d3.event.target.value;
       var tpa_tmp = $.inArray(sort_desired,sorts_array);
-      topic_position_alphabetically = (tpa_tmp != 1);        // default alpha
+      topic_position_alphabetically = (tpa_tmp != 1);         // default alpha
       wordcloud_layout();
     }
 
