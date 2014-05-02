@@ -14,7 +14,7 @@ homeless_paintings.html
 
 Project website URL:
 
-\\insert URL
+http://bzauzmer.github.io/Homeless-Paintings/homeless_paintings.html
 
 Screencast video URL:
 
