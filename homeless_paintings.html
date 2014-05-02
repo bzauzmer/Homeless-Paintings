@@ -1434,9 +1434,7 @@ function makevis() {
       var instructions = "There are " + t_zerocount + " topics. " +
         "Topics are listed " + ((tpa) ? "alphabetically. " :
           ("by " + ((uwm) ? "median " : "average ") +
-          "year (x-axis) and frequency (y-axis). ")) +
-        "Drag multiple topics into the AND box view paintings containing " +
-        "all selected topics.";
+          "year (x-axis) and frequency (y-axis). "));
 
       // show instructions for user
       svg_vis.append("text")
@@ -1744,6 +1742,7 @@ function makevis() {
             .transition().duration(500).delay(0)
               .attr("font-size", "12px");
 
+        // keep track of this so users can consciously remove clutter, and also won't be confused if they mouse-slip a topic off the screen
         var m = $.inArray(d.topic, deleted);
         if (m >= 0) {
           delete_history.unshift(d.topic);
