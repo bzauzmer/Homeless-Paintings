@@ -158,7 +158,10 @@ user_wants_median = true,
 color_scale_desired = 0,
 
 // how does user want topics positioned?
-topic_position_alphabetically = true;    
+topic_position_alphabetically = true;
+
+// for side visualization of nodes
+capacity = 40;
 
 // useful for word cloud and artists
 shorten = function(string) {
@@ -176,6 +179,105 @@ var svg_bar = d3.select(".bar").append("svg").attr("width", svg_barwidth).attr("
 
 //Create color scale for nodes
 var colorScale = d3.scale.linear().domain([1300,1600]).range(["#B2FAFF","#0534A7"]);
+
+/* Key for this universal color scale, which is in top-right corner of all pages */
+var make_Uscale = function() {
+  // universal color scale size
+  var length_of_Uscale = 300,
+      height_of_Uscale = 18,
+      x_start = 964,
+      y_start = 4;
+      caption_Xstart = 953,
+      caption_Ystart = 36;
+
+  // a scale to change pixel numbers to years
+  var Upixel_number_to_yr = d3.scale.linear()
+    .domain([0,length_of_Uscale-1])
+    .range([1300,1600]);
+
+  // make the scale itself
+  for (var i = 0; i < length_of_Uscale; i++) {
+    svg_vis.append("rect")
+      .attr("class","universal_structure")
+      .attr("width","1px")
+      .attr("height",height_of_Uscale + "px")
+      .attr("x", function() { return (x_start + i); })
+      .attr("y", y_start)
+      .style("fill", function(d) {return colorScale(Upixel_number_to_yr(i));});
+  }
+
+  // first century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1300")
+    .attr("x",caption_Xstart)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // second century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1350")
+    .attr("x",caption_Xstart+50)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // third century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1400")
+    .attr("x",caption_Xstart+100)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // fourth century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1450")
+    .attr("x",caption_Xstart+150)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // fifth century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1500")
+    .attr("x",caption_Xstart+200)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // sixth century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1550")
+    .attr("x",caption_Xstart+250)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // seventh century mark
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("1600")
+    .attr("x",caption_Xstart+300)
+    .attr("y",caption_Ystart)
+    .style("fill","blue")
+    .attr("font-size","10px");
+
+  // title
+  svg_vis.append("text")
+    .attr("class","universal_structure")
+    .text("Node Color Scale")
+    .attr("x",x_start+1)
+    .attr("y",y_start+16)
+    .attr("font-size","12px")
+    .attr("font-weight","bold");
+}
 
 //Add filler text to the non-vis cells
 d3.select(".focus").append("p").attr("class", "centered").text("Click on a node!");
@@ -451,11 +553,9 @@ function makevis() {
     var nn = -4;  /* what's needed for these circles to have r = 8px */
     topics_objarray.push({topic: "A",value: nn,not_t: true});
     topics_objarray.push({topic: manyZ, value: nn,not_t: true});
-    // topics_objarray.push({topic: "A",value: nn,not_t: true,andor: 1});
-    // topics_objarray.push({topic: "N",value: nn,not_t: true,andor: 2});
-    // topics_objarray.push({topic: "D",value: nn,not_t: true,andor: 3});
-    // topics_objarray.push({topic: "O",value: nn,not_t: true,andor: 4});
-    // topics_objarray.push({topic: "R",value: nn,not_t: true,andor: 5});
+    topics_objarray.push({topic: "A",value: nn,not_t: true,andor: 1});
+    topics_objarray.push({topic: "N",value: nn,not_t: true,andor: 2});
+    topics_objarray.push({topic: "D",value: nn,not_t: true,andor: 3});
 
     // parsing dates
     for (date in date_array) {
@@ -1000,27 +1100,27 @@ function makevis() {
           .attr("stroke-width",1);
 
       // two move vertical lines
-      // svg_vis.append("line")
-      //   .attr("x1",midpoint - (pixels_between_lines/2))
-      //   .attr("y1",height - toolbox - pixels_between_lines)
-      //   .attr("x2",midpoint - (pixels_between_lines/2))
-      //   .attr("y2",height)
-      //   .attr("class","word_cloud_structure")
-      //   .attr("stroke","black")
-      //   .attr("stroke-width",0)
-      //   .transition().duration(durations[0]).delay(delays[3])
-      //     .attr("stroke-width",1);
+      svg_vis.append("line")
+        .attr("x1",midpoint - (space_for_boxes/2))
+        .attr("y1",height - toolbox - pixels_between_lines)
+        .attr("x2",midpoint + (space_for_boxes/2))
+        .attr("y2",height - toolbox - pixels_between_lines)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
 
-      // svg_vis.append("line")
-      //   .attr("x1",midpoint + (pixels_between_lines/2))
-      //   .attr("y1",height - toolbox - pixels_between_lines)
-      //   .attr("x2",midpoint + (pixels_between_lines/2))
-      //   .attr("y2",height)
-      //   .attr("class","word_cloud_structure")
-      //   .attr("stroke","black")
-      //   .attr("stroke-width",0)
-      //   .transition().duration(durations[0]).delay(delays[3])
-      //     .attr("stroke-width",1);
+      svg_vis.append("line")
+        .attr("x1",midpoint - (space_for_boxes/2))
+        .attr("y1",height - toolbox)
+        .attr("x2",midpoint + (space_for_boxes/2))
+        .attr("y2",height - toolbox)
+        .attr("class","word_cloud_structure")
+        .attr("stroke","black")
+        .attr("stroke-width",0)
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("stroke-width",1);
 
       // for moving circles later
       var move_circle = d3.behavior.drag()
@@ -1114,7 +1214,7 @@ function makevis() {
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
         .text("Topic Frequency Radius Scale")
-        .attr("x",242)
+        .attr("x",266)
         .attr("y",716)
         .attr("font-size","0px")
         .transition().duration(durations[0]).delay(delays[3])
@@ -1154,74 +1254,59 @@ function makevis() {
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("Double-click on a circle to see paintings with the topic(s) here. Colors represent the year.")
-        .attr("x",798) //776 for left corner
-        .attr("y",678) //644 for left corner
-        .attr("font-size","0px")
-        .transition().duration(durations[0]).delay(delays[3])
-          .attr("font-size","12px");
-
-      svg_vis.append("text")
-        .attr("class","word_cloud_structure")
-        .text("Delete a topic circle by dragging it off the screen.")
+        .text("Double-click on a circle or drag it to the AND box to see paintings with the topic here.")
         .attr("x",798)
-        .attr("y",697)
+        .attr("y",655)
         .attr("font-size","0px")
+        .attr("fill","gray")
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text(".")
-        .attr("x",1175)
-        .attr("y",697)
+        .text("If you drag several circles to the AND box, only paintings with all of those topics will appear.")
+        .attr("x",798)
+        .attr("y",675)
         .attr("font-size","0px")
+        .attr("fill","gray")
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("To view your delete history,")
+        .text("Click on or hover over a circle for more information. See top-right of the screen for color scale.")
+        .attr("x",798)
+        .attr("y",695)
+        .attr("font-size","0px")
+        .attr("fill","gray")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
+
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text("Delete a topic by dragging it off the screen.")
         .attr("x",798)
         .attr("y",716)
         .attr("font-size","0px")
+        .attr("fill","gray")
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text(".")
-        .attr("x",998)
+        .text(" to view your delete history.")
+        .attr("x",1082)
         .attr("y",716)
         .attr("font-size","0px")
+        .attr("fill","gray")
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
-
-      // to undo the last delete
-      // svg_vis.append("text")
-      //   .attr("class","word_cloud_structure")
-      //   .text("UNDO")
-      //   .attr("x",1139)
-      //   .attr("y",697)
-      //   .attr("font-size","0px")
-      //   .attr("fill","red")
-      //   .attr("font-weight","bold")
-      //   .attr("text-decoration","underline")
-      //   .on('click', function(d) {
-      //     if (delete_history.length < 1) {
-      //       alert("Sorry, you have not yet deleted any topics.");
-      //     } else {
-      //       alert("Cannot undo, sorry.");
-      //     }
-      //   })
-      //   .transition().duration(durations[0]).delay(delays[3])
-      //     .attr("font-size","12px");
 
       // to view delete history
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("click here")
-        .attr("x",942)
+        .text("Click here")
+        .attr("x",1020)
         .attr("y",716)
         .attr("font-size","0px")
         .attr("fill","red")
@@ -1350,8 +1435,8 @@ function makevis() {
         "Topics are listed " + ((tpa) ? "alphabetically. " :
           ("by " + ((uwm) ? "median " : "average ") +
           "year (x-axis) and frequency (y-axis). ")) +
-        "Drag multiple topics into the boxes to view paintings containing " +
-        "all or any of your selected topics.";
+        "Drag multiple topics into the AND box view paintings containing " +
+        "all selected topics.";
 
       // show instructions for user
       svg_vis.append("text")
@@ -1446,16 +1531,12 @@ function makevis() {
         .data(topics_objarray)
 
       // positions for AND and OR
-      var dist_ctr = 11;
-      var init_and = 4;
-      var init_or = 8;
-      var dist_circ = 15;
+      var dist_ctr = 60.25,
+          hmt = height - toolbox;
       var andor_pos = ["",
-        {x: (midpoint-dist_ctr), y: (height-(toolbox-init_and))},
-        {x: (midpoint-dist_ctr), y: (height-(toolbox-(dist_circ+init_and)))},
-        {x: (midpoint-dist_ctr), y: (height-(toolbox-(2*dist_circ+init_and)))},
-        {x: (midpoint+dist_ctr), y: (height-(dist_circ+init_or))},
-        {x: (midpoint+dist_ctr), y: (height-init_or)}
+        {x: (midpoint-dist_ctr), y: hmt},
+        {x: midpoint, y: hmt},
+        {x: (midpoint+dist_ctr), y: hmt}
       ]
 
       // append groups
@@ -1477,11 +1558,11 @@ function makevis() {
           svg_vis.selectAll(".noneHere").data(newA).enter().append("circle")
             .attr("class","detailNode")
             .attr("cx",function(d,i) {
-              var column_number = i % 20;
+              var column_number = i % capacity;
               return (768 + column_number * 12);
             })
             .attr("cy",function(d,i) {
-              var row_number = Math.floor(i/20);
+              var row_number = Math.floor(i/capacity);
               return (633 + row_number * 12)
             })
             .attr("r",5)
@@ -1611,33 +1692,41 @@ function makevis() {
 
         // want removed
         if (d.x < 0 || d.x > width || d.y < 0 || d.y > height) {
-          var n = $.inArray(this.topic, deleted);
-          if (n < 0) {deleted.push(this.topic);}
+          var n = $.inArray(d.topic, deleted);
+          if (n < 0) {deleted.push(d.topic);}
         } else {
           // nevermind, don't remove
-          var n = $.inArray(this.topic, deleted);
+          var n = $.inArray(d.topic, deleted);
           if (n >= 0) {deleted.splice(n,1);}
         }
 
         // want AND
-        if (d.x >= 522 && d.x <= 638 && d.y >= 623 && d.y <= 720) {
-          var n = $.inArray(this.topic, andand);
-          if (n < 0) {andand.push(this.topic);}
+        if (d.x >= 522 && d.x <= 758 && d.y >= 623 && d.y <= height) {
+          var n = $.inArray(d.topic, andand);
+          if (n < 0) {andand.push(d.topic);}
         } else {
           // nevermind, don't want AND
-          var n = $.inArray(this.topic, andand);
+          var n = $.inArray(d.topic, andand);
           if (n >= 0) {andand.splice(n,1);}
         }
+      }
 
-        // OR
-        if (d.x >= 642 && d.x <= 758 && d.y >= 623 && d.y <= 720) {
-          var n = $.inArray(this.topic, oror);
-          if (n < 0) {oror.push(this.topic);}
-        } else {
-          // nevermind, don't want AND
-          var n = $.inArray(this.topic, oror);
-          if (n >= 0) {oror.splice(n,1);}
+      // helper function from http://stackoverflow.com/questions/5667888/counting-occurences-of-javascript-array-elements
+      function foo(arr) {
+        var a = [], b = [], prev;
+
+        arr.sort();
+        for ( var i = 0; i < arr.length; i++ ) {
+            if ( arr[i] !== prev ) {
+                a.push(arr[i]);
+                b.push(1);
+            } else {
+                b[b.length-1]++;
+            }
+            prev = arr[i];
         }
+
+        return [a, b];
       }
 
       // remove deleted items
@@ -1655,10 +1744,91 @@ function makevis() {
             .transition().duration(500).delay(0)
               .attr("font-size", "12px");
 
-        var n = $.inArray(this.topic, deleted);
-        if (n >= 0) {
+        var m = $.inArray(d.topic, deleted);
+        if (m >= 0) {
           delete_history.unshift(d.topic);
           d3.select(this).remove();
+          deleted.shift();
+        }
+
+        if (andand.length > 0) {
+          var arr = [];
+          var brr = [];
+
+          // compile all IDs in one array
+          for (var i = 0; i < andand.length; i++) {
+            brr = topic_ids[andand[i]];
+            arr = (arr.concat(brr));
+          }
+
+          // now I want to see how many times each ID appears
+          unique_rec = foo(arr)[0];
+          rec_freq = foo(arr)[1];
+
+          // checks which IDs appear andand.length times
+          var inter = [];
+          for (var i = 0; i < rec_freq.length; i++) {
+            if (rec_freq[i] >= andand.length) {
+              // found a match!
+              inter.unshift(unique_rec[i]);
+            }
+          }
+
+          // I want to make visible the dots for the records in the intersection
+          d3.selectAll(".detailNode").remove();
+          var newB = [];
+          for (var i = 0; i < recFULL.length; i++) {
+            var m = $.inArray(recFULL[i].record, inter);
+            if (m >= 0) {
+              newB.push(recFULL[i]);
+            }
+          }
+          svg_vis.selectAll(".noneHere").data(newB)
+            .enter()
+            .append("circle")
+            .attr("class","detailNode")
+            .attr("cx",function(d,i) {
+              var column_number = i % capacity;
+              return (768 + column_number * 12);
+            })
+            .attr("cy",function(d,i) {
+              var row_number = Math.floor(i/capacity);
+              return (633 + row_number * 12)
+            })
+            .attr("r",5)
+            .style("fill", function(d) { return colorScale(d.date); })
+            .on('click', function(d) {
+
+              //Text-align left once first node is clicked
+              d3.select(".focus").style("text-align", "left");
+              d3.selectAll(".focus text").remove();
+
+              //Remove previous image and text from focus
+              d3.select(".focus img").remove();
+              d3.selectAll(".focus p").remove();
+
+              //Add clicked image to focus
+              d3.select(".focus").append("img")
+                .attr("src",d.image)
+                .style("text-align", "center")
+                .attr("width",125)
+                .attr("height",125);
+
+              //Add clicked text to focus
+              d3.select(".focus").append("p").text("Painting: " + d.painting);
+              d3.select(".focus").append("p").text("Artist: " + d.artist);
+              d3.select(".focus").append("p").text("Record number: " + d.record);
+              d3.select(".focus").append("p").text("Year: " + d.date);
+              d3.select(".focus").append("p").append("a").attr("href", "http://images.google.com/searchbyimage?image_url=" + d.image).attr("target","_blank")
+                .text("Reverse Image Search");
+
+            })
+            //Tooltip on hover
+            .append("svg:title")
+              .text(function(d) { return "Painting: " + d.painting + "\nArtist: " + d.artist + "\nRecord number: " + d.record; });
+        } else {
+          // there are no topics in the AND box, so I want to remove all dots
+          d3.selectAll(".detailNode").remove();
         }
       }
 
@@ -1681,6 +1851,10 @@ function makevis() {
           .attr("transform", function(d) { 
             return "translate("+d.x+","+d.y+")"; 
           });
+
+      //Make universal key
+      d3.selectAll(".universal_structure").remove();
+      make_Uscale();
     }
 
     //Enable radio buttons
