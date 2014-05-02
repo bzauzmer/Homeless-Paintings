@@ -1170,32 +1170,32 @@ function makevis() {
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
-      // svg_vis.append("text")
-      //   .attr("class","word_cloud_structure")
-      //   .text(".")
-      //   .attr("x",1175)
-      //   .attr("y",697)
-      //   .attr("font-size","0px")
-      //   .transition().duration(durations[0]).delay(delays[3])
-      //     .attr("font-size","12px");
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text(".")
+        .attr("x",1175)
+        .attr("y",697)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
 
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("To view your delete history:")
+        .text("To view your delete history,")
         .attr("x",798)
         .attr("y",716)
         .attr("font-size","0px")
         .transition().duration(durations[0]).delay(delays[3])
           .attr("font-size","12px");
 
-      // svg_vis.append("text")
-      //   .attr("class","word_cloud_structure")
-      //   .text(". Undone deletions are removed from this list.")
-      //   .attr("x",973)
-      //   .attr("y",716)
-      //   .attr("font-size","0px")
-      //   .transition().duration(durations[0]).delay(delays[3])
-      //     .attr("font-size","12px");
+      svg_vis.append("text")
+        .attr("class","word_cloud_structure")
+        .text(".")
+        .attr("x",998)
+        .attr("y",716)
+        .attr("font-size","0px")
+        .transition().duration(durations[0]).delay(delays[3])
+          .attr("font-size","12px");
 
       // to undo the last delete
       // svg_vis.append("text")
@@ -1220,7 +1220,7 @@ function makevis() {
       // to view delete history
       svg_vis.append("text")
         .attr("class","word_cloud_structure")
-        .text("VIEW")
+        .text("click here")
         .attr("x",942)
         .attr("y",716)
         .attr("font-size","0px")
@@ -1350,9 +1350,8 @@ function makevis() {
         "Topics are listed " + ((tpa) ? "alphabetically. " :
           ("by " + ((uwm) ? "median " : "average ") +
           "year (x-axis) and frequency (y-axis). ")) +
-        //"Drag multiple topics into the boxes to view paintings containing " +
-        //"all or any of your selected topics.";
-        "Double-click on a circle to explore paintings with the chosen topic."
+        "Drag multiple topics into the boxes to view paintings containing " +
+        "all or any of your selected topics.";
 
       // show instructions for user
       svg_vis.append("text")
