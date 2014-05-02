@@ -18,7 +18,7 @@ http://bzauzmer.github.io/Homeless-Paintings/homeless_paintings.html
 
 Screencast video URL:
 
-\\insert URL
+http://youtu.be/TaNTgGP-mjg
 
 Scales:
 
