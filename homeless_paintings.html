@@ -231,6 +231,12 @@ function makevis() {
   var artist_obj = [];
   var obj_array = [];
 
+  // variable to hold max number of paintings an artist has
+  var max_artist_number = 0;
+
+  // variable to hold number of unique artists
+  var artist_number = 0;
+
   //make an array of the dates total
   var date_array = [];
   var date_objarray = [];
@@ -263,9 +269,6 @@ function makevis() {
   //Load data
   d3.csv("data.csv", function(data) {
 
-    // counting the strange 0's that appear after counting paintings
-    var zero_count = 0;
-
     //Loop through paintings
     for (var i = 0; i < data.length; i++) {
 
@@ -295,7 +298,7 @@ function makevis() {
             // if the artist isn't already in the array, create the counter to be set to 0
             if (!artist_obj[data[i]['artist']]) {
               artist_obj.push(artist_obj[data[i]['artist']] = 0);
-              zero_count++;
+              artist_number++;
             }
 
             var century = Math.floor(parseInt(data[i].date) / 100);
@@ -343,6 +346,7 @@ function makevis() {
 
             // increase the counter by 1 per occurance
             ++artist_obj[data[i].artist];
+            max_artist_number = Math.max(max_artist_number,artist_obj[data[i].artist]);
             ++date_array[century];
 
             if (data[i]['city']) {
@@ -354,7 +358,7 @@ function makevis() {
     }
 
     // to remove extraneous zeros
-    for (var j = 0; j < zero_count; j++) {
+    for (var j = 0; j < artist_number; j++) {
       artist_obj.shift();
       city_obj.shift();
     }
@@ -508,8 +512,8 @@ function makevis() {
       d3.selectAll("circle").attr("r",5);
       svg_vis.selectAll(".link").style("stroke-width", function(d) {return d.overlap;});
 
-      var r = height/2;
-
+      // var r = height/2;
+      var r = height - 50;
       var arc = d3.svg.arc().outerRadius(r);
 
       var pie = d3.layout.pie()
@@ -519,8 +523,8 @@ function makevis() {
       graph.nodes = pie(graph.nodes).map(function(d, i) {
         d.innerRadius = 0;
         d.outerRadius = r;
-        d.data.x = arc.centroid(d)[0]+height/2+300;
-        d.data.y = arc.centroid(d)[1]+width/2-230;
+        d.data.x = arc.centroid(d)[0] + width/2;
+        d.data.y = arc.centroid(d)[1] + height/2;
         d.data.endAngle = d.endAngle; 
         d.data.startAngle = d.startAngle; 
         return d.data;
@@ -544,9 +548,14 @@ function makevis() {
       d3.selectAll(".word_cloud_nodes").remove();
 
       //Add map of Italy
+      var d_x = 400,
+          d_y = 120,
+          xdiff = 250;
+
       svg_vis.append('image')
         .attr("xlink:href", "Italy map.jpg")
-        .attr("x", "150")
+        .attr("x", function() { return d_x.toString(); })
+        .attr("y", function() { return d_y.toString(); })
         .attr("width", "500")
         .attr("height", "500");
 
@@ -563,8 +572,8 @@ function makevis() {
           if (node[0][i]['__data__'].city) {
 
             //Set coordinates by city
-            node[0][i]['__data__'].x = json[node[0][i]['__data__'].city].x;
-            node[0][i]['__data__'].y = json[node[0][i]['__data__'].city].y;
+            node[0][i]['__data__'].x = json[node[0][i]['__data__'].city].x + xdiff;
+            node[0][i]['__data__'].y = json[node[0][i]['__data__'].city].y + d_y;
           }
         }
 
@@ -577,8 +586,8 @@ function makevis() {
           .enter()
           .append("circle")
           .attr("class", "city")
-          .attr("transform", function (d) {return "translate(" + json[d.key].x + "," + json[d.key].y + ")";})
-          .attr("r", function (d) {return 5 + d.value;})
+          .attr("transform", function (d) {return "translate(" + (json[d.key].x+xdiff) + "," + (json[d.key].y+d_y) + ")";})
+          .attr("r", function (d) {return 5 + d.value*0.5;})
           .attr("style", "fill: #0000ff");
 
         //Create black dots for cities not in data
@@ -587,7 +596,7 @@ function makevis() {
           .enter()
           .append("circle")
           .attr("class", "absent")
-          .attr("transform", function (d) {return "translate(" + json[d].x + "," + json[d].y + ")";})
+          .attr("transform", function (d) {return "translate(" + (json[d].x+xdiff) + "," + (json[d].y+d_y) + ")";})
           .attr("r", function (d) {if (Object.keys(city_obj).indexOf(d) > -1) {return 0} else {return 3};});
 
         //Add city labels (red if city has nodes)
@@ -596,8 +605,8 @@ function makevis() {
           .enter()
           .append("text")
           .text(function (d) {return d;})
-          .attr("x", function (d) {return json[d].x + 8;})
-          .attr("y", function (d) {return json[d].y + 5;})
+          .attr("x", function (d) {return json[d].x + 8 + xdiff;})
+          .attr("y", function (d) {return json[d].y + 5 + d_y;})
           .attr("style", function (d) {
             if (Object.keys(city_obj).indexOf(d) > -1) {
               return "fill: #ff0000"
@@ -1197,7 +1206,7 @@ function makevis() {
         artists_array.push(artist);
       }
 
-      // // clear the current graph 
+      // clear the current graph 
       d3.selectAll("rect").remove()
       d3.selectAll(".bar").selectAll("text").remove()
       d3.selectAll(".x.axis").remove()
@@ -1233,6 +1242,7 @@ function makevis() {
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
+          .ticks([max_artist_number])
 
       // for tooltip
       var div = d3.select(".bar").append("div")
@@ -1247,7 +1257,9 @@ function makevis() {
           .selectAll("text")  
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
-            .attr("dy", ".15em")
+            .attr("dy", function() {
+              if (artist_number > 40) { return "100px"; }
+              else { return ".15em"; }})
             .attr("transform", "rotate(-65)");
 
       // y axis made
