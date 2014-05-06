@@ -27,7 +27,7 @@
   }
 
   .node:hover {
-    fill: red;
+    fill: red !important;
   }
 
   a {text-decoration: underline;}
@@ -1676,7 +1676,7 @@ function makevis() {
             .select(".isT_circle")
             .transition().duration(500).delay(0)
               .attr("r", d.move_r);
-        d3.select(this).transition()
+        d3.select(this).attr("cursor","pointer").transition()
             .select(".isT_text")
             .transition().duration(500).delay(0)
               .attr("font-size", "18px");
@@ -1688,6 +1688,7 @@ function makevis() {
         d.y = d3.event.y;
 
         d3.select(this)
+            .attr("cursor","pointer")
             .attr("transform", function(d) {
               if (!d.not_t) { return "translate(" + d.x + "," + d.y + ")"; }
               else { return "translate(" + d.orig_x + "," + d.orig_y + ")"; }
