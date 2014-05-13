@@ -582,15 +582,18 @@ function makevis() {
       //Loop through nodes a second time for pairwise comparison
       for (var j = i + 1; j < graph.nodes.length; j++) {
 
+        //Determine mutual topics
+        intersection = intersect(data[i]['topics'].slice(3,data[i]['topics'].length-2).split("', u'"),
+          data[j]['topics'].slice(3,data[j]['topics'].length-2).split("', u'"));
+
         //Determine size of intersection
-        var overlap = intersect(data[i]['topics'].slice(3,data[i]['topics'].length-2).split("', u'"),
-          data[j]['topics'].slice(3,data[j]['topics'].length-2).split("', u'")).length;
+        var overlap = intersection.length;
 
         //Check if the nodes share any topics
         if (overlap) {
 
           //Add link if the nodes share a topic
-          graph.links.push({"source": i, "target": j, "overlap": overlap});
+          graph.links.push({"source": i, "target": j, "intersection": intersection, "overlap": overlap});
         }
       }
     }
@@ -636,6 +639,8 @@ function makevis() {
       force.nodes(graph.nodes)
           .links(graph.links)
           .start();
+
+      svg_vis.selectAll(".link").append("svg:title").text(function(d) {return d.intersection});
     }
 
     //Start radial layout if radio button selected
